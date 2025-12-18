@@ -30,8 +30,8 @@ const tag = `odk-ts@${version}`;
 sh(`git add "${path.relative(process.cwd(), pkgPath)}"`);
 sh(`git commit -m "odk-ts: bump version to ${version}"`);
 
-// create a namespaced tag
-sh(`git tag "${tag}"`);
+// create a namespaced annotated tag
+sh(`git tag -a "${tag}" -m "Release ${tag}"`);
 
 // push commit and tag
 sh('git push --follow-tags');
