@@ -1,0 +1,54 @@
+{
+  "name": "@overwolf/odk-ts",
+  "version": "1.0.1",
+  "description": "Overwolf Development Kit (ODK) for TypeScript.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint . --ext .ts",
+    "prettier-watch": "onchange -- prettier --write {{changed}",
+    "prettier-format": "prettier --write .",
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "prebuildpackage": "npm run clean && npm run build && node dist/setup-package-files.js",
+    "buildpackage": "cd dist && npm pack",
+    "postbuildpackage": "node dist/setup-package-rename.js",
+    "prebuilddevpackage": "npm run prebuildpackage",
+    "builddevpackage": "node dist/setup-package-devenv.js && cd dist && npm pack",
+    "postbuilddevpackage": "npm run postbuildpackage",
+    "package": "npm run prebuildpackage && npm run buildpackage",
+    "version:patch": "node scripts/version.mjs patch",
+    "version:minor": "node scripts/version.mjs minor",
+    "version:major": "node scripts/version.mjs major",
+    "publish": "cd dist && npm publish package.tgz --access public"
+  },
+  "keywords": [
+    "types",
+    "npm",
+    "package",
+    "overwolf"
+  ],
+  "author": "Overwolf",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.9.1",
+    "@typescript-eslint/parser": "^5.9.1",
+    "eslint": "^8.0.1",
+    "eslint-config-overwolf": "0.0.3",
+    "eslint-config-overwolf-ts": "0.0.5",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "prettier": "2.5.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "typescript-logging": "^2.0.0",
+    "typescript-logging-category-style": "^2.0.1"
+  }
+}

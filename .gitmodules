@@ -1,0 +1,8 @@
+[submodule "repos/odk-ts/types/overwolf"]
+	path = repos/odk-ts/types/overwolf
+	url = https://github.com/overwolf/types.git
+	branch = ApiV2
+[submodule "repos/sample-app/types/overwolf"]
+	path = repos/sample-app/types/overwolf
+	url = https://github.com/overwolf/types.git
+	branch = ApiV2

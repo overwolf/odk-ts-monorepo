@@ -1,0 +1,57 @@
+{
+  "name": "odk-ts-sample-app",
+  "version": "0.103.0",
+  "description": "",
+  "author": "Overwolf",
+  "license": "ISC",
+  "scripts": {
+    "dev": "webpack --watch --mode=development --config webpack-dev.config.js",
+    "build": "webpack --mode=production --config webpack-prod.config.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@overwolf/odk-ts": "*",
+    "moment": "^2.29.1",
+    "node-ts-cache": "^4.2.3",
+    "node-ts-cache-storage-memory": "^4.2.3",
+    "typescript-logging": "^2.0.1",
+    "typescript-logging-category-style": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "css-loader": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-overwolf": "0.0.3",
+    "eslint-config-overwolf-ts": "0.0.5",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.5",
+    "eslint-plugin-standard": "^4.0.1",
+    "gulp": "^4.0.2",
+    "gulp-bump": "^3.2.0",
+    "gulp-file": "^0.4.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-zip": "^5.0.1",
+    "html-webpack-plugin": "^5.6.4",
+    "jest": "^30.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^6.0.0",
+    "sass": "^1.77.0",
+    "sass-loader": "^14.0.0",
+    "style-loader": "^3.0.0",
+    "ts-jest": "^29.0.0",
+    "ts-loader": "^9.5.4",
+    "tsyringe": "^4.3.0",
+    "typescript": "^5.9.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.102.1",
+    "webpack-cli": "^5.1.0"
+  }
+}

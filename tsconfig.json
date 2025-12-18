@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "lib": ["ES2018", "dom"],
+    "target": "es2018",
+    "moduleResolution": "node",
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "declaration": true,
+    "sourceRoot": "src",
+    "stripInternal": true,
+    "outDir": "dist"
+  },
+  "typeRoots": ["/types", "/node_modules/@types"],
+  "rootDirs": ["./repos"],
+  "exclude": ["node_modules", "dist"],
+  "lib": ["dom", "es2015.promise", "es5", "es2018"],
+  "paths": {
+    "odk-ts": ["repos/odk-ts"]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": "./repos/sample-app"
+    },
+    {
+      "path": "./repos/odk-ts"
+    },
+    {
+      "path": "./"
+    }
+  ],
+  "settings": {}
+}

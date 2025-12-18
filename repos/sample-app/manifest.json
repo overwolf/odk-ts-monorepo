@@ -1,0 +1,21 @@
+{
+  "manifest_version": 1,
+  "type": "WebApp",
+  "meta": {
+    "name": "Overwolf Development Kit (ODK) Sample App",
+    "author": "Overwolf",
+    "version": "0.0.1",
+    "minimum-overwolf-version": "0.102.213.0",
+    "description": "Basic sample app demonstrating dynamic window management using odk-ts.",
+    "icon": "assets/IconMouseNormal.png",
+    "icon_gray": "assets/IconMouseOver.png",
+    "store_icon": "assets/IconMouseNormal.png",
+    "dock_button_title": "ODK Sample App"
+  },
+  "permissions": ["DesktopStreaming"],
+  "hide_from_store": true,
+  "data": {
+    "background_page": "dist/background/background.html",
+    "force_browser": "user"
+  }
+}

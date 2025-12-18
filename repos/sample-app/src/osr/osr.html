@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>OSR Window Playground</title>
+
+  <style>
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #18181b;
+      height: 28px;
+      border-radius: 14px 14px 0 0;
+      padding: 0 6px;
+      position: relative;
+      top: 0;
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .toolbar-button {
+      width: 20px;
+      height: 20px;
+      background: transparent;
+      color: #fff;
+      border: none;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background 0.12s;
+    }
+
+    .toolbar-button[title="Close"] {
+      color: #dc2626;
+    }
+
+    .toolbar-button[title="Maximize"] {
+      font-size: 15px;
+    }
+
+    .toolbar-button:hover {
+      background: #27272a;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap');
+
+    :root {
+      --bg: #f7fbff;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --muted: #52607a;
+      --border: #d8e3f2;
+      --shadow: 0 14px 34px rgba(37, 99, 235, 0.16);
+
+      /* Resize hit-area sizes */
+      --resize-edge: 6px;
+      --resize-corner: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: transparent;
+      color: #0f172a;
+      font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+
+      /* allows overlay hit-areas to sit relative to window */
+      position: relative;
+    }
+
+    main {
+      width: 100%;
+      min-width: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      min-height: 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 22px;
+      letter-spacing: 0.02em;
+      cursor: grab;
+      user-select: none;
+    }
+
+    p.lead {
+      margin: 0 0 16px 0;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    h2 {
+      margin: 0 0 8px 0;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      width: 100%;
+      min-width: 0;
+      flex: 1 1 auto;
+    }
+
+    .card {
+      background: #f9fbff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      width: 100%;
+      min-width: 0;
+    }
+
+    .card .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #f1f5fb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Space Grotesk', monospace;
+      color: #1f2937;
+      width: 100%;
+      min-width: 0;
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    input,
+    select {
+      background: #f1f5fb;
+      border: 1px solid var(--border);
+      color: #0f172a;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    button {
+      background: var(--accent);
+      color: #f8fafc;
+      border: none;
+      padding: 9px 11px;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.25);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      background: #1d4ed8;
+      box-shadow: 0 16px 36px rgba(37, 99, 235, 0.25);
+    }
+
+    button:active {
+      transform: translateY(0px);
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .inputs .input-group {
+      display: flex;
+      gap: 8px;
+      min-width: 0;
+      flex: 1 1 180px;
+      max-width: 100%;
+    }
+
+    .inputs .input-group label {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 11px;
+    }
+
+    .inline input {
+      width: auto;
+    }
+
+    /* =========================
+       Window-edge resize hit-areas
+       (transparent overlays)
+       ========================= */
+
+    .ow-resize {
+      position: fixed;
+      /* pinned to actual window edges */
+      z-index: 999999;
+      background: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Edges */
+    .ow-top {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--resize-edge);
+      cursor: ns-resize;
+    }
+
+    .ow-bottom {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--resize-edge);
+      cursor: ns-resize;
+    }
+
+    .ow-left {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--resize-edge);
+      cursor: ew-resize;
+    }
+
+    .ow-right {
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: var(--resize-edge);
+      cursor: ew-resize;
+    }
+
+    /* Corners */
+    .ow-tl {
+      top: 0;
+      left: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nwse-resize;
+    }
+
+    .ow-tr {
+      top: 0;
+      right: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nesw-resize;
+    }
+
+    .ow-br {
+      bottom: 0;
+      right: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nwse-resize;
+    }
+
+    .ow-bl {
+      bottom: 0;
+      left: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nesw-resize;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="toolbar">
+      <div id="toolbar-drag" style="flex: 1; cursor: grab; user-select: none;">&nbsp;</div>
+      <button id="toolbar-minimize" class="toolbar-button" title="Minimize">&#8211;</button>
+      <button id="toolbar-maximize" class="toolbar-button" title="Maximize">&#9723;</button>
+      <button id="toolbar-close" class="toolbar-button" title="Close">&#10005;</button>
+    </div>
+
+    <div style="padding: 0 10px 10px 10px;">
+      <h1 id="drag-handle">OSR Window Playground</h1>
+      <p class="lead">
+        Drive common window actions directly from here. Update the numbers, click an action, and watch this window
+        respond.
+      </p>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Position & Size</h2>
+          <div class="inputs">
+            <div class="input-group">
+              <label>
+                X
+                <input id="input-x" type="number" value="0" />
+              </label>
+              <label>
+                Y
+                <input id="input-y" type="number" value="0" />
+              </label>
+            </div>
+            <div class="input-group">
+              <label>
+                Width
+                <input id="input-width" type="number" value="340" min="120" />
+              </label>
+              <label>
+                Height
+                <input id="input-height" type="number" value="420" min="120" />
+              </label>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="btn-set-position">Set position</button>
+            <button id="btn-set-size">Set size</button>
+            <button id="btn-set-bounds">Set bounds</button>
+            <button id="btn-center">Center</button>
+            <button id="btn-drag">Drag</button>
+            <button id="btn-refresh">Refresh bounds</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Anchor & Dock</h2>
+          <div class="inputs">
+            <label>
+              Edge
+              <select id="select-edge">
+                <option value="Top">Top</option>
+                <option value="Bottom">Bottom</option>
+                <option value="Left">Left</option>
+                <option value="Right">Right</option>
+                <option value="TopLeft">Top left</option>
+                <option value="TopRight">Top right</option>
+                <option value="BottomLeft">Bottom left</option>
+                <option value="BottomRight">Bottom right</option>
+                <option value="None">None (clear)</option>
+              </select>
+            </label>
+            <div class="input-group">
+              <label>
+                Margin X
+                <input id="input-margin-x" type="number" value="8" />
+              </label>
+              <label>
+                Margin Y
+                <input id="input-margin-y" type="number" value="8" />
+              </label>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="btn-dock">Dock to edge</button>
+            <button id="btn-anchor">Anchor to edge</button>
+            <button id="btn-clear-anchor">Clear anchor/dock</button>
+          </div>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <!-- Resize hit-areas (transparent) -->
+  <div id="ow-resize-left" class="ow-resize ow-left" data-edge="Left"></div>
+  <div id="ow-resize-right" class="ow-resize ow-right" data-edge="Right"></div>
+  <div id="ow-resize-top" class="ow-resize ow-top" data-edge="Top"></div>
+  <div id="ow-resize-bottom" class="ow-resize ow-bottom" data-edge="Bottom"></div>
+
+  <div id="ow-resize-tl" class="ow-resize ow-tl" data-edge="TopLeft"></div>
+  <div id="ow-resize-tr" class="ow-resize ow-tr" data-edge="TopRight"></div>
+  <div id="ow-resize-br" class="ow-resize ow-br" data-edge="BottomRight"></div>
+  <div id="ow-resize-bl" class="ow-resize ow-bl" data-edge="BottomLeft"></div>
+
+
+</body>
+
+</html>

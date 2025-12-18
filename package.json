@@ -1,0 +1,17 @@
+{
+  "name": "odk-ts-monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build:odk": "npm run -w @overwolf/odk-ts package",
+    "build:sample:dev": "npm run -w odk-ts-sample-app dev",
+    "build:sample": "npm run -w odk-ts-sample-app build"
+  },
+  "private": true,
+  "workspaces": [
+    "repos/*"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
