@@ -35,4 +35,7 @@ After building, you can load the sample app as a package using the Overwolf Pack
 
 ---
 
-For more details, see the README files in each subproject.
+For more details, see the README files in each subproject:
+
+- [odk-ts README](repos/odk-ts/README.md)
+- [sample-app README](repos/sample-app/README.md)

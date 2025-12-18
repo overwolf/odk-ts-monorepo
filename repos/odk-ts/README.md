@@ -18,9 +18,11 @@ This module requires **Node 22.0.0 or later**.
 $ npm install @overwolf/odk-ts
 ```
 
----
 
-### To build
+
+### Build Instructions
+
+#### Production Build
 
 Run:
 
@@ -28,10 +30,10 @@ Run:
 npm run buildpackage
 ```
 
-- Outputs to dist folder
-- Creates an npm package package.tgz
+- Outputs to the `dist` folder
+- Creates an npm package archive: `package.tgz`
 
-### To build for dev environment
+#### Development Build (with Source Maps)
 
 Run:
 
@@ -39,7 +41,21 @@ Run:
 npm run builddevpackage
 ```
 
-- Same as build, but includes map files
+- Same as the production build, but includes source map files for easier debugging
+
+---
+
+### Updating odk-ts Locally in Another Project
+
+1. Copy the generated `package.tgz` from the `dist` folder to your target project's `3rd_party/overwolf` directory.
+2. In your target project, run:
+
+  ```sh
+  npm i file:3rd_party/overwolf/package.tgz
+  ```
+
+This will install the local odk-ts package for development or testing purposes.
+
 
 ---
 
@@ -165,37 +181,3 @@ import { MonitorHelper } from '@overwolf/odk-ts';
 
 const monitor = await MonitorHelper.getWindowMonitor(win);
 ```
-
----
-
-
-## Install
-
-This module requires **Node 22.12.0 or later**.
-
-```sh
-$ npm install @overwolf/odk-ts
-```
-
----
-
-## To build
-
-Run:
-
-```sh
-npm run buildpackage
-```
-
-- Outputs to dist folder
-- Creates an npm package package.tgz
-
-## To build for dev environment
-
-Run:
-
-```sh
-npm run builddevpackage
-```
-
-- Same as build, but includes map files

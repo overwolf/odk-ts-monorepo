@@ -5,6 +5,22 @@
 This is a basic Overwolf sample app demonstrating how to use the background window as the main window to manage the business logic of the app.
 The sample is designed to showcase the usage of the **Overwolf Development Kit (odk-ts)** library, providing practical examples of window management and control in an Overwolf environment.
 
+---
+
+### When updating local odk-ts library:
+
+- In the `odk-ts` project, run `npm run builddevpackage` (or the appropriate build command for the library)
+- Copy the resulting `package.tgz` file to `3rd_party/overwolf`
+- Run `npm i file:3rd_party/overwolf/package.tgz`
+
+### To debug
+
+- `npm install`
+- `npm run dev`
+- `F5` (Launch overwolf configuration)
+
+---
+
 ## Architecture and Main Classes
 
 - **Background Window:**
@@ -72,17 +88,3 @@ The sample is designed to showcase the usage of the **Overwolf Development Kit (
   - It also shows how to use the `Windows.Self()` function to obtain a reference to the current window and interact with it programmatically.
 
 This sample app is intended as a starting point for developers building Overwolf apps with the Overwolf Development Kit (odk-ts) library, providing clear and practical code examples for common window management tasks.
-
----
-
-### When updating local odk-ts library:
-
-- In the `odk-ts` project, run `npm run builddevpackage` (or the appropriate build command for the library)
-- Copy the resulting `package.tgz` file to `3rd_party/overwolf`
-- Run `npm i file:3rd_party/overwolf/package.tgz`
-
-### To debug
-
-- Install dependencies: `npm install`
-- `npm run dev`
-- `F5` (Launch overwolf configuration)
