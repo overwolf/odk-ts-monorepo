@@ -109,7 +109,7 @@ export interface Options {
   isAltF4Blocked?: boolean;
 
   /**
-   * Define if the window is displayed in the Windows taskbar 
+   * Define if the window is displayed in the Windows taskbar
    * and alt-tab window selection menu.
    *
    * @default true (for native windows) / false(for OSR windows)
@@ -183,4 +183,25 @@ export interface Options {
    * @default false
    */
   disableBlur?: boolean;
+
+  /**
+   * When set to true, disable right clicks entirely for this window.
+   *
+   * @default false
+   */
+  disableRightClick?: boolean;
+
+  /**
+   * Mute all sound from window.
+   *
+   * @default true
+   */
+  isMuted?: boolean;
+
+  /**
+   * Exclude hosts list so stream from these hosts origins will not muted even
+   * if the window is muted.
+   * "muteExcludedHosts" : ["*.youtube.*", "*.twitch.*" ]
+   */
+  muteExcludedHosts?: string[];
 }

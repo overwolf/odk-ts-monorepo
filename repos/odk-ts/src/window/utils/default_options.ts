@@ -27,6 +27,10 @@ export function applyDefaultOptions(options: Options, windowType: WindowType) {
     options.autoDpi = true;
   }
 
+  if (options.isMuted === undefined) {
+    options.isMuted = true;
+  }
+
   if (windowType === WindowType.Desktop) {
     _applyDefaultOptionsDesktop(options);
   }
@@ -59,6 +63,10 @@ function _applyDefaultOptionsOffscreen(options: OSRWindowOptions) {
 
   if (options.autoZoom === undefined) {
     options.autoZoom = true;
+  }
+
+  if (options.disableHardwareAcceleration === undefined) {
+    options.disableHardwareAcceleration = true;
   }
 
   if (options.type === OSRType.InGameOnly) {

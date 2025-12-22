@@ -79,4 +79,23 @@ export interface OSRWindowOptions extends Options {
    * @default false
    */
   desktopOnly?: boolean;
+
+  /**
+   * Allows you to control the behavior of an app window while in a “mouse-less” game state.
+   */
+  takeOverAction?: 'ReleaseOnHidden' | 'ReleaseOnLostFocus';
+
+  /**
+   * Allow Overwolf to display your app’s hotkey combination on the screen when the user switches to “exclusive mode”.
+   * The string value should be the hotkey name from the hotkeys section.
+   * Relevant only if you set takeOverAction=ReleaseOnHidden.
+   */
+  takeOverReleaseHotkey?: string;
+
+  /**
+   * Disable GPU hardware acceleration, per window.
+   * 
+   * @default true (disabled in OSR windows)
+   */
+  disableHardwareAcceleration?: boolean;
 }
