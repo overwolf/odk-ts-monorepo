@@ -1,0 +1,6 @@
+{
+  "entryPoints": ["src/window"],
+  "entryPointStrategy": "expand",
+  "plugin": ["typedoc-plugin-markdown"],
+  "out": "docs/output"
+}
