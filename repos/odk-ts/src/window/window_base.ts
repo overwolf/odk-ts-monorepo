@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { Event, EventEmitter, EventHandler } from '../lib/event_emitter';
 import { Edge } from './enums/edge';
 import { Point } from './interfaces/point';

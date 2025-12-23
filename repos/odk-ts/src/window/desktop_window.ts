@@ -5,9 +5,6 @@ import { WindowType } from './enums/window_type';
 
 
 /**
- * Represents a desktop window.
- *
- * @remarks
  * `DesktopWindow` extends {@link WindowBase} and provides functionality
  * specific to desktop-type windows. It exposes the window type and
  * supports desktop-only operations such as resizing from a specific edge.

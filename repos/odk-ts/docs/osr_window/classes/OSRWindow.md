@@ -1,5 +1,23 @@
 # Class: OSRWindow
 
+`OSRWindow` extends [WindowBase](../../window_base/classes/WindowBase.md) and represents a window that renders
+content offscreen. These windows are typically used for rendering scenarios
+where no visible desktop window is required, but desktop-only behavior may
+still apply depending on configuration.
+
+## Example
+
+```ts
+const window = new OSRWindow({ desktopOnly: true });
+const type = window.type(); // WindowType.Offscreen
+```
+
+## See
+
+ - [WindowBase](../../window_base/classes/WindowBase.md)
+ - OSRWindowOptions
+ - WindowType
+
 ## Extends
 
 - [`WindowBase`](../../window_base/classes/WindowBase.md)
@@ -10,15 +28,21 @@
 
 > **new OSRWindow**(`options?`, `id?`): `OSRWindow`
 
+Creates a new OSRWindow.
+
 #### Parameters
 
 ##### options?
 
 `OSRWindowOptions`
 
+— optional configuration options for the OSR window.
+
 ##### id?
 
 `string`
+
+— optional unique window identifier.
 
 #### Returns
 
@@ -113,9 +137,16 @@ EventEmitter
 
 > **get** **desktopOnly**(): `boolean`
 
+Indicates whether this window should be treated as desktop-only.
+When defined in OSRWindowOptions, the `desktopOnly` flag overrides
+the base window behavior. If not specified, the value from
+[WindowBase.desktopOnly](../../window_base/classes/WindowBase.md#desktoponly) is used.
+
 ##### Returns
 
 `boolean`
+
+`true` if the window is restricted to desktop usage.
 
 #### Overrides
 
@@ -1367,19 +1398,27 @@ Handles window resize events, firing the 'resized' event with the new size.
 
 > **resize**(`edge`, `rect`): `Promise`\<`boolean`\>
 
+Resizes the window by dragging the specified edge to the given rectangle.
+
 #### Parameters
 
 ##### edge
 
 `Edge`
 
+— the edge of the window to resize from.
+
 ##### rect
 
 `Rectangle`
 
+— the target rectangle defining the new window bounds.
+
 #### Returns
 
 `Promise`\<`boolean`\>
+
+A promise that resolves to `true` if the resize was successful.
 
 ***
 
@@ -1570,9 +1609,13 @@ Error if showing the window fails.
 
 > **type**(): `WindowType`
 
+Returns the type of this window.
+
 #### Returns
 
 `WindowType`
+
+WindowType.Offscreen
 
 #### Overrides
 

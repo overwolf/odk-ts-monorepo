@@ -1,9 +1,5 @@
 # Class: DesktopWindow
 
-Represents a desktop window.
-
-## Remarks
-
 `DesktopWindow` extends [WindowBase](../../window_base/classes/WindowBase.md) and provides functionality
 specific to desktop-type windows. It exposes the window type and
 supports desktop-only operations such as resizing from a specific edge.
