@@ -1,6 +1,19 @@
+
 {
-  "entryPoints": ["src/window"],
-  "entryPointStrategy": "expand",
-  "plugin": ["typedoc-plugin-markdown"],
-  "out": "docs/output"
+	"name": "odk-ts",
+	"entryPoints": ["../../src/index.ts"],
+	"tsconfig": "../../tsconfig.json",
+	"out": "../output",
+	"cleanOutputDir": true,
+	"plugin": ["typedoc-plugin-markdown"],
+	"readme": "../../README.md",
+	"exclude": ["**/__tests__/**", "**/*.spec.ts", "node_modules"],
+	"excludePrivate": true,
+	"excludeProtected": false,
+	"excludeExternals": true,
+	"disableSources": true,
+	"hideGenerator": true,
+	"includeVersion": true,
+	"theme": "default"
 }
+
