@@ -3,7 +3,7 @@
 
 ## Overview
 
-**odk-ts** is the Overwolf Development Kit for TypeScript. It is designed to simplify and enhance Overwolf app development by providing a modern, type-safe API.
+The **ODK** is the Overwolf Development Kit for TypeScript. It is designed to simplify and enhance Overwolf app development by providing a modern, type-safe API.
 
 ## Key features
 
