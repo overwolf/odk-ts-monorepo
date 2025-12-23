@@ -1,8 +1,8 @@
-[**odk-ts v1.0.5**](../README.md)
+[**odk-ts v1.0.5**](../../README.md)
 
 ***
 
-[odk-ts](../globals.md) / Windows
+[odk-ts](../../README.md) / [windows](../README.md) / Windows
 
 # Class: Windows
 
@@ -26,7 +26,7 @@ This class provides static methods to retrieve window instances based on the cur
 
 ### FromId()
 
-> `static` **FromId**(`id`): `Promise`\<[`WindowBase`](WindowBase.md)\>
+> `static` **FromId**(`id`): `Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
 
 Returns the `WindowBase` representing the Overwolf window with the given ID.
 
@@ -40,7 +40,7 @@ The ID of the window to get.
 
 #### Returns
 
-`Promise`\<[`WindowBase`](WindowBase.md)\>
+`Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
 
 The window as a `WindowBase` object.
 
@@ -52,13 +52,13 @@ Error if the window cannot be found or if the window type is background or unkno
 
 ### Self()
 
-> `static` **Self**(): `Promise`\<[`WindowBase`](WindowBase.md)\>
+> `static` **Self**(): `Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
 
 Returns the `WindowBase` representing the current Overwolf window.
 
 #### Returns
 
-`Promise`\<[`WindowBase`](WindowBase.md)\>
+`Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
 
 The current window as a `WindowBase` object.
 

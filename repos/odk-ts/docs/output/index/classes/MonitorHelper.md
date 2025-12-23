@@ -1,8 +1,8 @@
-[**odk-ts v1.0.5**](../README.md)
+[**odk-ts v1.0.5**](../../README.md)
 
 ***
 
-[odk-ts](../globals.md) / MonitorHelper
+[odk-ts](../../README.md) / [index](../README.md) / MonitorHelper
 
 # Class: MonitorHelper
 
@@ -33,7 +33,7 @@ If the window is in-game -> returns the monitor where the game is running.
 
 ##### window
 
-[`WindowBase`](WindowBase.md)
+[`WindowBase`](../../window_base/classes/WindowBase.md)
 
 The window to get the monitor for.
 

@@ -161,3 +161,36 @@ import { MonitorHelper } from '@overwolf/odk-ts';
 
 const monitor = await MonitorHelper.getWindowMonitor(win);
 ```
+
+## Contributing
+
+Overwolf welcomes community contributions and extensions! If you’d like to improve, extend, or fix something in this project, follow the process below.
+
+### How to contribute
+
+1. **Fork the repository**&mdash;create your own fork of the project on GitHub.
+2. **Create a feature branch**&mdash;work on your changes in a dedicated branch. Use `git checkout -b my-feature`.
+3. **Make your changes**:
+   - Keep changes focused and scoped.
+   - Follow the existing code style and conventions.
+   - Add or update documentation where appropriate.
+   - Include tests if applicable.
+4. **Commit your work**&mdash;use clear, descriptive commit messages. (e.g., `git commit -m "Add support for XYZ"`)
+5. **Push and open a Pull Request**&mdash;push your branch to your fork and open a Pull Request (PR) against the main repository.
+
+### Pull Request guidelines
+
+To help us review PRs efficiently:
+
+- Describe **what** the change does and **why** it’s needed.
+- Link any related issues (if applicable).
+- Keep PRs focused (one feature or fix per PR when possible).
+- Be open to feedback and requested changes.
+
+### Extending the project
+
+If you’re planning a **larger extension or architectural change**, contact us and explain the intended use case and impact it will have. We recommend that you get early feedback before investing significant effort.
+
+### Code of conduct
+
+Please be respectful and constructive in discussions and reviews. Overwolf's aim is to keep this project welcoming and collaborative.
