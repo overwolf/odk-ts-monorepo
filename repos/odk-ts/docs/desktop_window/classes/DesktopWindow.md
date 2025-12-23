@@ -1,5 +1,26 @@
 # Class: DesktopWindow
 
+Represents a desktop window.
+
+## Remarks
+
+`DesktopWindow` extends [WindowBase](../../window_base/classes/WindowBase.md) and provides functionality
+specific to desktop-type windows. It exposes the window type and
+supports desktop-only operations such as resizing from a specific edge.
+
+## Example
+
+```ts
+const window = new DesktopWindow({ width: 800, height: 600 });
+const type = window.type(); // WindowType.Desktop
+```
+
+## See
+
+ - [WindowBase](../../window_base/classes/WindowBase.md)
+ - DesktopWindowOptions
+ - WindowType
+
 ## Extends
 
 - [`WindowBase`](../../window_base/classes/WindowBase.md)
@@ -10,15 +31,21 @@
 
 > **new DesktopWindow**(`options?`, `id?`): `DesktopWindow`
 
+Creates a new DesktopWindow.
+
 #### Parameters
 
 ##### options?
 
 `DesktopWindowOptions`
 
+Optional configuration options for the desktop window.
+
 ##### id?
 
 `string`
+
+Optional unique window identifier.
 
 #### Returns
 
@@ -1367,15 +1394,21 @@ Handles window resize events, firing the 'resized' event with the new size.
 
 > **resize**(`edge`): `Promise`\<`boolean`\>
 
+Resizes the window by dragging the specified edge.
+
 #### Parameters
 
 ##### edge
 
 `Edge`
 
+The edge of the window to resize from.
+
 #### Returns
 
 `Promise`\<`boolean`\>
+
+A promise that resolves to `true` if the resize was successful.
 
 ***
 
@@ -1566,9 +1599,13 @@ Error if showing the window fails.
 
 > **type**(): `WindowType`
 
+Returns the type of this window.
+
 #### Returns
 
 `WindowType`
+
+WindowType.Desktop
 
 #### Overrides
 
