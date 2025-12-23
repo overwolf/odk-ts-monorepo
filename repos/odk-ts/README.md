@@ -7,12 +7,12 @@ The **ODK** is the Overwolf Development Kit for TypeScript. It is designed to si
 
 ## Key features
 
-- Easy creation and management of Desktop and OSR windows
-- **Create windows dynamically at runtime without pre-defining them in the manifest file**
-- Type-safe window options and positioning
-- Utility methods for working with window IDs and the current window
-- Monitor helper utilities for multi-monitor setups
-- **All window actions are asynchronous and return Promises for easy integration with async/await workflows**
+- Easy creation and management of Desktop and OSR windows.
+- **Create windows dynamically at runtime without pre-defining them in the manifest file**.
+- Type-safe window options and positioning.
+- Utility methods for working with window IDs and the current window.
+- Monitor helper utilities for multi-monitor setups.
+- **All window actions are asynchronous and return Promises for easy integration with async/await workflows**.
 
 ### Current status
 

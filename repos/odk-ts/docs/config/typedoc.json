@@ -16,7 +16,7 @@
 	"hideGenerator": true,
 	"includeVersion": true,
 	"theme": "default",
-  "outputStrategy": "members",
+  "outputFileStrategy": "members",
   "includeHierarchySummary": true
 
 }
