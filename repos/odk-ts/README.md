@@ -1,28 +1,35 @@
 
-# odk-ts
-
-## Overwolf Development Kit (ODK)
-
+# Overwolf Development Kit (ODK)
 
 ## Overview
 
 **odk-ts** is the Overwolf Development Kit for TypeScript. It is designed to simplify and enhance Overwolf app development by providing a modern, type-safe API.
 
----
+## Key Features
 
-### Install
+- Easy creation and management of Desktop and OSR windows
+- **Create windows dynamically at runtime without pre-defining them in the manifest file**
+- Type-safe window options and positioning
+- Utility methods for working with window IDs and the current window
+- Monitor helper utilities for multi-monitor setups
+- **All window actions are asynchronous and return Promises for easy integration with async/await workflows**
+
+### Current Status
+
+- **Window Management:**&mdash;the current version focuses on dynamic window management, including creation, control, and positioning of both desktop and OSR (Off-Screen Rendering) windows, as well as utilities for working with monitors and window states.
+- **Future Plans**&mdash;the ODK will expand to wrap more of the Overwolf API, providing a unified, type-safe toolkit for Overwolf app developers.
+
+## Installing the ODK
 
 This module requires **Node 22.0.0 or later**.
 
 ```sh
-$ npm install @overwolf/odk-ts
+npm install @overwolf/odk-ts
 ```
 
+## Build Instructions
 
-
-### Build Instructions
-
-#### Production Build
+### Production Build
 
 Run:
 
@@ -33,7 +40,7 @@ npm run buildpackage
 - Outputs to the `dist` folder
 - Creates an npm package archive: `package.tgz`
 
-#### Development Build (with Source Maps)
+### Development Build (with Source Maps)
 
 Run:
 
@@ -41,44 +48,22 @@ Run:
 npm run builddevpackage
 ```
 
-- Same as the production build, but includes source map files for easier debugging
-
----
+This is the same as the production build, but includes source map files for easier debugging.
 
 ### Updating odk-ts Locally in Another Project
 
 1. Copy the generated `package.tgz` from the `dist` folder to your target project's `3rd_party/overwolf` directory.
 2. In your target project, run:
 
-  ```sh
-  npm i file:3rd_party/overwolf/package.tgz
-  ```
+    ```sh
+    npm i file:3rd_party/overwolf/package.tgz
+    ```
 
 This will install the local odk-ts package for development or testing purposes.
-
-
----
-
-### Current Status
-
-- **Window Management:** The current version focuses on dynamic window management, including creation, control, and positioning of both desktop and OSR (Off-Screen Rendering) windows, as well as utilities for working with monitors and window states.
-- **Future Plans:** ODK will expand to wrap more of the Overwolf API, providing a unified, type-safe toolkit for Overwolf app developers.
-
-### Key Features
-
-- Easy creation and management of Desktop and OSR windows
-- **Create windows dynamically at runtime without pre-defining them in the manifest file**
-- Type-safe window options and positioning
-- Utility methods for working with window IDs and the current window
-- Monitor helper utilities for multi-monitor setups
-- **All window actions are asynchronous and return Promises for easy integration with async/await workflows**
-
----
 
 ## Usage
 
 ### Creating Windows
-
 
 You can create new windows using the provided classes.
 With odk-ts, you do not need to define windows in your manifest file - windows can be created dynamically at runtime.
@@ -108,7 +93,6 @@ const osrWin = new OSRWindow({
 ```
 
 ### Accessing Windows
-
 
 Use the `Windows` utility to access existing windows:
 
@@ -141,11 +125,9 @@ When creating or moving windows, you can use a variety of positioning options:
 - **autoDpi, autoZoom**: DPI and zoom handling
 - **keepWindowLocation**: Prevent window from moving when game focus changes
 
-
 See the `Options` interface in `@overwolf/odk-ts/window/options/window_options` for all available options and their descriptions.
 
 All window actions are asynchronous and return Promises, making them easy to use with async/await.
-
 
 You can easily control window position and state using methods on your window instance (from the `WindowBase` class):
 
@@ -164,11 +146,9 @@ You can easily control window position and state using methods on your window in
 - **Dock** is a one-time operation. The window is placed at the edge, but will not stay docked if the user moves or resizes it.
 - **Anchor** is persistent. The window will remain attached to the edge and the anchoring will be reapplied automatically after move/resize events.
 
-
 See the `window_base.ts` file for the full list of available methods.
 
 ### Monitor Helper
-
 
 The `MonitorHelper` class provides a utility for getting the monitor associated with a window:
 

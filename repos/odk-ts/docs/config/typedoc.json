@@ -1,12 +1,13 @@
 
 {
 	"name": "odk-ts",
-	"entryPoints": ["../../src/index.ts"],
+	"entryPoints": ["../../src/window/*.*"],
 	"tsconfig": "../../tsconfig.json",
 	"out": "../output",
 	"cleanOutputDir": true,
 	"plugin": ["typedoc-plugin-markdown"],
 	"readme": "../../README.md",
+  "mergeReadme": true,
 	"exclude": ["**/__tests__/**", "**/*.spec.ts", "node_modules"],
 	"excludePrivate": true,
 	"excludeProtected": false,
@@ -14,6 +15,9 @@
 	"disableSources": true,
 	"hideGenerator": true,
 	"includeVersion": true,
-	"theme": "default"
+	"theme": "default",
+  "outputStrategy": "members",
+  "includeHierarchySummary": true
+
 }
 
