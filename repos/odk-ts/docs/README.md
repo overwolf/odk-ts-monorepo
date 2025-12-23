@@ -194,10 +194,10 @@ If you’re planning a **larger extension or architectural change**, contact us 
 
 Please be respectful and constructive in discussions and reviews. Overwolf's aim is to keep this project welcoming and collaborative.
 
-## Modules
+## Classes
 
-- [desktop\_window](desktop_window/README.md)
-- [index](index/README.md)
-- [osr\_window](osr_window/README.md)
-- [window\_base](window_base/README.md)
-- [windows](windows/README.md)
+- [DesktopWindow](classes/DesktopWindow.md)
+- [MonitorHelper](classes/MonitorHelper.md)
+- [OSRWindow](classes/OSRWindow.md)
+- [WindowBase](classes/WindowBase.md)
+- [Windows](classes/Windows.md)

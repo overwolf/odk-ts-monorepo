@@ -27,7 +27,7 @@ If the window is in-game -> returns the monitor where the game is running.
 
 ##### window
 
-[`WindowBase`](../../window_base/classes/WindowBase.md)
+[`WindowBase`](WindowBase.md)
 
 The window to get the monitor for.
 

@@ -1,6 +1,6 @@
 # Class: DesktopWindow
 
-`DesktopWindow` extends [WindowBase](../../window_base/classes/WindowBase.md) and provides functionality
+`DesktopWindow` extends [WindowBase](WindowBase.md) and provides functionality
 specific to desktop-type windows. It exposes the window type and
 supports desktop-only operations such as resizing from a specific edge.
 
@@ -13,13 +13,13 @@ const type = window.type(); // WindowType.Desktop
 
 ## See
 
- - [WindowBase](../../window_base/classes/WindowBase.md)
+ - [WindowBase](WindowBase.md)
  - DesktopWindowOptions
  - WindowType
 
 ## Extends
 
-- [`WindowBase`](../../window_base/classes/WindowBase.md)
+- [`WindowBase`](WindowBase.md)
 
 ## Constructors
 
@@ -49,7 +49,7 @@ Optional unique window identifier.
 
 #### Overrides
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`constructor`](../../window_base/classes/WindowBase.md#constructor)
+[`WindowBase`](WindowBase.md).[`constructor`](WindowBase.md#constructor)
 
 ## Properties
 
@@ -66,7 +66,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`_eventHandlers`](../../window_base/classes/WindowBase.md#_eventhandlers)
+[`WindowBase`](WindowBase.md).[`_eventHandlers`](WindowBase.md#_eventhandlers)
 
 ***
 
@@ -76,7 +76,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`closed`](../../window_base/classes/WindowBase.md#closed)
+[`WindowBase`](WindowBase.md).[`closed`](WindowBase.md#closed)
 
 ***
 
@@ -86,7 +86,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`id`](../../window_base/classes/WindowBase.md#id)
+[`WindowBase`](WindowBase.md).[`id`](WindowBase.md#id)
 
 ***
 
@@ -96,7 +96,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`isDragging`](../../window_base/classes/WindowBase.md#isdragging)
+[`WindowBase`](WindowBase.md).[`isDragging`](WindowBase.md#isdragging)
 
 ***
 
@@ -106,7 +106,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`logger`](../../window_base/classes/WindowBase.md#logger)
+[`WindowBase`](WindowBase.md).[`logger`](WindowBase.md#logger)
 
 ***
 
@@ -116,7 +116,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`options`](../../window_base/classes/WindowBase.md#options)
+[`WindowBase`](WindowBase.md).[`options`](WindowBase.md#options)
 
 ***
 
@@ -126,7 +126,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`owWindowInfo`](../../window_base/classes/WindowBase.md#owwindowinfo)
+[`WindowBase`](WindowBase.md).[`owWindowInfo`](WindowBase.md#owwindowinfo)
 
 ## Accessors
 
@@ -142,7 +142,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`desktopOnly`](../../window_base/classes/WindowBase.md#desktoponly)
+[`WindowBase`](WindowBase.md).[`desktopOnly`](WindowBase.md#desktoponly)
 
 ***
 
@@ -158,7 +158,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`windowInfo`](../../window_base/classes/WindowBase.md#windowinfo)
+[`WindowBase`](WindowBase.md).[`windowInfo`](WindowBase.md#windowinfo)
 
 ***
 
@@ -174,7 +174,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`windowOptions`](../../window_base/classes/WindowBase.md#windowoptions)
+[`WindowBase`](WindowBase.md).[`windowOptions`](WindowBase.md#windowoptions)
 
 ## Methods
 
@@ -212,7 +212,7 @@ Error if anchoring fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`anchor`](../../window_base/classes/WindowBase.md#anchor)
+[`WindowBase`](WindowBase.md).[`anchor`](WindowBase.md#anchor)
 
 ***
 
@@ -232,7 +232,7 @@ Error if the window is closed or not created.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`assureCreated`](../../window_base/classes/WindowBase.md#assurecreated)
+[`WindowBase`](WindowBase.md).[`assureCreated`](WindowBase.md#assurecreated)
 
 ***
 
@@ -252,7 +252,7 @@ Error if the operation fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`bringToFront`](../../window_base/classes/WindowBase.md#bringtofront)
+[`WindowBase`](WindowBase.md).[`bringToFront`](WindowBase.md#bringtofront)
 
 ***
 
@@ -274,7 +274,7 @@ Error if the operation fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`bringToFrontWithFocus`](../../window_base/classes/WindowBase.md#bringtofrontwithfocus)
+[`WindowBase`](WindowBase.md).[`bringToFrontWithFocus`](WindowBase.md#bringtofrontwithfocus)
 
 ***
 
@@ -296,7 +296,7 @@ Error if centering fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`center`](../../window_base/classes/WindowBase.md#center)
+[`WindowBase`](WindowBase.md).[`center`](WindowBase.md#center)
 
 ***
 
@@ -326,7 +326,7 @@ Error if centering fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`centerOnMonitor`](../../window_base/classes/WindowBase.md#centeronmonitor)
+[`WindowBase`](WindowBase.md).[`centerOnMonitor`](WindowBase.md#centeronmonitor)
 
 ***
 
@@ -346,7 +346,7 @@ Error if closing the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`close`](../../window_base/classes/WindowBase.md#close)
+[`WindowBase`](WindowBase.md).[`close`](WindowBase.md#close)
 
 ***
 
@@ -386,7 +386,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`createEvent`](../../window_base/classes/WindowBase.md#createevent)
+[`WindowBase`](WindowBase.md).[`createEvent`](WindowBase.md#createevent)
 
 ***
 
@@ -398,7 +398,7 @@ Docks the window to the specified edge of the monitor.
 
 This is a one-time operation: the window will be positioned at the specified edge,
 but if the user moves or resizes the window afterwards, it will not remain docked.
-Use [anchor](../../window_base/classes/WindowBase.md#anchor) for persistent edge anchoring that is maintained after move/resize events.
+Use [anchor](WindowBase.md#anchor) for persistent edge anchoring that is maintained after move/resize events.
 
 #### Parameters
 
@@ -432,7 +432,7 @@ Error if docking fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`dock`](../../window_base/classes/WindowBase.md#dock)
+[`WindowBase`](WindowBase.md).[`dock`](WindowBase.md#dock)
 
 ***
 
@@ -460,7 +460,7 @@ Error if starting resizing fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`dragResize`](../../window_base/classes/WindowBase.md#dragresize)
+[`WindowBase`](WindowBase.md).[`dragResize`](WindowBase.md#dragresize)
 
 ***
 
@@ -501,7 +501,7 @@ const emitter = new EventEmitter();
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`fire`](../../window_base/classes/WindowBase.md#fire)
+[`WindowBase`](WindowBase.md).[`fire`](WindowBase.md#fire)
 
 ***
 
@@ -523,7 +523,7 @@ Error if getting the bounds fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`getBounds`](../../window_base/classes/WindowBase.md#getbounds)
+[`WindowBase`](WindowBase.md).[`getBounds`](WindowBase.md#getbounds)
 
 ***
 
@@ -559,7 +559,7 @@ const emitter = new EventEmitter();
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`getHandlers`](../../window_base/classes/WindowBase.md#gethandlers)
+[`WindowBase`](WindowBase.md).[`getHandlers`](WindowBase.md#gethandlers)
 
 ***
 
@@ -581,7 +581,7 @@ Error if getting the window state fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`getWindowState`](../../window_base/classes/WindowBase.md#getwindowstate)
+[`WindowBase`](WindowBase.md).[`getWindowState`](WindowBase.md#getwindowstate)
 
 ***
 
@@ -623,7 +623,7 @@ const emitter = new EventEmitter();
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`has`](../../window_base/classes/WindowBase.md#has)
+[`WindowBase`](WindowBase.md).[`has`](WindowBase.md#has)
 
 ***
 
@@ -643,7 +643,7 @@ Error if hiding the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`hide`](../../window_base/classes/WindowBase.md#hide)
+[`WindowBase`](WindowBase.md).[`hide`](WindowBase.md#hide)
 
 ***
 
@@ -661,7 +661,7 @@ The window ID(string).
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`Id`](../../window_base/classes/WindowBase.md#id-1)
+[`WindowBase`](WindowBase.md).[`Id`](WindowBase.md#id-1)
 
 ***
 
@@ -683,7 +683,7 @@ Error if checking the window state fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`isOpen`](../../window_base/classes/WindowBase.md#isopen)
+[`WindowBase`](WindowBase.md).[`isOpen`](WindowBase.md#isopen)
 
 ***
 
@@ -711,7 +711,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`isValidHandler`](../../window_base/classes/WindowBase.md#isvalidhandler)
+[`WindowBase`](WindowBase.md).[`isValidHandler`](WindowBase.md#isvalidhandler)
 
 ***
 
@@ -739,7 +739,7 @@ EventEmitter
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`isValidType`](../../window_base/classes/WindowBase.md#isvalidtype)
+[`WindowBase`](WindowBase.md).[`isValidType`](WindowBase.md#isvalidtype)
 
 ***
 
@@ -769,7 +769,7 @@ Error if the URL loading fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`loadUrl`](../../window_base/classes/WindowBase.md#loadurl)
+[`WindowBase`](WindowBase.md).[`loadUrl`](WindowBase.md#loadurl)
 
 ***
 
@@ -789,7 +789,7 @@ Error if maximizing the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`maximize`](../../window_base/classes/WindowBase.md#maximize)
+[`WindowBase`](WindowBase.md).[`maximize`](WindowBase.md#maximize)
 
 ***
 
@@ -809,7 +809,7 @@ Error if minimizing the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`minimize`](../../window_base/classes/WindowBase.md#minimize)
+[`WindowBase`](WindowBase.md).[`minimize`](WindowBase.md#minimize)
 
 ***
 
@@ -831,7 +831,7 @@ Error if starting dragging fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`move`](../../window_base/classes/WindowBase.md#move)
+[`WindowBase`](WindowBase.md).[`move`](WindowBase.md#move)
 
 ***
 
@@ -865,7 +865,7 @@ Error if the operation fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`mute`](../../window_base/classes/WindowBase.md#mute)
+[`WindowBase`](WindowBase.md).[`mute`](WindowBase.md#mute)
 
 ***
 
@@ -915,7 +915,7 @@ const emitter = new EventEmitter();
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`off`](../../window_base/classes/WindowBase.md#off)
+[`WindowBase`](WindowBase.md).[`off`](WindowBase.md#off)
 
 ***
 
@@ -942,7 +942,7 @@ const emitter = new EventEmitter();
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`offAll`](../../window_base/classes/WindowBase.md#offall)
+[`WindowBase`](WindowBase.md).[`offAll`](WindowBase.md#offall)
 
 ***
 
@@ -970,7 +970,7 @@ resized
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -994,7 +994,7 @@ Moved
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1018,7 +1018,7 @@ Fired when monitor properties change.
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1042,7 +1042,7 @@ minimized
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1066,7 +1066,7 @@ hide
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1090,7 +1090,7 @@ maximized
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1114,7 +1114,7 @@ restore
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1138,7 +1138,7 @@ show
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1162,7 +1162,7 @@ closed
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 #### Call Signature
 
@@ -1186,7 +1186,7 @@ Fail to load window url
 
 ##### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`on`](../../window_base/classes/WindowBase.md#on)
+[`WindowBase`](WindowBase.md).[`on`](WindowBase.md#on)
 
 ***
 
@@ -1212,7 +1212,7 @@ Window is ready to shown
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`once`](../../window_base/classes/WindowBase.md#once)
+[`WindowBase`](WindowBase.md).[`once`](WindowBase.md#once)
 
 ***
 
@@ -1226,7 +1226,7 @@ Window is ready to shown
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowClosed`](../../window_base/classes/WindowBase.md#onwindowclosed)
+[`WindowBase`](WindowBase.md).[`onWindowClosed`](WindowBase.md#onwindowclosed)
 
 ***
 
@@ -1248,7 +1248,7 @@ Handles DPI changes for the window.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowDPIChanged`](../../window_base/classes/WindowBase.md#onwindowdpichanged)
+[`WindowBase`](WindowBase.md).[`onWindowDPIChanged`](WindowBase.md#onwindowdpichanged)
 
 ***
 
@@ -1270,7 +1270,7 @@ Handles the start of window dragging.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowDragStarted`](../../window_base/classes/WindowBase.md#onwindowdragstarted)
+[`WindowBase`](WindowBase.md).[`onWindowDragStarted`](WindowBase.md#onwindowdragstarted)
 
 ***
 
@@ -1292,7 +1292,7 @@ Handles the 'load error' event for the window and fires the corresponding event.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowLoadError`](../../window_base/classes/WindowBase.md#onwindowloaderror)
+[`WindowBase`](WindowBase.md).[`onWindowLoadError`](WindowBase.md#onwindowloaderror)
 
 ***
 
@@ -1316,7 +1316,7 @@ Handles the 'load error' event for the window and fires the corresponding event.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowMonitorPropertyChanged`](../../window_base/classes/WindowBase.md#onwindowmonitorpropertychanged)
+[`WindowBase`](WindowBase.md).[`onWindowMonitorPropertyChanged`](WindowBase.md#onwindowmonitorpropertychanged)
 
 ***
 
@@ -1338,7 +1338,7 @@ Handles window move events, firing the 'moved' event with the new position.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowMoved`](../../window_base/classes/WindowBase.md#onwindowmoved)
+[`WindowBase`](WindowBase.md).[`onWindowMoved`](WindowBase.md#onwindowmoved)
 
 ***
 
@@ -1360,7 +1360,7 @@ Handles the 'ready to show' event for the window and fires the corresponding eve
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowReadyToShow`](../../window_base/classes/WindowBase.md#onwindowreadytoshow)
+[`WindowBase`](WindowBase.md).[`onWindowReadyToShow`](WindowBase.md#onwindowreadytoshow)
 
 ***
 
@@ -1382,7 +1382,7 @@ Handles window resize events, firing the 'resized' event with the new size.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`onWindowResized`](../../window_base/classes/WindowBase.md#onwindowresized)
+[`WindowBase`](WindowBase.md).[`onWindowResized`](WindowBase.md#onwindowresized)
 
 ***
 
@@ -1424,7 +1424,7 @@ Error if restoring the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`restore`](../../window_base/classes/WindowBase.md#restore)
+[`WindowBase`](WindowBase.md).[`restore`](WindowBase.md#restore)
 
 ***
 
@@ -1454,7 +1454,7 @@ Error if setting the bounds fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`setBounds`](../../window_base/classes/WindowBase.md#setbounds)
+[`WindowBase`](WindowBase.md).[`setBounds`](WindowBase.md#setbounds)
 
 ***
 
@@ -1474,7 +1474,7 @@ Error if setting the bounds fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`setDefaultOption`](../../window_base/classes/WindowBase.md#setdefaultoption)
+[`WindowBase`](WindowBase.md).[`setDefaultOption`](WindowBase.md#setdefaultoption)
 
 ***
 
@@ -1504,7 +1504,7 @@ Error if setting the position fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`setPosition`](../../window_base/classes/WindowBase.md#setposition)
+[`WindowBase`](WindowBase.md).[`setPosition`](WindowBase.md#setposition)
 
 ***
 
@@ -1534,7 +1534,7 @@ Error if setting the size fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`setSize`](../../window_base/classes/WindowBase.md#setsize)
+[`WindowBase`](WindowBase.md).[`setSize`](WindowBase.md#setsize)
 
 ***
 
@@ -1562,7 +1562,7 @@ Error if the operation fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`setTopmost`](../../window_base/classes/WindowBase.md#settopmost)
+[`WindowBase`](WindowBase.md).[`setTopmost`](WindowBase.md#settopmost)
 
 ***
 
@@ -1587,7 +1587,7 @@ Error if showing the window fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`show`](../../window_base/classes/WindowBase.md#show)
+[`WindowBase`](WindowBase.md).[`show`](WindowBase.md#show)
 
 ***
 
@@ -1605,7 +1605,7 @@ WindowType.Desktop
 
 #### Overrides
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`type`](../../window_base/classes/WindowBase.md#type)
+[`WindowBase`](WindowBase.md).[`type`](WindowBase.md#type)
 
 ***
 
@@ -1633,4 +1633,4 @@ Error if setting the zoom factor fails.
 
 #### Inherited from
 
-[`WindowBase`](../../window_base/classes/WindowBase.md).[`zoom`](../../window_base/classes/WindowBase.md#zoom)
+[`WindowBase`](WindowBase.md).[`zoom`](WindowBase.md#zoom)

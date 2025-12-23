@@ -20,7 +20,7 @@ This class provides static methods to retrieve window instances based on the cur
 
 ### FromId()
 
-> `static` **FromId**(`id`): `Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
+> `static` **FromId**(`id`): `Promise`\<[`WindowBase`](WindowBase.md)\>
 
 Returns the `WindowBase` representing the Overwolf window with the given ID.
 
@@ -34,7 +34,7 @@ The ID of the window to get.
 
 #### Returns
 
-`Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
+`Promise`\<[`WindowBase`](WindowBase.md)\>
 
 The window as a `WindowBase` object.
 
@@ -46,13 +46,13 @@ Error if the window cannot be found or if the window type is background or unkno
 
 ### Self()
 
-> `static` **Self**(): `Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
+> `static` **Self**(): `Promise`\<[`WindowBase`](WindowBase.md)\>
 
 Returns the `WindowBase` representing the current Overwolf window.
 
 #### Returns
 
-`Promise`\<[`WindowBase`](../../window_base/classes/WindowBase.md)\>
+`Promise`\<[`WindowBase`](WindowBase.md)\>
 
 The current window as a `WindowBase` object.
 
