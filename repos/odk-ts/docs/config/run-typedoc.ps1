@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
+$repoRoot = Resolve-Path (Join-Path -Path $PSScriptRoot -ChildPath "..\\..")
 
 Push-Location $repoRoot
 try {

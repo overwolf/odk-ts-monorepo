@@ -7,17 +7,18 @@
 	"cleanOutputDir": true,
 	"plugin": ["typedoc-plugin-markdown"],
 	"readme": "../../README.md",
-  "mergeReadme": true,
+	"mergeReadme": true,
 	"exclude": ["**/__tests__/**", "**/*.spec.ts", "node_modules"],
 	"excludePrivate": true,
 	"excludeProtected": false,
 	"excludeExternals": true,
 	"disableSources": true,
 	"hideGenerator": true,
-	"includeVersion": true,
+	"includeVersion": false,
+	"hidePageHeader": true,
+	"hideBreadcrumbs": true,
 	"theme": "default",
-  "outputFileStrategy": "members",
-  "includeHierarchySummary": true
-
+	"outputFileStrategy": "members",
+	"includeHierarchySummary": true  
 }
 
