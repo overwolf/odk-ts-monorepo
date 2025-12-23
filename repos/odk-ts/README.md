@@ -5,7 +5,7 @@
 
 **odk-ts** is the Overwolf Development Kit for TypeScript. It is designed to simplify and enhance Overwolf app development by providing a modern, type-safe API.
 
-## Key Features
+## Key features
 
 - Easy creation and management of Desktop and OSR windows
 - **Create windows dynamically at runtime without pre-defining them in the manifest file**
@@ -14,7 +14,7 @@
 - Monitor helper utilities for multi-monitor setups
 - **All window actions are asynchronous and return Promises for easy integration with async/await workflows**
 
-### Current Status
+### Current status
 
 - **Window Management:**&mdash;the current version focuses on dynamic window management, including creation, control, and positioning of both desktop and OSR (Off-Screen Rendering) windows, as well as utilities for working with monitors and window states.
 - **Future Plans**&mdash;the ODK will expand to wrap more of the Overwolf API, providing a unified, type-safe toolkit for Overwolf app developers.
@@ -27,9 +27,9 @@ This module requires **Node 22.0.0 or later**.
 npm install @overwolf/odk-ts
 ```
 
-## Build Instructions
+## How to build the package
 
-### Production Build
+### Production build
 
 Run:
 
@@ -37,10 +37,10 @@ Run:
 npm run buildpackage
 ```
 
-- Outputs to the `dist` folder
-- Creates an npm package archive: `package.tgz`
+- Outputs to the `dist` folder.
+- Creates an npm package archive: `package.tgz`.
 
-### Development Build (with Source Maps)
+### Development build (with Source Maps)
 
 Run:
 
@@ -50,25 +50,25 @@ npm run builddevpackage
 
 This is the same as the production build, but includes source map files for easier debugging.
 
-### Updating odk-ts Locally in Another Project
+### Updating the ODK locally in another project
 
-1. Copy the generated `package.tgz` from the `dist` folder to your target project's `3rd_party/overwolf` directory.
+1. Copy the generated `package.tgz` from the `dist` folder to your target project's `<3rd_party>/overwolf` directory.
 2. In your target project, run:
 
     ```sh
-    npm i file:3rd_party/overwolf/package.tgz
+    npm i file:<3rd_party>/overwolf/package.tgz
     ```
 
 This will install the local odk-ts package for development or testing purposes.
 
-## Usage
+## Creating and using windows
 
-### Creating Windows
+### Creating windows
 
 You can create new windows using the provided classes.
-With odk-ts, you do not need to define windows in your manifest file - windows can be created dynamically at runtime.
+With the ODK, you do not need to define windows in your manifest file, windows can be created dynamically at runtime.
 
-#### Create a Desktop Window
+#### Create a desktop window
 
 ```ts
 import { DesktopWindow } from '@overwolf/odk-ts';
@@ -80,7 +80,7 @@ const win = new DesktopWindow({
 });
 ```
 
-#### Create an OSR Window
+#### Create an OSR window
 
 ```ts
 import { OSRWindow } from '@overwolf/odk-ts';
@@ -92,56 +92,56 @@ const osrWin = new OSRWindow({
 });
 ```
 
-### Accessing Windows
+### Accessing windows
 
 Use the `Windows` utility to access existing windows:
 
-- **Windows.self**: Get a wrapper for the current window.
+`Windows.self`&mdash;get a wrapper for the current window.
 
-  ```ts
-  import { Windows } from '@overwolf/odk-ts';
+```ts
+import { Windows } from '@overwolf/odk-ts';
 
-  const currentWin = Windows.self();
-  ```
+const currentWin = Windows.self();
+```
 
-- **Windows.fromId(id: string)**: Get a window instance by its Overwolf window ID.
+`Windows.fromId(id: string)`&mdash;get a window instance by its Overwolf window ID.
 
-  ```ts
-  import { Windows } from '@overwolf/odk-ts';
+```ts
+import { Windows } from '@overwolf/odk-ts';
 
-  const win = Windows.fromId('my_window_id');
-  ```
+const win = Windows.fromId('my_window_id');
+```
 
-### Window Positioning Options
+### Window positioning options
 
 When creating or moving windows, you can use a variety of positioning options:
 
-- **x, y**: Absolute coordinates for the window's top-left corner
-- **width, height**: Window size in pixels
-- **dockPosition**: Dock the window to a specific edge of the screen (see `Edge` enum)
-- **minWidth, minHeight, maxWidth, maxHeight**: Set minimum and maximum window dimensions
-- **topMost**: Whether the window should stay on top of other Overwolf windows
-- **resizable**: Whether the window can be resized
-- **autoDpi, autoZoom**: DPI and zoom handling
-- **keepWindowLocation**: Prevent window from moving when game focus changes
+- **x, y**&mdash;absolute coordinates for the window's top-left corner.
+- **width, height**&mdash;window size in pixels.
+- **dockPosition**&mdash;dock the window to a specific edge of the screen (see `Edge` enum).
+- **minWidth, minHeight, maxWidth, maxHeight**&mdash;set minimum and maximum window dimensions.
+- **topMost**&mdash;whether the window should stay on top of other Overwolf windows.
+- **resizable**&mdash;whether the window can be resized.
+- **autoDpi, autoZoom**&mdash;DPI and zoom handling.
+- **keepWindowLocation**&mdash;prevent window from moving when game focus changes.
 
 See the `Options` interface in `@overwolf/odk-ts/window/options/window_options` for all available options and their descriptions.
 
-All window actions are asynchronous and return Promises, making them easy to use with async/await.
+All window actions are asynchronous and return `Promises`, making them easy to use with async/await.
 
 You can easily control window position and state using methods on your window instance (from the `WindowBase` class):
 
-- `window.center()` — Center the window on its monitor
-- `window.centerOnMonitor(monitor)` — Center on a specific monitor
-- `window.setPosition({x, y})` — Move to coordinates
-- `window.setSize({width, height})` — Resize
-- `window.setBounds({x, y, width, height})` — Set position and size
-- `window.dock(edge, {marginX, marginY}, monitor)` — **Dock to an edge (one-time):** This positions the window at the specified edge, but if the window is moved or resized afterwards, it will not remain docked. Use this for a single placement action.
-- `window.anchor(edge, {marginX, marginY})` — **Anchor to an edge (persistent):** This attaches the window to the specified edge with the given margin, and the window will remain anchored even after move or resize events. The anchoring is automatically reapplied to keep the window at the edge.
-- `window.move()` - Start dragging the window
-- `window.bringToFront()`, `window.minimize()`, `window.maximize()`, `window.restore()`, `window.show()`, `window.hide()`, `window.close()` — Control window state
+- `window.center()`&mdash;center the window on its monitor.
+- `window.centerOnMonitor(monitor)`&mdash;center on a specific monitor.
+- `window.setPosition({x, y})`&mdash;move to coordinates.
+- `window.setSize({width, height})`&mdash;resize the window.
+- `window.setBounds({x, y, width, height})`&mdash;set position and size.
+- `window.dock(edge, {marginX, marginY}, monitor)`&mdash;**Docks to an edge (one-time)**. This positions the window at the specified edge, but if the window is moved or resized afterwards, it will not remain docked. Use this for a single placement action.
+- `window.anchor(edge, {marginX, marginY})`&mdash;**Anchor to an edge (persistent)**. This attaches the window to the specified edge with the given margin, and the window will remain anchored even after move or resize events. The anchoring is automatically reapplied to keep the window at the edge.
+- `window.move()`&mdash;start dragging the window.
+- `window.bringToFront()`, `window.minimize()`, `window.maximize()`, `window.restore()`, `window.show()`, `window.hide()`, `window.close()` &mdash;control the window state.
 
-**Dock vs Anchor:**
+The difference between **Dock** and **Anchor**:
 
 - **Dock** is a one-time operation. The window is placed at the edge, but will not stay docked if the user moves or resizes it.
 - **Anchor** is persistent. The window will remain attached to the edge and the anchoring will be reapplied automatically after move/resize events.
@@ -152,7 +152,7 @@ See the `window_base.ts` file for the full list of available methods.
 
 The `MonitorHelper` class provides a utility for getting the monitor associated with a window:
 
-- `MonitorHelper.getWindowMonitor(window)` — Returns the monitor for a given window instance.
+`MonitorHelper.getWindowMonitor(window)`&mdash;returns the monitor for a given window instance.
 
 Example:
 
