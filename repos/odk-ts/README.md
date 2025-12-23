@@ -16,7 +16,7 @@ The **ODK** is the Overwolf Development Kit for TypeScript. It is designed to si
 
 ### Current status
 
-- **Window Management:**&mdash;the current version focuses on dynamic window management, including creation, control, and positioning of both desktop and OSR (Off-Screen Rendering) windows, as well as utilities for working with monitors and window states.
+- **Window Management**&mdash;the current version focuses on dynamic window management, including creation, control, and positioning of both desktop and OSR (Off-Screen Rendering) windows, as well as utilities for working with monitors and window states.
 - **Future Plans**&mdash;the ODK will expand to wrap more of the Overwolf API, providing a unified, type-safe toolkit for Overwolf app developers.
 
 ## Installing the ODK
