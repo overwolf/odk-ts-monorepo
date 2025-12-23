@@ -1,14 +1,10 @@
 # Class: `abstract` WindowBase
 
-## Hierarchy
-
-[View Summary](../../hierarchy.md)
-
-### Extends
+## Extends
 
 - `EventEmitter`
 
-### Extended by
+## Extended by
 
 - [`DesktopWindow`](../../desktop_window/classes/DesktopWindow.md)
 - [`OSRWindow`](../../osr_window/classes/OSRWindow.md)

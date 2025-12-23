@@ -1,10 +1,6 @@
 # Class: DesktopWindow
 
-## Hierarchy
-
-[View Summary](../../hierarchy.md)
-
-### Extends
+## Extends
 
 - [`WindowBase`](../../window_base/classes/WindowBase.md)
 
