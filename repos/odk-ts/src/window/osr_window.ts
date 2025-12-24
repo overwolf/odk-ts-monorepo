@@ -6,11 +6,9 @@ import { WindowBase } from './window_base';
 
 
 /**
- *
- * `OSRWindow` extends {@link WindowBase} and represents a window that renders
- * content offscreen. These windows are typically used for rendering scenarios
- * where no visible desktop window is required, but desktop-only behavior may
- * still apply depending on configuration.
+ * `OSRWindow` extends {@link WindowBase} and represents a window rendered
+ * offscreen and composited as an in-game or transparent desktop
+ * overlays, rather than drawn directly into a native desktop window.
  *
  * @example
  * ```ts
