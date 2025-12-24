@@ -1,12 +1,20 @@
+/* eslint-disable max-len */
 import { OSRType } from './../enums/osr_window_type';
 import { Options } from './window_options';
 
 /**
- * Options for an OSR window
+ * Options for configuring an OSR (Off-Screen Rendering) window.
+ *
+ * These options extend the base {@link Options} and control OSR-specific
+ * behavior such as transparency, input handling, focus management,
+ * and in-game interaction.
+ *
+ * @see {@link Options}
+ * @see {@link OSRType}
  */
 export interface OSRWindowOptions extends Options {
   /**
-   * The type of the OSR window
+   * The type of the OSR window.
    *
    * @default OSRType.Default {@link OSRType}
    */
@@ -14,7 +22,7 @@ export interface OSRWindowOptions extends Options {
 
   /**
    * Indicates whether the window will be transparent and borderless.
-   * If set to false a standard Overwolf window will be created
+   * When enabled, mouse input is passed through to the game.
    *
    * @default true
    */
@@ -30,7 +38,7 @@ export interface OSRWindowOptions extends Options {
 
   /**
    * Indicates whether the window will not receive keyboard events.
-   * Instead, the keyboard events will be passed on to the game.
+   * When enabled, keyboard input is passed through to the game.
    *
    * @default false
    */
@@ -46,8 +54,8 @@ export interface OSRWindowOptions extends Options {
 
   /**
    * Restrict window to game client (window) area.
-   * Window will always stay inside the game window while dragging.
-   *
+   * When enabled, the window will always remain inside the game window
+   * while being dragged.
    * @default false
    */
   restrictToGameBounds?: boolean;
@@ -60,7 +68,7 @@ export interface OSRWindowOptions extends Options {
   bottommost?: boolean;
 
   /**
-   * Disable fully transparent window direct overlay rendering (for better performance).
+   * Disable fully transparent window direct overlay rendering (to improve performance).
    *
    * @default false
    */

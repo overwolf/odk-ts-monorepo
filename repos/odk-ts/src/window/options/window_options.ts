@@ -1,132 +1,145 @@
 import { Edge } from '../enums/edge';
 
 /**
- * Options for an Overwolf window
+ * Base options for configuring an Overwolf window.
+ *
+ * These options define window identity, positioning, sizing, visibility,
+ * behavior, and interaction characteristics. More specialized window
+ * types extend this interface.
+ *
+ * @see {@link DesktopWindowOptions}
+ * @see {@link OSRWindowOptions}
  */
 export interface Options {
   /**
-   * [Mandatory] ID of the window
+   * Unique ID of the window. (Mandatory)
    */
   id: string;
 
   /**
-   * Path to the file to load inside the window
+   * The path or URL to load inside the window.
    */
   url?: string;
 
   /**
-   * Whether the window should be visible
+   * Indicates whether the window should be visible.
    */
   visible?: boolean;
 
   /**
-   * X position of the window, mandatory if Y is provided
+   * The horizontal position of the window.
+   *
+   * Mandatory if {@link y} is provided.
    */
   x?: number;
 
   /**
-   * Y position of the window, mandatory if X is provided
+  /**
+   * The vertical position of the window.
+   *
+   * Mandatory if {@link x} is provided.
    */
   y?: number;
 
   /**
-   * Window width in pixels
-   */
+ * The width of the window in pixels.   */
   width?: number;
 
   /**
-   * Window height in pixels
+   * The height of the window in pixels.
    */
   height?: number;
 
   /**
-   * Dock the window to a specific edge of the screen
+   * Dock the window to a specific edge of the screen.
    */
   dockPosition?: Edge;
 
   /**
-   * Minimum pixel width of the window
+   * The minimum width of the window in pixels.
    *
    */
   minWidth?: number;
 
   /**
-   * Minimum pixel height of the window
+   * The minimum height of the window in pixels.
    */
   minHeight?: number;
 
   /**
-   *  Maximum pixel width of the window
+   * The maximum width of the window in pixels.
    */
   maxWidth?: number;
 
   /**
-   * Maximum pixel height of the window
+   * The maximum height of the window in pixels.
    */
   maxHeight?: number;
 
   /**
-   * Indicates whether the window will be on top of other Overwolf windows.
-   * Handle with care as topmost windows can negatively impact user experience.
+   * Indicates whether the window will stay on top of other Overwolf windows.
+   *
+   * Use with care, as topmost windows can negatively impact user experience.
    *
    * @default false
    */
   topMost?: boolean;
 
   /**
-   * Indicates whether the window can be resized.
+   * Indicates whether the window can be resized by the user.
    *
    * @default false
    */
   resizable?: boolean;
 
   /**
-   * Should dimensions provided for various methods account for DPI
+   * Indicates whether provided dimensions should automatically account for DPI scaling.
    *
    * @default true
    */
   autoDpi?: boolean;
 
   /**
-   * Should zoom be automatically set to account for DPI
+   * Indicates whether the window zoom level should automatically account for DPI scaling.
    *
    * @default true (for OSR)
    */
   autoZoom?: boolean;
 
   /**
-   * Do not change window location when changing game focus
+   * Prevents the window location from changing when game focus changes.
    *
    * @default false
    */
   keepWindowLocation?: boolean;
 
   /**
-   * Block the user from closing the window using Alt+F4
+   * Blocks the user from closing the window using Alt+F4.
    *
    * @default false
    */
   isAltF4Blocked?: boolean;
 
   /**
-   * Define if the window is displayed in the Windows taskbar
-   * and alt-tab window selection menu.
+   * Indicates whether the window is displayed in the Windows taskbar
+   * and Alt+Tab window selection menu.
    *
-   * @default true (for native windows) / false(for OSR windows)
+   * @default true (native windows), false (OSR windows)
    */
   showInTaskBar?: boolean;
 
   /**
-   * Disable JS engine background optimizations(for better performance).
+   * Disables JavaScript engine background optimizations for improved performance.
    *
    * @default true
    */
   disableBackgroundOptimization?: boolean;
 
+
   /**
-   * Indicates whether the window will grab the focus automatically when it opens,
-   * or leave the focus untouched.
-   * Only relevant when in the desktop - for in-game focus behavior, use grabKeyboardFocus.
+   * Indicates whether the window will automatically grab focus when opened on desktop.
+   *
+   * For in-game keyboard focus behavior, use `grabKeyboardFocus`.
    *
    * @default false
    */
@@ -141,67 +154,76 @@ export interface Options {
   showMaximize?: boolean;
 
   /**
-   * Indicates whether to show the window minimize button.
-   * Only relevant for Native or OSR non-transparent windows.
+   * Indicates whether the window minimize button should be shown.
+   *
+   * Relevant only for native windows or non-transparent OSR windows.
    *
    * @default true
    */
   showMinimize?: boolean;
 
   /**
-   * Enable access to the file:// scheme from JS
+   * Enables access to the `file://` scheme from JavaScript.
    *
    * @default false
    */
   allowLocalFileAccess?: boolean;
 
   /**
-   * Block all none user Gesture popups
+   * Block all none user Gesture popups.
    *
    * @default true
    */
   popupBlocker?: boolean;
 
   /**
-   * Prevent from scripts or iframe navigate top window to different url such as (http://www.google.com),
-   * Instead it will open the url in browser
+   * Prevents scripts or iframes from navigating the top-level window
+   * to a different URL.
+   *
+   * Instead, the URL will be opened in the system browser.
    *
    * @default true
    */
   blockTopWindowNavigation?: boolean;
 
   /**
-   * Indicates whether the window will animate on minimize/restore while in game.
+   * Disables minimize and restore animations while in game.
    *
    * @default false
    */
   disableAnimations?: boolean;
 
   /**
-   * JS will not lose focus.
+   * Prevents the JavaScript context from losing focus.
    *
    * @default false
    */
   disableBlur?: boolean;
 
   /**
-   * When set to true, disable right clicks entirely for this window.
+   * Disables right-click interactions entirely for this window.
    *
    * @default false
    */
   disableRightClick?: boolean;
 
   /**
-   * Mute all sound from window.
+   * Mutes all audio output from the window.
    *
    * @default true
    */
   isMuted?: boolean;
 
   /**
-   * Exclude hosts list so stream from these hosts origins will not muted even
-   * if the window is muted.
-   * "muteExcludedHosts" : ["*.youtube.*", "*.twitch.*" ]
+   * A list of host patterns that will not be muted even when the window is muted.
+   *
+   * @example
+   * ```ts
+   * muteExcludedHosts: [
+   *   "*.youtube.*",
+   *   "*.twitch.*"
+   * ]
+   * ```
    */
   muteExcludedHosts?: string[];
 }

@@ -1,0 +1,5 @@
+﻿{
+  "eslint.rules.customizations": [
+    { "rule": "max-len", "severity": "off" }
+  ]
+}
