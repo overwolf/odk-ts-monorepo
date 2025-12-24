@@ -189,7 +189,7 @@ To help us review PRs efficiently:
 
 ### Extending the project
 
-If you’re planning a **larger extension or architectural change**, contact us and explain the intended use case and impact it will have. We recommend that you get early feedback before investing significant effort.
+If you’re planning a **larger extension or architectural change**, contact us and explain the intended use case and impact it will have. Overwolf recommends that you get early feedback before investing significant effort.
 
 ### Code of conduct
 
