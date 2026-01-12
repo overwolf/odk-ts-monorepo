@@ -933,8 +933,6 @@ export abstract class WindowBase extends EventEmitter {
       await this.dock(this.options?.dockPosition);
       return;
     }
-
-    await this.center();
   }
 
   // ---------------------------------------------------------------------------
