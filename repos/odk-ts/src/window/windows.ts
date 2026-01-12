@@ -32,14 +32,14 @@ export class Windows {
 
     switch (res.window.type) {
       case overwolf.windows.WindowType.Desktop: {
-        const window = new DesktopWindow(null);
+        const window = DesktopWindow._createForExistingWindow();
         await window.assureCreated();
         Windows._selfWindow = window;
         return window;
       }
 
       case overwolf.windows.WindowType.Offscreen: {
-        const window = new OSRWindow(null);
+        const window = OSRWindow._createForExistingWindow();
         await window.assureCreated();
         Windows._selfWindow = window;
         return window;
@@ -73,11 +73,11 @@ export class Windows {
 
     switch (res.window.type) {
       case overwolf.windows.WindowType.Desktop: {
-        return new DesktopWindow(null, id);
+        return DesktopWindow._createForExistingWindow(id);
       }
 
       case overwolf.windows.WindowType.Offscreen: {
-        return new OSRWindow(null, id);
+        return OSRWindow._createForExistingWindow(id);
       }
 
       default:

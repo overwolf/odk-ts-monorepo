@@ -4,7 +4,6 @@ import { WindowType } from './enums/window_type';
 import { OSRWindowOptions } from './options/osr_window_options';
 import { WindowBase } from './window_base';
 
-
 /**
  * `OSRWindow` extends {@link WindowBase} and represents a window rendered
  * offscreen and composited as an in-game or transparent desktop
@@ -22,14 +21,21 @@ import { WindowBase } from './window_base';
  */
 export class OSRWindow extends WindowBase {
   // ---------------------------------------------------------------------------
-   /**
+  /**
    * Creates a new {@link OSRWindow}.
    *
-   * @param options — optional configuration options for the OSR window.
-   * @param id — optional unique window identifier.
+   * @param options — Configuration options for the OSR window.
+   * @param self — @Internal
+   * @param id — @Internal
    */
-  constructor(options?: OSRWindowOptions | null, id?: string | null) {
-    super(options, null);
+  constructor(options: OSRWindowOptions, self?: boolean, id?: string | null) {
+    super(self === true ? null : options, id);
+  }
+
+  /** @internal */
+  //---------------------------------------------------------------------------
+  static _createForExistingWindow(id?: string): OSRWindow {
+    return new OSRWindow({ id: '_ignore' }, true, id);
   }
 
   // ---------------------------------------------------------------------------
@@ -43,7 +49,7 @@ export class OSRWindow extends WindowBase {
   }
 
   // ---------------------------------------------------------------------------
-    /**
+  /**
    * Resizes the window by dragging the specified edge to the given rectangle.
    *
    * @param edge — the edge of the window to resize from.
@@ -55,7 +61,7 @@ export class OSRWindow extends WindowBase {
   }
 
   // ---------------------------------------------------------------------------
-    /**
+  /**
    * Indicates whether this window should be treated as desktop-only.
    * When defined in {@link OSRWindowOptions}, the `desktopOnly` flag overrides
    * the base window behavior. If not specified, the value from

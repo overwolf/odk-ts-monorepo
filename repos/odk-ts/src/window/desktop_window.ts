@@ -3,7 +3,6 @@ import { WindowBase } from './window_base';
 import { DesktopWindowOptions } from './options/desktop_window_options';
 import { WindowType } from './enums/window_type';
 
-
 /**
  * `DesktopWindow` extends {@link WindowBase} and provides functionality
  * specific to desktop-type windows. It exposes the window type and
@@ -21,19 +20,29 @@ import { WindowType } from './enums/window_type';
  */
 export class DesktopWindow extends WindowBase {
   // ---------------------------------------------------------------------------
-
-   /**
+  /**
    * Creates a new {@link DesktopWindow}.
    *
-   * @param options - Optional configuration options for the desktop window.
-   * @param id - Optional unique window identifier.
+   * @param options - Configuration options for the desktop window.
+   * @param self - @Internal
+   * @param id - @Internal
    */
-  constructor(options?: DesktopWindowOptions | null, id?: string | null) {
-    super(options, id);
+  constructor(
+    options: DesktopWindowOptions,
+    self?: boolean,
+    id?: string | null
+  ) {
+    super(self === true ? null : options, id);
+  }
+
+  /** @internal */
+  // ---------------------------------------------------------------------------
+  static _createForExistingWindow(id?: string): DesktopWindow {
+    return new DesktopWindow({ id: '_ignore' }, true, id);
   }
 
   // ---------------------------------------------------------------------------
-   /**
+  /**
    * Returns the type of this window.
    *
    * @returns {@link WindowType.Desktop}
@@ -44,7 +53,7 @@ export class DesktopWindow extends WindowBase {
 
   // ---------------------------------------------------------------------------
 
-   /**
+  /**
    * Resizes the window by dragging the specified edge.
    *
    * @param edge - The edge of the window to resize from.
