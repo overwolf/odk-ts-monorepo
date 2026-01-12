@@ -242,9 +242,7 @@ export abstract class WindowUIController {
 
   //----------------------------------------------------------------------------
   private handleDrag = async (): Promise<void> => {
-    this.logger.info('Starting window drag move');
     await this.window.move();
-    this.logger.info('Window drag move ended');
   };
 
   //----------------------------------------------------------------------------

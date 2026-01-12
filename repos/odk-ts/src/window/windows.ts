@@ -9,6 +9,7 @@ import { WindowBase } from './window_base';
  * This class provides static methods to retrieve window instances based on the current window or by ID.
  */
 export class Windows {
+  private static _selfWindow: WindowBase | null = null;
   // ---------------------------------------------------------------------------
   /**
    * Returns the `WindowBase` representing the current Overwolf window.
@@ -17,6 +18,10 @@ export class Windows {
    * @throws Error if called from the background page or if the window type is unknown.
    */
   public static async Self(): Promise<WindowBase> {
+    if (Windows._selfWindow) {
+      return Windows._selfWindow;
+    }
+
     const res = await new Promise<overwolf.windows.WindowResult>(resolve =>
       overwolf.windows.getCurrentWindow(resolve)
     );
@@ -29,12 +34,14 @@ export class Windows {
       case overwolf.windows.WindowType.Desktop: {
         const window = new DesktopWindow(null);
         await window.assureCreated();
+        Windows._selfWindow = window;
         return window;
       }
 
       case overwolf.windows.WindowType.Offscreen: {
         const window = new OSRWindow(null);
         await window.assureCreated();
+        Windows._selfWindow = window;
         return window;
       }
 
