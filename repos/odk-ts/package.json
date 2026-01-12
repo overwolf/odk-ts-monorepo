@@ -1,6 +1,6 @@
 {
   "name": "@overwolf/odk-ts",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Overwolf Development Kit (ODK) for TypeScript.",
   "license": "MIT",
   "repository": "github:overwolf/odk-ts-monorepo",
