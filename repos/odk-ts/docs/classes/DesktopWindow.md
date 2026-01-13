@@ -25,23 +25,25 @@ const type = window.type(); // WindowType.Desktop
 
 ### Constructor
 
-> **new DesktopWindow**(`options?`, `id?`): `DesktopWindow`
+> **new DesktopWindow**(`options`, `self?`, `id?`): `DesktopWindow`
 
 Creates a new DesktopWindow.
 
 #### Parameters
 
-##### options?
+##### options
 
 `DesktopWindowOptions`
 
-Optional configuration options for the desktop window.
+Configuration options for the desktop window.
+
+##### self?
+
+`boolean`
 
 ##### id?
 
 `string`
-
-Optional unique window identifier.
 
 #### Returns
 
