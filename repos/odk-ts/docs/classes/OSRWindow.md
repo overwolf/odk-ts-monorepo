@@ -21,6 +21,30 @@ const type = window.type(); // WindowType.Offscreen
 
 - [`WindowBase`](WindowBase.md)
 
+## Constructors
+
+### Constructor
+
+> **new OSRWindow**(`options`): `OSRWindow`
+
+Creates a new OSRWindow.
+
+#### Parameters
+
+##### options
+
+`OSRWindowOptions`
+
+— Configuration options for the OSR window.
+
+#### Returns
+
+`OSRWindow`
+
+#### Overrides
+
+[`WindowBase`](WindowBase.md).[`constructor`](WindowBase.md#constructor)
+
 ## Properties
 
 ### \_eventHandlers

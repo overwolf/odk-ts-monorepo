@@ -31,7 +31,11 @@ export class OSRWindow extends WindowBase {
   /** @internal */
   constructor(options: OSRWindowOptions, self?: boolean, id?: string | null);
 
-  /** @internal */
+  /**
+   * Creates a new {@link OSRWindow}.
+   *
+   * @param options - Configuration options for the OSR window.
+   */
   constructor(options: OSRWindowOptions, self?: boolean, id?: string | null) {
     super(self === true ? null : options, id);
   }
