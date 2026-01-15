@@ -1,49 +1,25 @@
-# Class: DesktopWindow
+# Class: OSRWindow
 
-`DesktopWindow` extends [WindowBase](WindowBase.md) and provides functionality
-specific to desktop-type windows. It exposes the window type and
-supports desktop-only operations such as resizing from a specific edge.
+`OSRWindow` extends [WindowBase](WindowBase.md) and represents a window rendered
+offscreen and composited as an in-game or transparent desktop
+overlays, rather than drawn directly into a native desktop window.
 
 ## Example
 
 ```ts
-const window = new DesktopWindow({ width: 800, height: 600 });
-const type = window.type(); // WindowType.Desktop
+const window = new OSRWindow({ desktopOnly: true });
+const type = window.type(); // WindowType.Offscreen
 ```
 
 ## See
 
  - [WindowBase](WindowBase.md)
- - DesktopWindowOptions
+ - OSRWindowOptions
  - WindowType
 
 ## Extends
 
 - [`WindowBase`](WindowBase.md)
-
-## Constructors
-
-### Constructor
-
-> **new DesktopWindow**(`options`): `DesktopWindow`
-
-Creates a new DesktopWindow.
-
-#### Parameters
-
-##### options
-
-`DesktopWindowOptions`
-
-Configuration options for the desktop window.
-
-#### Returns
-
-`DesktopWindow`
-
-#### Overrides
-
-[`WindowBase`](WindowBase.md).[`constructor`](WindowBase.md#constructor)
 
 ## Properties
 
@@ -130,11 +106,18 @@ EventEmitter
 
 > **get** **desktopOnly**(): `boolean`
 
+Indicates whether this window should be treated as desktop-only.
+When defined in OSRWindowOptions, the `desktopOnly` flag overrides
+the base window behavior. If not specified, the value from
+[WindowBase.desktopOnly](WindowBase.md#desktoponly) is used.
+
 ##### Returns
 
 `boolean`
 
-#### Inherited from
+`true` if the window is restricted to desktop usage.
+
+#### Overrides
 
 [`WindowBase`](WindowBase.md).[`desktopOnly`](WindowBase.md#desktoponly)
 
@@ -1382,9 +1365,9 @@ Handles window resize events, firing the 'resized' event with the new size.
 
 ### resize()
 
-> **resize**(`edge`): `Promise`\<`boolean`\>
+> **resize**(`edge`, `rect`): `Promise`\<`boolean`\>
 
-Resizes the window by dragging the specified edge.
+Resizes the window by dragging the specified edge to the given rectangle.
 
 #### Parameters
 
@@ -1392,7 +1375,13 @@ Resizes the window by dragging the specified edge.
 
 `Edge`
 
-The edge of the window to resize from.
+— the edge of the window to resize from.
+
+##### rect
+
+`Rectangle`
+
+— the target rectangle defining the new window bounds.
 
 #### Returns
 
@@ -1595,7 +1584,7 @@ Returns the type of this window.
 
 `WindowType`
 
-WindowType.Desktop
+WindowType.Offscreen
 
 #### Overrides
 

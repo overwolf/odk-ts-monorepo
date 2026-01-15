@@ -21,30 +21,6 @@ const type = window.type(); // WindowType.Desktop
 
 - [`WindowBase`](WindowBase.md)
 
-## Constructors
-
-### Constructor
-
-> **new DesktopWindow**(`options`): `DesktopWindow`
-
-Creates a new DesktopWindow.
-
-#### Parameters
-
-##### options
-
-`DesktopWindowOptions`
-
-Configuration options for the desktop window.
-
-#### Returns
-
-`DesktopWindow`
-
-#### Overrides
-
-[`WindowBase`](WindowBase.md).[`constructor`](WindowBase.md#constructor)
-
 ## Properties
 
 ### \_eventHandlers

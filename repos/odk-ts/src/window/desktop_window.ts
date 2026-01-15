@@ -34,7 +34,11 @@ export class DesktopWindow extends WindowBase {
     id?: string | null
   );
 
-  /** @internal */
+  /**
+   * Creates a new {@link DesktopWindow}.
+   *
+   * @param options - Configuration options for the desktop window.
+   */
   constructor(
     options: DesktopWindowOptions,
     self?: boolean,
