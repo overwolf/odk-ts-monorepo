@@ -94,11 +94,35 @@ EventEmitter
 
 ## Accessors
 
+### autoDpi
+
+#### Get Signature
+
+> **get** **autoDpi**(): `boolean`
+
+##### Returns
+
+`boolean`
+
+***
+
 ### desktopOnly
 
 #### Get Signature
 
 > **get** **desktopOnly**(): `boolean`
+
+##### Returns
+
+`boolean`
+
+***
+
+### dpiUnAware
+
+#### Get Signature
+
+> **get** **dpiUnAware**(): `boolean`
 
 ##### Returns
 
