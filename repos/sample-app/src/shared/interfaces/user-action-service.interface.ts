@@ -7,10 +7,12 @@ export const kNameOfUserActionService = 'UserActionService';
 export interface IUserActionService extends IExposableService {
   openOsrWindow(): void;
   openOsrInGameWindow(): void;
+  openOsrInGameDpiUnawareWindow(): void;
 }
 
 //------------------------------------------------------------------------------
 export interface IUserActionServiceDelegate {
   onOpenOsrWindowRequested(): void;
   onOpenOsrInGameWindowRequested(): void;
+  onOpenOsrInGameDpiUnawareWindowRequested(): void;
 }

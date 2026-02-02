@@ -3,13 +3,14 @@ const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
   entry: {
     background: './src/background/background-bootstrap.ts',
     desktop: './src/desktop/desktop-bootstrap.ts',
     osr: './src/osr/osr-bootstrap.ts',
     osrInGame: './src/osr-in-game/osr-in-game-bootstrap.ts',
+    osrInGameDpiUnaware:
+      './src/osr-in-game-dpi-unaware/osr-in-game-dpi-unaware-bootstrap.ts',
   },
 
   module: {
@@ -71,6 +72,11 @@ module.exports = {
       template: './src/osr-in-game/osr-in-game.html',
       filename: 'osr-in-game/osr-in-game.html',
       chunks: ['osrInGame'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/osr-in-game-dpi-unaware/osr-in-game-dpi-unaware.html',
+      filename: 'osr-in-game-dpi-unaware/osr-in-game-dpi-unaware.html',
+      chunks: ['osrInGameDpiUnaware'],
     }),
   ],
 };

@@ -12,7 +12,7 @@ export class DesktopWindowUIController extends WindowUIController {
   //----------------------------------------------------------------------------
   public constructor(
     @inject(kNameOfUserActionService)
-    private readonly userActionService: IUserActionService
+    private readonly userActionService: IUserActionService,
   ) {
     super(LoggerService.getCategory('DesktopWindowUIController'));
   }
@@ -24,12 +24,17 @@ export class DesktopWindowUIController extends WindowUIController {
     this.registerClickListener(
       'btn-open-osr',
       'Open OSR Window',
-      this.handleOpenOsrWindow
+      this.handleOpenOsrWindow,
     );
     this.registerClickListener(
       'btn-open-osr-ingame',
       'Open OSR In-Game Window',
-      this.handleOpenOsrInGameWindow
+      this.handleOpenOsrInGameWindow,
+    );
+    this.registerClickListener(
+      'btn-open-osr-ingame-dpi-unaware',
+      'Open OSR In-Game DPI Unaware Window',
+      this.handleOpenOsrInGameDpiUnawareWindow,
     );
   }
 
@@ -41,5 +46,10 @@ export class DesktopWindowUIController extends WindowUIController {
   //----------------------------------------------------------------------------
   private handleOpenOsrInGameWindow = (): void => {
     this.userActionService.openOsrInGameWindow();
+  };
+
+  //----------------------------------------------------------------------------
+  private handleOpenOsrInGameDpiUnawareWindow = (): void => {
+    this.userActionService.openOsrInGameDpiUnawareWindow();
   };
 }

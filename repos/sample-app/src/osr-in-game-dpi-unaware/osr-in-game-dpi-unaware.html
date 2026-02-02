@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Desktop Window Playground</title>
+  <title>OSR In-Game DPI Unaware Window Playground</title>
   <style>
     .toolbar {
       display: flex;
@@ -17,7 +17,6 @@
       top: 0;
       width: 100%;
       margin-bottom: 0;
-      /* Removed left: -1px and width: calc(100% + 2px); to prevent overflow */
     }
 
     .toolbar-button {
@@ -63,6 +62,10 @@
       --muted: #52607a;
       --border: #d8e3f2;
       --shadow: 0 14px 34px rgba(37, 99, 235, 0.16);
+
+      /* Resize hit-area sizes */
+      --resize-edge: 6px;
+      --resize-corner: 14px;
     }
 
     * {
@@ -79,6 +82,9 @@
       justify-content: center;
       align-items: center;
       padding: 0;
+
+      /* allows overlay hit-areas to sit relative to window */
+      position: relative;
     }
 
     main {
@@ -134,18 +140,18 @@
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
       width: 100%;
       min-width: 0;
+    }
 
-      .status {
-        margin-top: 14px;
-        padding: 12px 14px;
-        background: #f1f5fb;
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        font-family: 'Space Grotesk', monospace;
-        color: #1f2937;
-        width: 100%;
-        min-width: 0;
-      }
+    .card .status {
+      margin-top: 14px;
+      padding: 12px 14px;
+      background: #f1f5fb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Space Grotesk', monospace;
+      color: #1f2937;
+      width: 100%;
+      min-width: 0;
     }
 
     label {
@@ -237,6 +243,86 @@
     .inline input {
       width: auto;
     }
+
+    /* =========================
+       Window-edge resize hit-areas
+       (transparent overlays)
+       ========================= */
+
+    .ow-resize {
+      position: fixed;
+      /* pinned to actual window edges */
+      z-index: 999999;
+      background: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Edges */
+    .ow-top {
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--resize-edge);
+      cursor: ns-resize;
+    }
+
+    .ow-bottom {
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--resize-edge);
+      cursor: ns-resize;
+    }
+
+    .ow-left {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--resize-edge);
+      cursor: ew-resize;
+    }
+
+    .ow-right {
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: var(--resize-edge);
+      cursor: ew-resize;
+    }
+
+    /* Corners */
+    .ow-tl {
+      top: 0;
+      left: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nwse-resize;
+    }
+
+    .ow-tr {
+      top: 0;
+      right: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nesw-resize;
+    }
+
+    .ow-br {
+      bottom: 0;
+      right: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nwse-resize;
+    }
+
+    .ow-bl {
+      bottom: 0;
+      left: 0;
+      width: var(--resize-corner);
+      height: var(--resize-corner);
+      cursor: nesw-resize;
+    }
   </style>
 </head>
 
@@ -249,20 +335,10 @@
       <button id="toolbar-close" class="toolbar-button" title="Close">&#10005;</button>
     </div>
     <div style="padding: 0 10px 10px 10px;">
-      <h1 id="drag-handle">Desktop Window Playground</h1>
+      <h1 id="drag-handle">OSR In-Game DPI Unaware Window Playground</h1>
       <p class="lead">Drive common window actions directly from here. Update the numbers, click an action, and watch
         this
         window respond.</p>
-
-      <!-- Other Windows card above the grid -->
-      <article class="card" style="margin-bottom: 16px;">
-        <h2>Other Windows</h2>
-        <div class="button-row">
-          <button id="btn-open-osr">Open OSR Window</button>
-          <button id="btn-open-osr-ingame">Open OSR In-Game Window</button>
-          <button id="btn-open-osr-ingame-dpi-unaware">Open OSR In-Game DPI Unaware Window</button>
-        </div>
-      </article>
 
       <section class="grid">
         <article class="card">
@@ -336,6 +412,19 @@
       </section>
     </div>
   </main>
+
+  <!-- Resize hit-areas (transparent) -->
+  <div id="ow-resize-left" class="ow-resize ow-left" data-edge="Left"></div>
+  <div id="ow-resize-right" class="ow-resize ow-right" data-edge="Right"></div>
+  <div id="ow-resize-top" class="ow-resize ow-top" data-edge="Top"></div>
+  <div id="ow-resize-bottom" class="ow-resize ow-bottom" data-edge="Bottom"></div>
+
+  <div id="ow-resize-tl" class="ow-resize ow-tl" data-edge="TopLeft"></div>
+  <div id="ow-resize-tr" class="ow-resize ow-tr" data-edge="TopRight"></div>
+  <div id="ow-resize-br" class="ow-resize ow-br" data-edge="BottomRight"></div>
+  <div id="ow-resize-bl" class="ow-resize ow-bl" data-edge="BottomLeft"></div>
+
+
 </body>
 
 </html>

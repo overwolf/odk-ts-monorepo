@@ -69,11 +69,6 @@ export abstract class WindowUIController {
       'Set bounds',
       this.handleSetBounds
     );
-    this.registerClickListener(
-      'btn-set-bounds',
-      'Set bounds',
-      this.handleSetBounds
-    );
     this.registerClickListener('btn-center', 'Center', this.handleCenter);
     this.registerClickListener('btn-dock', 'Dock', this.handleDock);
     this.registerClickListener('btn-anchor', 'Anchor', this.handleAnchor);

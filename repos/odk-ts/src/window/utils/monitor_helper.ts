@@ -35,6 +35,7 @@ export class MonitorHelper {
       height: info.logicalHeight,
       left: 0,
       top: 0,
+      dpiScale: window.windowInfo.dpiScale ?? 1,
     };
 
     return monitor;
@@ -64,6 +65,7 @@ export class MonitorHelper {
       height: mon.workingArea.height,
       left: mon.workingArea.left,
       top: mon.workingArea.top,
+      dpiScale: mon.dpiX / 96,
     };
 
     return monitor;

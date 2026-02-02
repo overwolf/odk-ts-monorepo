@@ -21,6 +21,7 @@ export class WindowManagerService implements IWindowManagerService {
   private desktopWindow!: WindowBase;
   private osrWindow!: WindowBase;
   private osrInGameWindow!: WindowBase;
+  private osrInGameDpiUnawareWindow!: WindowBase;
 
   //----------------------------------------------------------------------------
   public constructor() {
@@ -73,6 +74,27 @@ export class WindowManagerService implements IWindowManagerService {
     this.initializeWindowEvents(this.osrInGameWindow);
   }
 
+  //----------------------------------------------------------------------------
+  public async openOsrInGameDpiUnawareWindow(
+    options: OSRWindowOptions,
+  ): Promise<void> {
+    if (
+      this.osrInGameDpiUnawareWindow &&
+      (await this.osrInGameDpiUnawareWindow.isOpen())
+    ) {
+      this.logger.info(
+        'OSR In-Game DPI Unaware window already open, showing it again',
+      );
+      this.osrInGameDpiUnawareWindow.show();
+      return;
+    }
+
+    this.osrInGameDpiUnawareWindow = new OSRWindow(options);
+    await this.osrInGameDpiUnawareWindow.assureCreated();
+
+    this.initializeWindowEvents(this.osrInGameDpiUnawareWindow);
+  }
+
   // ---------------------------------------------------------------------------
   // Private Functions
   // ---------------------------------------------------------------------------
@@ -116,7 +138,7 @@ export class WindowManagerService implements IWindowManagerService {
           newSize.width +
           ', ' +
           newSize.height +
-          ')'
+          ')',
       );
     });
 
@@ -128,7 +150,7 @@ export class WindowManagerService implements IWindowManagerService {
           newPosition.x +
           ', ' +
           newPosition.y +
-          ')'
+          ')',
       );
     });
   }
@@ -138,7 +160,8 @@ export class WindowManagerService implements IWindowManagerService {
     if (
       (await this.desktopWindow?.isOpen()) ||
       (await this.osrWindow?.isOpen()) ||
-      (await this.osrInGameWindow?.isOpen())
+      (await this.osrInGameWindow?.isOpen()) ||
+      (await this.osrInGameDpiUnawareWindow?.isOpen())
     ) {
       this.logger.info('There are still open windows');
       return;

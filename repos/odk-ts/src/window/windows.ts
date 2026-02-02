@@ -31,6 +31,7 @@ export class Windows {
     }
 
     switch (res.window.type) {
+      // Desktop window
       case overwolf.windows.WindowType.Desktop: {
         const window = DesktopWindow._createForExistingWindow();
         await window.assureCreated();
@@ -38,7 +39,9 @@ export class Windows {
         return window;
       }
 
-      case overwolf.windows.WindowType.Offscreen: {
+      // Offscreen or In-Game(dpi unaware) window
+      case overwolf.windows.WindowType.Offscreen:
+      case overwolf.windows.WindowType.InGame: {
         const window = OSRWindow._createForExistingWindow();
         await window.assureCreated();
         Windows._selfWindow = window;
@@ -72,11 +75,14 @@ export class Windows {
     }
 
     switch (res.window.type) {
+      // Desktop window
       case overwolf.windows.WindowType.Desktop: {
         return DesktopWindow._createForExistingWindow(id);
       }
 
-      case overwolf.windows.WindowType.Offscreen: {
+      // Offscreen or In-Game(dpi unaware) window
+      case overwolf.windows.WindowType.Offscreen:
+      case overwolf.windows.WindowType.InGame: {
         return OSRWindow._createForExistingWindow(id);
       }
 

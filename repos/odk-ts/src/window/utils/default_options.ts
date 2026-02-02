@@ -46,6 +46,15 @@ function _applyDefaultOptionsDesktop(options: DesktopWindowOptions) {
     options.showInTaskBar = true;
   }
 
+  //TODO: currently desktop windows do not support autoDpi and autoZoom
+  if (options.autoDpi === true) {
+    options.autoDpi = false;
+  }
+
+  if (options.autoZoom === true) {
+    options.autoZoom = false;
+  }
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   options.desktopWindow = true;

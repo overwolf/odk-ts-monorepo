@@ -76,4 +76,9 @@ export class UserActionService
   public openOsrInGameWindow(): void {
     this.triggerListenerEvent('onOpenOsrInGameWindowRequested');
   }
+
+  //----------------------------------------------------------------------------
+  public openOsrInGameDpiUnawareWindow(): void {
+    this.triggerListenerEvent('onOpenOsrInGameDpiUnawareWindowRequested');
+  }
 }

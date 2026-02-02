@@ -102,8 +102,17 @@ export interface OSRWindowOptions extends Options {
 
   /**
    * Disable GPU hardware acceleration, per window.
-   * 
+   *
    * @default true (disabled in OSR windows)
    */
   disableHardwareAcceleration?: boolean;
+
+  /**
+   * Indicates whether the window will be DPI unaware.
+   * Relevant only for in-game OSR windows.(e.g. type: OSRType.InGameOnly).
+   * When enabled, the window will not scale according to the system DPI settings.
+   *
+   * @default false
+   */
+  dpiUnAware?: boolean;
 }

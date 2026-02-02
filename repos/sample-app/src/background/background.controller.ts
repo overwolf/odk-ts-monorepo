@@ -11,6 +11,7 @@ import { UserActionService } from './services/user-action-service';
 import { kNameOfWindowManagerService } from './services/window-manager-service';
 import {
   kDesktopWindowName,
+  kOsrInGameDpiUnawareWindowName,
   kOsrInGameWindowName,
   kOsrWindowName,
 } from './constants';
@@ -29,7 +30,7 @@ export class BackgroundController
     private readonly windowManagerService: IWindowManagerService,
     @inject(kNameOfUserActionService)
     private readonly userActionService: UserActionService,
-    private readonly owApplicationWrapper: OWApplicationWrapper
+    private readonly owApplicationWrapper: OWApplicationWrapper,
   ) {
     this.registerListeners();
   }
@@ -95,10 +96,10 @@ export class BackgroundController
       visible: true,
       width: 600,
       height: 440,
-      autoDpi: true,
+      // autoDpi: false,
+      // autoZoom: false,
       resizable: true,
       showInTaskBar: true,
-      // autoZoom: true,
     });
   }
 
@@ -113,9 +114,26 @@ export class BackgroundController
       visible: true,
       width: 600,
       height: 440,
-      autoDpi: true,
+      // autoDpi: false,
+      // autoZoom: false,
       resizable: true,
-      // autoZoom: true,
+    });
+  }
+
+  //----------------------------------------------------------------------------
+  private openOsrInGameDpiUnawareWindow(): void {
+    this.logger.info('Opening OSR In-Game DPI Unaware Window');
+
+    this.windowManagerService.openOsrInGameDpiUnawareWindow({
+      id: kOsrInGameDpiUnawareWindowName,
+      type: OSRType.InGameOnly,
+      url: '../../../dist/osr-in-game-dpi-unaware/osr-in-game-dpi-unaware.html',
+      visible: true,
+      width: 600,
+      height: 440,
+      resizable: true,
+      //@ts-ignore
+      dpiUnAware: true,
     });
   }
 
@@ -143,5 +161,11 @@ export class BackgroundController
   onOpenOsrInGameWindowRequested(): void {
     this.logger.info('Open OSR In-Game Window requested');
     this.openOsrInGameWindow();
+  }
+
+  //----------------------------------------------------------------------------
+  onOpenOsrInGameDpiUnawareWindowRequested(): void {
+    this.logger.info('Open OSR In-Game DPI Unaware Window requested');
+    this.openOsrInGameDpiUnawareWindow();
   }
 }

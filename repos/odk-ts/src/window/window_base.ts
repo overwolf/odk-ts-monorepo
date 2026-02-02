@@ -16,6 +16,7 @@ import { MonitorHelper } from './utils/monitor_helper';
 import { WindowRuntimeOptions } from './options/window_runtime_options';
 import { LoggerService } from '../common/logging/logger_service';
 import { AnchorMarginOptions } from './options/anchor_margin_options';
+import { OSRWindowOptions } from './options/osr_window_options';
 
 declare global {
   interface Window {
@@ -395,11 +396,23 @@ export abstract class WindowBase extends EventEmitter {
   public async setPosition(point: Point): Promise<boolean> {
     await this.assureCreated();
 
-    const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
-      overwolf.windows.changePosition(
-        this.id,
-        Math.trunc(point.x),
-        Math.trunc(point.y),
+    // Need to handle DPI scaling for position, except for OSR windows with dpiUnAware
+    const dpiScale = this.owWindowInfo?.dpiScale ?? 1;
+    const x = this.dpiUnAware ? point.x : point.x * dpiScale;
+    const y = this.dpiUnAware ? point.y : point.y * dpiScale;
+
+    // here we are using setBounds to support autoDpi option
+    // we can use changePosition, but need to calculate size with dpiScale ourself
+    const res = await new Promise<overwolf.Result>(resolve =>
+      overwolf.windows.setBounds(
+        {
+          window_id: this.id,
+          bounds: {
+            x: Math.trunc(x),
+            y: Math.trunc(y),
+          },
+          auto_dpi_resize: this.autoDpi,
+        },
         resolve
       )
     );
@@ -423,11 +436,14 @@ export abstract class WindowBase extends EventEmitter {
     await this.assureCreated();
 
     const res = await new Promise<overwolf.Result>(resolve =>
-      overwolf.windows.changeSize(
+      overwolf.windows.setBounds(
         {
           window_id: this.id,
-          width: Math.trunc(size.width),
-          height: Math.trunc(size.height),
+          bounds: {
+            width: Math.trunc(size.width),
+            height: Math.trunc(size.height),
+          },
+          auto_dpi_resize: this.autoDpi,
         },
         resolve
       )
@@ -450,19 +466,32 @@ export abstract class WindowBase extends EventEmitter {
    */
   public async setBounds(rect: Rectangle): Promise<boolean> {
     await this.assureCreated();
-    // const bounds = this.getBounds();
+
+    // If dpiUnAware is true, we force scale to 1. Otherwise, use the window's DPI scale.
+    const scaleFactor = this.dpiUnAware ? 1 : this.owWindowInfo?.dpiScale ?? 1;
+
+    // This removes the repetitive 'isNaN' and ternary checks
+    const parseVal = (
+      val: number | undefined | null,
+      scale: number = 1
+    ): number | null => {
+      if (typeof val === 'number' && !isNaN(val)) {
+        return Math.trunc(val * scale);
+      }
+      return null;
+    };
 
     const res = await new Promise<overwolf.Result>(resolve =>
       overwolf.windows.setBounds(
         {
           window_id: this.id,
           bounds: {
-            width: !isNaN(rect.width) ? Math.trunc(rect.width) : null,
-            height: !isNaN(rect.height) ? Math.trunc(rect.height) : null,
-            x: !isNaN(rect.x) ? Math.trunc(rect.x) : null,
-            y: !isNaN(rect.y) ? Math.trunc(rect.y) : null,
+            width: parseVal(rect.width),
+            height: parseVal(rect.height),
+            x: parseVal(rect.x, scaleFactor),
+            y: parseVal(rect.y, scaleFactor),
           },
-          auto_dpi_resize: this.options?.autoDpi,
+          auto_dpi_resize: this.autoDpi,
         },
         resolve
       )
@@ -560,19 +589,37 @@ export abstract class WindowBase extends EventEmitter {
   public async getBounds(): Promise<Rectangle> {
     await this.assureCreated();
 
-    const logicalBounds = this.owWindowInfo?.logicalBounds;
+    const isDesktop = this.type() === WindowType.Desktop;
 
-    const width = logicalBounds?.width ?? NaN;
-    const height = logicalBounds?.height ?? NaN;
-    const left = logicalBounds?.left ?? NaN;
-    const top = logicalBounds?.top ?? NaN;
-    const dpiScale = this.owWindowInfo?.dpiScale ?? NaN;
+    const {
+      dpiScale = 1,
+      logicalBounds,
+      width: rawWidth,
+      height: rawHeight,
+      left: rawLeft,
+      top: rawTop,
+    } = this.owWindowInfo!;
+
+    // Use physical size if AutoDPI or Desktop; otherwise use logical size.
+    const usePhysicalSize = this.autoDpi || isDesktop;
+    const width = usePhysicalSize ? rawWidth : logicalBounds?.width;
+    const height = usePhysicalSize ? rawHeight : logicalBounds?.height;
+
+    // Initial position based strictly on AutoDPI setting
+    let left = this.autoDpi ? rawLeft : logicalBounds?.left;
+    let top = this.autoDpi ? rawTop : logicalBounds?.top;
+
+    // Adjust position for Desktop windows based on DPI scale.
+    if (isDesktop && dpiScale !== 0) {
+      left /= dpiScale;
+      top /= dpiScale;
+    }
 
     return {
-      x: left,
-      y: top,
-      width: width,
-      height: height,
+      x: Math.trunc(left),
+      y: Math.trunc(top),
+      width: Math.trunc(width),
+      height: Math.trunc(height),
       dpiAwareWidth: !isNaN(width) && !isNaN(dpiScale) ? width * dpiScale : NaN,
       dpiAwareHeight:
         !isNaN(height) && !isNaN(dpiScale) ? height * dpiScale : NaN,
@@ -698,9 +745,19 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
+    // Desktop and AutoDPI windows use physical size; others use logical size
+    const width =
+      this.autoDpi || this.desktopOnly
+        ? window.width
+        : window.logicalBounds.width;
+    const height =
+      this.autoDpi || this.desktopOnly
+        ? window.height
+        : window.logicalBounds.height;
+
     this.fire('resized', {
-      width: window.logicalBounds.width,
-      height: window.logicalBounds.height,
+      width: Math.trunc(width),
+      height: Math.trunc(height),
     });
   };
 
@@ -724,9 +781,19 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
+    let left = this.autoDpi ? window.left : window.logicalBounds.left;
+    let top = this.autoDpi ? window.top : window.logicalBounds.top;
+
+    const dpiScale = window.dpiScale ?? 1;
+    // Desktop windows need position adjusted for DPI scaling
+    if (this.desktopOnly && dpiScale !== 0) {
+      left /= dpiScale;
+      top /= dpiScale;
+    }
+
     this.fire('moved', {
-      x: window.logicalBounds.left,
-      y: window.logicalBounds.top,
+      x: Math.trunc(left),
+      y: Math.trunc(top),
     });
   };
 
@@ -849,7 +916,7 @@ export abstract class WindowBase extends EventEmitter {
           this.id = null;
           reject(result.error);
         } else {
-          this.onWindowCreated(result.window);
+          this.onWindowCreated(result.window, true);
           resolve();
         }
       });
@@ -859,16 +926,21 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
+  // after window created
+  // we apply autoDpi only when creating new window, not when opening existing
   private async onWindowCreated(
-    owWindow: overwolf.windows.WindowInfo
+    owWindow: overwolf.windows.WindowInfo,
+    applyAutoDpiSize: boolean = false
   ): Promise<void> {
     this.logger.info(
-      `window created: ${owWindow.id} size (${owWindow.logicalBounds?.width}x${owWindow.logicalBounds?.height})`
+      `window created: ${owWindow.id} logical size (${owWindow.logicalBounds.width}x${owWindow.logicalBounds.height}) size (${owWindow.width}x${owWindow.height}) dpiScale: ${owWindow.dpiScale}`
     );
     this.id = owWindow.id;
     this.owWindowInfo = owWindow;
 
     this.windowStateController = new WindowStateController(this);
+
+    this.removeWindowEventListeners();
 
     overwolf.windows2.resized.addListener(this.onWindowResized);
     overwolf.windows2.moved.addListener(this.onWindowMoved);
@@ -877,7 +949,31 @@ export abstract class WindowBase extends EventEmitter {
     overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
     overwolf.windows2.loadError.addListener(this.onWindowLoadError);
 
+    if (applyAutoDpiSize) {
+      await this.applyAutoDpiSizeIfNeeded();
+      await this.performAutoZoom(1, this.owWindowInfo?.dpiScale ?? 1);
+    }
+
     await this.positionNewWindow();
+  }
+
+  // ---------------------------------------------------------------------------
+  private async applyAutoDpiSizeIfNeeded(): Promise<void> {
+    if (!this.autoDpi) {
+      return;
+    }
+
+    const width = this.owWindowInfo.logicalBounds.width;
+    const height = this.owWindowInfo.logicalBounds.height;
+
+    this.logger.info(
+      `applying auto DPI size for window ${this.id} - logical size (${width}x${height}) dpiScale: ${this.owWindowInfo.dpiScale}`
+    );
+
+    await this.setSize({
+      width: width,
+      height: height,
+    });
   }
 
   // ---------------------------------------------------------------------------
@@ -992,6 +1088,19 @@ export abstract class WindowBase extends EventEmitter {
 
   // ---------------------------------------------------------------------------
   // @internal
+  get autoDpi(): boolean {
+    return this.options?.autoDpi ?? false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // @internal
+  get dpiUnAware(): boolean {
+    const osrOptions = this.options as OSRWindowOptions;
+    return osrOptions?.dpiUnAware ?? false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // @internal
   public onWindowClosed(): void {
     this.logger.info(`window ${this.id} closed`);
     this.closed = true;
@@ -1001,17 +1110,23 @@ export abstract class WindowBase extends EventEmitter {
     this.monitorStateController?.dispose();
     this.monitorStateController = null;
 
+    this.removeWindowEventListeners();
+
+    this.clearWindowOptions();
+
+    this.fire('closed', this);
+    this.id = null;
+  }
+
+  // ---------------------------------------------------------------------------
+  // @internal
+  private removeWindowEventListeners() {
     overwolf.windows2.resized.removeListener(this.onWindowResized);
     overwolf.windows2.moved.removeListener(this.onWindowMoved);
     overwolf.windows2.dpiChanged.removeListener(this.onWindowDPIChanged);
     overwolf.windows2.readyToShow.removeListener(this.onWindowReadyToShow);
     overwolf.windows2.loadError.removeListener(this.onWindowLoadError);
     overwolf.windows2.dragStarted.removeListener(this.onWindowDragStarted);
-
-    this.clearWindowOptions();
-
-    this.fire('closed', this);
-    this.id = null;
   }
 
   // ---------------------------------------------------------------------------

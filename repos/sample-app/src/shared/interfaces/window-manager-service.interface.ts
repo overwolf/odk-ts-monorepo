@@ -13,4 +13,5 @@ export interface IWindowManagerService
   openDesktopWindow(options: DesktopWindowOptions): Promise<void>;
   openOsrWindow(options: OSRWindowOptions): Promise<void>;
   openOsrInGameWindow(options: OSRWindowOptions): Promise<void>;
+  openOsrInGameDpiUnawareWindow(options: OSRWindowOptions): Promise<void>;
 }

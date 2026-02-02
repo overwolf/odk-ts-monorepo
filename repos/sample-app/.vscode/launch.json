@@ -16,7 +16,7 @@
         "--ow-enable-features=enable-dev-tools"
       ],
       "timeout": 100000,
-      "urlFilter": "overwolf-extension://___________overwolfruntimeapp___________/*",
+      "urlFilter": "overwolf-extension://cgghcniiehnbnlcgdpmkelcabfnfpmfcheiligek/*",
       "webRoot": "${workspaceFolder}"
     },
     {
@@ -24,7 +24,7 @@
       "request": "attach",
       "type": "pwa-chrome",
       "port": 54284,
-      "urlFilter": "overwolf-extension://___________overwolfruntimeapp___________/*",
+      "urlFilter": "overwolf-extension://cgghcniiehnbnlcgdpmkelcabfnfpmfcheiligek/*",
       "webRoot": "${workspaceFolder}"
     }
   ]
