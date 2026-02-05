@@ -124,6 +124,22 @@ EventEmitter
 
 ## Accessors
 
+### autoDpi
+
+#### Get Signature
+
+> **get** **autoDpi**(): `boolean`
+
+##### Returns
+
+`boolean`
+
+#### Inherited from
+
+[`WindowBase`](WindowBase.md).[`autoDpi`](WindowBase.md#autodpi)
+
+***
+
 ### desktopOnly
 
 #### Get Signature
@@ -144,6 +160,22 @@ the base window behavior. If not specified, the value from
 #### Overrides
 
 [`WindowBase`](WindowBase.md).[`desktopOnly`](WindowBase.md#desktoponly)
+
+***
+
+### dpiUnAware
+
+#### Get Signature
+
+> **get** **dpiUnAware**(): `boolean`
+
+##### Returns
+
+`boolean`
+
+#### Inherited from
+
+[`WindowBase`](WindowBase.md).[`dpiUnAware`](WindowBase.md#dpiunaware)
 
 ***
 
