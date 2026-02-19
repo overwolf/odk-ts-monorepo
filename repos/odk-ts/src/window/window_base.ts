@@ -205,6 +205,7 @@ export abstract class WindowBase extends EventEmitter {
    */
   public async center(): Promise<boolean> {
     await this.assureCreated();
+    await this.restore();
 
     const monitor = await MonitorHelper.getWindowMonitor(this);
 
@@ -228,6 +229,7 @@ export abstract class WindowBase extends EventEmitter {
     }
 
     await this.assureCreated();
+    await this.restore();
 
     this.logger.info(`centering on monitor: ${JSON.stringify(monitor)}`);
     return WindowPositioning.centerWindow(this, monitor);
