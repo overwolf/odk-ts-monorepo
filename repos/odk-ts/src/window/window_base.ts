@@ -17,6 +17,7 @@ import { WindowRuntimeOptions } from './options/window_runtime_options';
 import { LoggerService } from '../common/logging/logger_service';
 import { AnchorMarginOptions } from './options/anchor_margin_options';
 import { OSRWindowOptions } from './options/osr_window_options';
+import { PromiseResolver } from '../utils/promise-resolver';
 
 declare global {
   interface Window {
@@ -40,6 +41,7 @@ export abstract class WindowBase extends EventEmitter {
   private monitorStateController: MonitorStateController;
 
   private creationPromise: Promise<void>;
+  private readyToShowPromise = new PromiseResolver();
 
   private backgroundWindow: Window;
 
@@ -530,6 +532,7 @@ export abstract class WindowBase extends EventEmitter {
     }
 
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
 
     if (!monitor) {
       monitor = await MonitorHelper.getWindowMonitor(this);
@@ -567,6 +570,7 @@ export abstract class WindowBase extends EventEmitter {
     }
 
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
 
     if (!this.monitorStateController) {
       this.monitorStateController = new MonitorStateController(this);
@@ -840,6 +844,8 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
+    this.readyToShowPromise?.resolve();
+
     this.fire('ready-to-show');
   };
 
@@ -880,10 +886,12 @@ export abstract class WindowBase extends EventEmitter {
         if (!result.success) {
           this.clearWindowOptions();
           this.id = null;
+          this.readyToShowPromise?.reject('window not found');
           reject(result.error);
         } else {
           this.readWindowOptions(result.window.id);
           this.onWindowCreated(result.window);
+          this.readyToShowPromise?.resolve();
           resolve();
         }
       });
@@ -1029,7 +1037,6 @@ export abstract class WindowBase extends EventEmitter {
 
     if (this.options?.dockPosition !== undefined) {
       await this.dock(this.options?.dockPosition);
-      return;
     }
   }
 
