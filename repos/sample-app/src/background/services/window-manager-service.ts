@@ -33,7 +33,7 @@ export class WindowManagerService implements IWindowManagerService {
   //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
-  public async openDesktopWindow(options: DesktopWindowOptions): Promise<void> {
+  public async openDesktopWindow(options: DesktopWindowOptions): Promise<WindowBase> {
     if (this.desktopWindow && (await this.desktopWindow.isOpen())) {
       this.logger.info('Desktop window already open, showing it again');
       this.desktopWindow.show();
@@ -44,24 +44,26 @@ export class WindowManagerService implements IWindowManagerService {
     await this.desktopWindow.assureCreated();
 
     this.initializeWindowEvents(this.desktopWindow);
+    return this.desktopWindow;
   }
 
   //----------------------------------------------------------------------------
-  public async openOsrWindow(options: OSRWindowOptions): Promise<void> {
+  public async openOsrWindow(options: OSRWindowOptions): Promise<WindowBase> {
     if (this.osrWindow && (await this.osrWindow.isOpen())) {
       this.logger.info('OSR window already open, showing it again');
       this.osrWindow.show();
-      return;
+      return this.osrWindow;
     }
 
     this.osrWindow = new OSRWindow(options);
     await this.osrWindow.assureCreated();
 
     this.initializeWindowEvents(this.osrWindow);
+    return this.osrWindow;
   }
 
   //----------------------------------------------------------------------------
-  public async openOsrInGameWindow(options: OSRWindowOptions): Promise<void> {
+  public async openOsrInGameWindow(options: OSRWindowOptions): Promise<WindowBase> {
     if (this.osrInGameWindow && (await this.osrInGameWindow.isOpen())) {
       this.logger.info('OSR In-Game window already open, showing it again');
       this.osrInGameWindow.show();
@@ -72,12 +74,13 @@ export class WindowManagerService implements IWindowManagerService {
     await this.osrInGameWindow.assureCreated();
 
     this.initializeWindowEvents(this.osrInGameWindow);
+    return this.osrInGameWindow;
   }
 
   //----------------------------------------------------------------------------
   public async openOsrInGameDpiUnawareWindow(
     options: OSRWindowOptions,
-  ): Promise<void> {
+  ): Promise<WindowBase> {
     if (
       this.osrInGameDpiUnawareWindow &&
       (await this.osrInGameDpiUnawareWindow.isOpen())
@@ -93,6 +96,7 @@ export class WindowManagerService implements IWindowManagerService {
     await this.osrInGameDpiUnawareWindow.assureCreated();
 
     this.initializeWindowEvents(this.osrInGameDpiUnawareWindow);
+    return this.osrInGameDpiUnawareWindow;
   }
 
   // ---------------------------------------------------------------------------
