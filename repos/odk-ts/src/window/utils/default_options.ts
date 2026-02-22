@@ -23,10 +23,6 @@ export function applyDefaultOptions(options: Options, windowType: WindowType) {
     options.blockTopWindowNavigation = true;
   }
 
-  if (options.autoDpi === undefined) {
-    options.autoDpi = true;
-  }
-
   if (options.isMuted === undefined) {
     options.isMuted = true;
   }
@@ -70,6 +66,10 @@ function _applyDefaultOptionsOffscreen(options: OSRWindowOptions) {
     options.transparent = true;
   }
 
+  if (options.autoDpi === undefined) {
+    options.autoDpi = true;
+  }
+
   if (options.autoZoom === undefined) {
     options.autoZoom = true;
   }
@@ -88,5 +88,8 @@ function _applyDefaultOptionsOffscreen(options: OSRWindowOptions) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options.DesktopOnly = true;
+
+    options.autoDpi = false;
+    options.autoZoom = false;
   }
 }

@@ -95,14 +95,26 @@ export interface Options {
   /**
    * Indicates whether provided dimensions should automatically account for DPI scaling.
    *
-   * @default true
+   * @remarks
+   * - For `DesktopWindow`: Currently unsupported.
+   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for other types.
+   *
+   * @default
+   * - `OSRWindow`: `false` for `DesktopOnly`, `true` otherwise
+   * - `DesktopWindow`: unsupported
    */
   autoDpi?: boolean;
 
   /**
    * Indicates whether the window zoom level should automatically account for DPI scaling.
    *
-   * @default true (for OSR)
+   * @remarks
+   * - For `DesktopWindow`: Currently unsupported.
+   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for other types.
+   *
+   * @default
+   * - `OSRWindow`: `false` for `DesktopOnly`, `true` otherwise
+   * - `DesktopWindow`: unsupported
    */
   autoZoom?: boolean;
 

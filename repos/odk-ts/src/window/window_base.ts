@@ -207,6 +207,8 @@ export abstract class WindowBase extends EventEmitter {
    */
   public async center(): Promise<boolean> {
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
+
     await this.restore();
 
     const monitor = await MonitorHelper.getWindowMonitor(this);
@@ -231,6 +233,8 @@ export abstract class WindowBase extends EventEmitter {
     }
 
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
+
     await this.restore();
 
     this.logger.info(`centering on monitor: ${JSON.stringify(monitor)}`);
@@ -305,6 +309,7 @@ export abstract class WindowBase extends EventEmitter {
    */
   public async show(): Promise<boolean> {
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
 
     const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
       overwolf.windows.restore(this.id, resolve)
@@ -379,6 +384,7 @@ export abstract class WindowBase extends EventEmitter {
    */
   public async restore(): Promise<void> {
     await this.assureCreated();
+    await this.readyToShowPromise?.promise();
 
     const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
       overwolf.windows.restore(this.id, resolve)
@@ -844,6 +850,8 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
+    this.logger.info(`window ${this.id} is ready to show`);
+
     this.readyToShowPromise?.resolve();
 
     this.fire('ready-to-show');
@@ -857,6 +865,10 @@ export abstract class WindowBase extends EventEmitter {
     if (window.id !== this.id) {
       return;
     }
+
+    this.logger.error(
+      `window ${this.id} failed to load url: ${this.options?.url}`
+    );
 
     this.fire('load-error');
   };
