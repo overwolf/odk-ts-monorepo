@@ -1013,12 +1013,11 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
-    if (newDPI === 1) {
-      await this.zoom(0);
-    } else {
-      const factor = newDPI > prevDPI ? -1 : 1;
-      await this.zoom((factor * newDPI) / prevDPI);
-    }
+    // To keep window.devicePixelRatio = 1, we need:
+    //   zoomFactor = 1 / deviceScaleFactor (newDPI)
+    //   zoomLevel  = log(1 / newDPI) / log(1.2)
+    const zoomLevel = Math.log(1 / newDPI) / Math.log(1.2);
+    await this.zoom(zoomLevel);
   }
 
   // ---------------------------------------------------------------------------
