@@ -87,7 +87,12 @@ export class WindowPositioning {
     const rect = await this.getCenterPos(window, monitor);
 
     // Adjust position for DPI scaling when autoDpi is disabled
-    this.adjustRectForDpi(rect, monitor.dpiScale ?? 1, window.autoDpi);
+    this.adjustRectForDpi(
+      rect,
+      monitor.dpiScale ?? 1,
+      window.autoDpi,
+      window.isDesktopWindow
+    );
 
     return window.setBounds(rect);
   }
@@ -106,19 +111,7 @@ export class WindowPositioning {
     window: WindowBase,
     monitor: Monitor
   ): Promise<Rectangle> {
-    const {
-      width: winWidth,
-      height: winHeight,
-      dpiAwareWidth: winDpiWidth,
-      dpiAwareHeight: winDpiHeight,
-    } = await window.getBounds();
-
-    const autoDpi = window.autoDpi;
-    const isDesktop = window.type() === WindowType.Desktop;
-
-    // For desktop windows or when autoDpi is enabled, use physical size
-    const width = isDesktop || autoDpi ? winWidth : winDpiWidth;
-    const height = isDesktop || autoDpi ? winHeight : winDpiHeight;
+    const { width, height } = await window.getWindowSizeOnMonitor(monitor);
 
     return {
       x: Math.round(monitor.left + monitor.width / 2 - width / 2),
@@ -167,18 +160,10 @@ export class WindowPositioning {
       marginX: marginOptions?.marginX ?? 0,
       marginY: marginOptions?.marginY ?? marginOptions?.marginX ?? 0,
     };
-    const {
-      width: winWidth,
-      height: winHeight,
-      dpiAwareWidth: winDpiWidth,
-      dpiAwareHeight: winDpiHeight,
-    } = await window.getBounds();
-    const rect = await this.getCenterPos(window, monitor);
-
-    const autoDpi = window.autoDpi;
-    const isDesktop = window.type() === WindowType.Desktop;
-
-    const usePhysicalSize = isDesktop || autoDpi;
+    const [{ width: winWidth, height: winHeight }, rect] = await Promise.all([
+      window.getWindowSizeOnMonitor(monitor),
+      this.getCenterPos(window, monitor),
+    ]);
 
     if (Edge.isTop(dock)) {
       rect.y = top + margins.marginY;
@@ -188,43 +173,41 @@ export class WindowPositioning {
       rect.x = left + margins.marginX;
     }
 
-    // For desktop windows or when autoDpi is enabled, use physical size
     if (Edge.isRight(dock)) {
-      rect.x =
-        width +
-        left -
-        (usePhysicalSize ? winWidth : winDpiWidth) -
-        margins.marginX;
+      rect.x = width + left - winWidth - margins.marginX;
     }
 
     if (Edge.isBottom(dock)) {
-      rect.y =
-        height +
-        top -
-        (usePhysicalSize ? winHeight : winDpiHeight) -
-        margins.marginY;
+      rect.y = height + top - winHeight - margins.marginY;
     }
 
     // Adjust position for DPI scaling when autoDpi is disabled
-    this.adjustRectForDpi(rect, dpiScale ?? 1, window.autoDpi);
+    this.adjustRectForDpi(
+      rect,
+      dpiScale ?? 1,
+      window.autoDpi,
+      window.isDesktopWindow
+    );
 
     return window.setBounds(rect);
   }
 
   // ---------------------------------------------------------------------------
   /**
-   * Adjusts position for DPI scaling when autoDpi is disabled.
+   * Adjusts position for DPI scaling when autoDpi is disabled and desktopOnly is false.
    *
    * @param rect The rectangle to adjust
    * @param dpiScale The DPI scale factor
    * @param autoDpi Whether the window handles DPI automatically
+   * @param isDesktopWindow Whether the window is a desktop window
    */
   private static adjustRectForDpi(
     rect: Rectangle,
     dpiScale: number,
-    autoDpi: boolean = false
+    autoDpi: boolean,
+    isDesktopWindow: boolean
   ): void {
-    if (autoDpi || dpiScale === 0 || dpiScale === 1) {
+    if (autoDpi || dpiScale === 0 || dpiScale === 1 || isDesktopWindow) {
       return;
     }
 

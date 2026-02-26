@@ -404,34 +404,7 @@ export abstract class WindowBase extends EventEmitter {
    * @throws Error if setting the position fails.
    */
   public async setPosition(point: Point): Promise<boolean> {
-    await this.assureCreated();
-
-    // Need to handle DPI scaling for position, except for OSR windows with dpiUnAware
-    const dpiScale = this.owWindowInfo?.dpiScale ?? 1;
-    const x = this.dpiUnAware ? point.x : point.x * dpiScale;
-    const y = this.dpiUnAware ? point.y : point.y * dpiScale;
-
-    // here we are using setBounds to support autoDpi option
-    // we can use changePosition, but need to calculate size with dpiScale ourself
-    const res = await new Promise<overwolf.Result>(resolve =>
-      overwolf.windows.setBounds(
-        {
-          window_id: this.id,
-          bounds: {
-            x: Math.trunc(x),
-            y: Math.trunc(y),
-          },
-          auto_dpi_resize: this.autoDpi,
-        },
-        resolve
-      )
-    );
-
-    if (!res.success) {
-      throw new Error(res.error);
-    }
-
-    return true;
+    return this.setBounds({ x: point.x, y: point.y });
   }
 
   // ---------------------------------------------------------------------------
@@ -443,27 +416,7 @@ export abstract class WindowBase extends EventEmitter {
    * @throws Error if setting the size fails.
    */
   public async setSize(size: Size): Promise<boolean> {
-    await this.assureCreated();
-
-    const res = await new Promise<overwolf.Result>(resolve =>
-      overwolf.windows.setBounds(
-        {
-          window_id: this.id,
-          bounds: {
-            width: Math.trunc(size.width),
-            height: Math.trunc(size.height),
-          },
-          auto_dpi_resize: this.autoDpi,
-        },
-        resolve
-      )
-    );
-
-    if (!res.success) {
-      throw new Error(res.error);
-    }
-
-    return true;
+    return this.setBounds({ width: size.width, height: size.height });
   }
 
   // ---------------------------------------------------------------------------
@@ -477,38 +430,47 @@ export abstract class WindowBase extends EventEmitter {
   public async setBounds(rect: Rectangle): Promise<boolean> {
     await this.assureCreated();
 
-    // If dpiUnAware is true, we force scale to 1. Otherwise, use the window's DPI scale.
-    const scaleFactor = this.dpiUnAware ? 1 : this.owWindowInfo?.dpiScale ?? 1;
+    const hasPosition = rect.x != null && rect.y != null;
 
-    // This removes the repetitive 'isNaN' and ternary checks
-    const parseVal = (
-      val: number | undefined | null,
-      scale: number = 1
-    ): number | null => {
-      if (typeof val === 'number' && !isNaN(val)) {
-        return Math.trunc(val * scale);
+    // Step 1: set position
+    if (hasPosition) {
+      const scale = this.positionScaleFactor;
+
+      const posRes = await new Promise<overwolf.Result>(resolve =>
+        overwolf.windows.setBounds(
+          {
+            window_id: this.id,
+            bounds: {
+              x: WindowBase.toScaledInt(rect.x, scale),
+              y: WindowBase.toScaledInt(rect.y, scale),
+            },
+            auto_dpi_resize: this.autoDpi,
+          },
+          resolve
+        )
+      );
+
+      if (!posRes.success) {
+        throw new Error(posRes.error);
       }
-      return null;
-    };
+    }
 
-    const res = await new Promise<overwolf.Result>(resolve =>
-      overwolf.windows.setBounds(
+    // Step 2: set size
+    const winSize = await this.getWindowSize();
+    const sizeRes = await new Promise<overwolf.Result>(resolve =>
+      overwolf.windows.changeSize(
         {
           window_id: this.id,
-          bounds: {
-            width: parseVal(rect.width),
-            height: parseVal(rect.height),
-            x: parseVal(rect.x, scaleFactor),
-            y: parseVal(rect.y, scaleFactor),
-          },
+          width: WindowBase.toScaledInt(rect.width ?? winSize.width),
+          height: WindowBase.toScaledInt(rect.height ?? winSize.height),
           auto_dpi_resize: this.autoDpi,
         },
         resolve
       )
     );
 
-    if (!res.success) {
-      throw new Error(res.error);
+    if (!sizeRes.success) {
+      throw new Error(sizeRes.error);
     }
 
     return true;
@@ -601,8 +563,6 @@ export abstract class WindowBase extends EventEmitter {
   public async getBounds(): Promise<Rectangle> {
     await this.assureCreated();
 
-    const isDesktop = this.type() === WindowType.Desktop;
-
     const {
       dpiScale = 1,
       logicalBounds,
@@ -612,20 +572,13 @@ export abstract class WindowBase extends EventEmitter {
       top: rawTop,
     } = this.owWindowInfo!;
 
-    // Use physical size if AutoDPI or Desktop; otherwise use logical size.
-    const usePhysicalSize = this.autoDpi || isDesktop;
-    const width = usePhysicalSize ? rawWidth : logicalBounds?.width;
-    const height = usePhysicalSize ? rawHeight : logicalBounds?.height;
+    // autoDpi windows use physical bounds; others use logical bounds
+    const width = this.autoDpi ? rawWidth : logicalBounds?.width;
+    const height = this.autoDpi ? rawHeight : logicalBounds?.height;
 
-    // Initial position based strictly on AutoDPI setting
-    let left = this.autoDpi ? rawLeft : logicalBounds?.left;
-    let top = this.autoDpi ? rawTop : logicalBounds?.top;
-
-    // Adjust position for Desktop windows based on DPI scale.
-    if (isDesktop && dpiScale !== 0) {
-      left /= dpiScale;
-      top /= dpiScale;
-    }
+    // autoDpi windows use physical position; others use logical position
+    const left = this.autoDpi ? rawLeft : logicalBounds?.left;
+    const top = this.autoDpi ? rawTop : logicalBounds?.top;
 
     return {
       x: Math.trunc(left),
@@ -733,8 +686,51 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
+  /**
+   * Gets the effective size of the window, taking into account DPI scaling and AutoDPI settings.
+   *
+   * @returns The effective `Size` (`width` and `height`) of the window.
+   */
+  public async getWindowSize(): Promise<Size> {
+    const { width, height } = await this.getBounds();
+
+    return {
+      width,
+      height,
+    };
+  }
+
+  // ---------------------------------------------------------------------------
+  /**
+   * Gets the effective size of the window on the specified monitor, taking into account DPI scaling and AutoDPI settings.
+   *
+   * @param monitor The monitor for which to calculate the window size.
+   * @returns The effective `Size` (`width` and `height`) of the window on the specified monitor.
+   * @remarks If the monitor is not provided or does not have a `dpiScale`, this method falls back to the regular window size.
+   */
+  public async getWindowSizeOnMonitor(monitor: Monitor): Promise<Size> {
+    if (!monitor || !monitor.dpiScale) {
+      return this.getWindowSize();
+    }
+
+    const { width, height } = await this.getWindowSize();
+
+    return {
+      width: this.autoDpi ? width : Math.round(width * (monitor.dpiScale ?? 1)),
+      height: this.autoDpi
+        ? height
+        : Math.round(height * (monitor.dpiScale ?? 1)),
+    };
+  }
+
+  // ---------------------------------------------------------------------------
   // create for existing window
   get desktopOnly(): boolean {
+    return this.type() === WindowType.Desktop;
+  }
+
+  // ---------------------------------------------------------------------------
+  get isDesktopWindow(): boolean {
     return this.type() === WindowType.Desktop;
   }
 
@@ -753,19 +749,7 @@ export abstract class WindowBase extends EventEmitter {
 
     await this.performAnchoring();
 
-    if (!window.logicalBounds) {
-      return;
-    }
-
-    // Desktop and AutoDPI windows use physical size; others use logical size
-    const width =
-      this.autoDpi || this.desktopOnly
-        ? window.width
-        : window.logicalBounds.width;
-    const height =
-      this.autoDpi || this.desktopOnly
-        ? window.height
-        : window.logicalBounds.height;
+    const { width, height } = await this.getWindowSize();
 
     this.fire('resized', {
       width: Math.trunc(width),
@@ -789,23 +773,11 @@ export abstract class WindowBase extends EventEmitter {
 
     await this.performAnchoring();
 
-    if (!window.logicalBounds) {
-      return;
-    }
-
-    let left = this.autoDpi ? window.left : window.logicalBounds.left;
-    let top = this.autoDpi ? window.top : window.logicalBounds.top;
-
-    const dpiScale = window.dpiScale ?? 1;
-    // Desktop windows need position adjusted for DPI scaling
-    if (this.desktopOnly && dpiScale !== 0) {
-      left /= dpiScale;
-      top /= dpiScale;
-    }
+    const { x, y } = await this.getBounds();
 
     this.fire('moved', {
-      x: Math.trunc(left),
-      y: Math.trunc(top),
+      x: Math.trunc(x),
+      y: Math.trunc(y),
     });
   };
 
@@ -820,10 +792,10 @@ export abstract class WindowBase extends EventEmitter {
       return;
     }
 
-    const { window, prevDPI, newDPI } = args;
+    const { window, newDPI } = args;
     this.owWindowInfo = window;
 
-    await this.performAutoZoom(prevDPI, newDPI);
+    await this.performAutoZoom(newDPI);
   };
 
   // ---------------------------------------------------------------------------
@@ -952,7 +924,7 @@ export abstract class WindowBase extends EventEmitter {
   // we apply autoDpi only when creating new window, not when opening existing
   private async onWindowCreated(
     owWindow: overwolf.windows.WindowInfo,
-    applyAutoDpiSize: boolean = false
+    isWindowCreation: boolean = false
   ): Promise<void> {
     this.logger.info(
       `window created: ${owWindow.id} logical size (${owWindow.logicalBounds.width}x${owWindow.logicalBounds.height}) size (${owWindow.width}x${owWindow.height}) dpiScale: ${owWindow.dpiScale}`
@@ -971,9 +943,17 @@ export abstract class WindowBase extends EventEmitter {
     overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
     overwolf.windows2.loadError.addListener(this.onWindowLoadError);
 
-    if (applyAutoDpiSize) {
+    if (isWindowCreation) {
       await this.applyAutoDpiSizeIfNeeded();
-      await this.performAutoZoom(1, this.owWindowInfo?.dpiScale ?? 1);
+      await this.performAutoZoom(this.owWindowInfo?.dpiScale ?? 1);
+
+      // TODO: we added this for desktop to fix the issue that the created window is smaller than expected when the DPI scale is larger than 100%, we might want to remove this in the future if we can find a better solution
+      if (this.isDesktopWindow) {
+        await this.setBounds({
+          width: owWindow.width,
+          height: owWindow.height,
+        });
+      }
     }
 
     await this.positionNewWindow();
@@ -1017,10 +997,7 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  private async performAutoZoom(
-    prevDPI: number,
-    newDPI: number
-  ): Promise<void> {
+  private async performAutoZoom(newDPI: number): Promise<void> {
     if (!this.options?.autoZoom) {
       return;
     }
@@ -1117,6 +1094,29 @@ export abstract class WindowBase extends EventEmitter {
   get dpiUnAware(): boolean {
     const osrOptions = this.options as OSRWindowOptions;
     return osrOptions?.dpiUnAware ?? false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // If dpiUnAware or isDesktopWindow, we should not apply dpi scaling for the position.
+  // Otherwise, use the window's DPI scale.
+  // @internal
+  private get positionScaleFactor(): number {
+    return this.dpiUnAware || this.isDesktopWindow
+      ? 1
+      : this.owWindowInfo?.dpiScale ?? 1;
+  }
+
+  // ---------------------------------------------------------------------------
+  // @internal
+  private static toScaledInt(
+    val: number | undefined | null,
+    scale = 1
+  ): number | null {
+    if (typeof val === 'number' && !isNaN(val)) {
+      return Math.trunc(val * scale);
+    }
+
+    return null;
   }
 
   // ---------------------------------------------------------------------------
