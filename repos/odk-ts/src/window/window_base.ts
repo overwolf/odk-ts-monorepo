@@ -49,14 +49,20 @@ export abstract class WindowBase extends EventEmitter {
    * WindowBase C'tor
    * @param options new window options (null when open existing window)
    * @param id when open existing window (for internal use)
+   * @param windowInfo existing window info (for FromId)
    */
-  constructor(options: Options | null, id: string | null) {
+  constructor(
+    options: Options | null,
+    id: string | null,
+    windowInfo?: overwolf.windows.WindowInfo
+  ) {
     super();
 
     // open existing
     if (id != null) {
       this.id = id;
       this.readyToShowPromise?.resolve();
+      this.initializeForExistingWindow(windowInfo);
       return;
     }
 
@@ -961,6 +967,31 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
+  // initialize for existing window (FromId)
+  // unlike onWindowCreated, does NOT reposition/apply DPI/zoom
+  private initializeForExistingWindow(
+    windowInfo?: overwolf.windows.WindowInfo
+  ): void {
+    if (windowInfo) {
+      this.owWindowInfo = windowInfo;
+    }
+
+    this.backgroundWindow = overwolf.windows.getMainWindow();
+    this.readWindowOptions(this.id);
+
+    this.windowStateController = new WindowStateController(this);
+
+    this.removeWindowEventListeners();
+
+    overwolf.windows2.resized.addListener(this.onWindowResized);
+    overwolf.windows2.moved.addListener(this.onWindowMoved);
+    overwolf.windows2.dragStarted.addListener(this.onWindowDragStarted);
+    overwolf.windows2.dpiChanged.addListener(this.onWindowDPIChanged);
+    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
+    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
+  }
+
+  // ---------------------------------------------------------------------------
   private async applyAutoDpiSizeIfNeeded(): Promise<void> {
     if (!this.autoDpi) {
       return;
@@ -1051,6 +1082,11 @@ export abstract class WindowBase extends EventEmitter {
     // make sure background sync window is assigned
     this.backgroundWindow =
       this.backgroundWindow || overwolf.windows.getMainWindow();
+
+    if (this.backgroundWindow.___odkinternal___ === undefined) {
+      this.backgroundWindow.___odkinternal___ = {};
+    }
+
     this.options = this.backgroundWindow.___odkinternal___[id];
 
     this.logger.debug(

@@ -31,7 +31,8 @@ export class DesktopWindow extends WindowBase {
   constructor(
     options: DesktopWindowOptions,
     self?: boolean,
-    id?: string | null
+    id?: string | null,
+    windowInfo?: overwolf.windows.WindowInfo
   );
 
   /**
@@ -42,15 +43,19 @@ export class DesktopWindow extends WindowBase {
   constructor(
     options: DesktopWindowOptions,
     self?: boolean,
-    id?: string | null
+    id?: string | null,
+    windowInfo?: overwolf.windows.WindowInfo
   ) {
-    super(self === true ? null : options, id);
+    super(self === true ? null : options, id, windowInfo);
   }
 
   /** @internal */
   // ---------------------------------------------------------------------------
-  static _createForExistingWindow(id?: string): DesktopWindow {
-    return new DesktopWindow({ id: '_ignore' }, true, id);
+  static _createForExistingWindow(
+    id?: string,
+    windowInfo?: overwolf.windows.WindowInfo
+  ): DesktopWindow {
+    return new DesktopWindow({ id: '_ignore' }, true, id, windowInfo);
   }
 
   // ---------------------------------------------------------------------------
