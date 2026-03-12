@@ -56,6 +56,7 @@ export abstract class WindowBase extends EventEmitter {
     // open existing
     if (id != null) {
       this.id = id;
+      this.readyToShowPromise?.resolve();
       return;
     }
 
