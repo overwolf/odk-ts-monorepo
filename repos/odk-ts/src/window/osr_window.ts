@@ -29,21 +29,34 @@ export class OSRWindow extends WindowBase {
   constructor(options: OSRWindowOptions);
 
   /** @internal */
-  constructor(options: OSRWindowOptions, self?: boolean, id?: string | null);
+  constructor(
+    options: OSRWindowOptions,
+    self?: boolean,
+    id?: string | null,
+    windowInfo?: overwolf.windows.WindowInfo
+  );
 
   /**
    * Creates a new {@link OSRWindow}.
    *
    * @param options - Configuration options for the OSR window.
    */
-  constructor(options: OSRWindowOptions, self?: boolean, id?: string | null) {
-    super(self === true ? null : options, id);
+  constructor(
+    options: OSRWindowOptions,
+    self?: boolean,
+    id?: string | null,
+    windowInfo?: overwolf.windows.WindowInfo
+  ) {
+    super(self === true ? null : options, id, windowInfo);
   }
 
   /** @internal */
   //---------------------------------------------------------------------------
-  static _createForExistingWindow(id?: string): OSRWindow {
-    return new OSRWindow({ id: '_ignore' }, true, id);
+  static _createForExistingWindow(
+    id?: string,
+    windowInfo?: overwolf.windows.WindowInfo
+  ): OSRWindow {
+    return new OSRWindow({ id: '_ignore' }, true, id, windowInfo);
   }
 
   // ---------------------------------------------------------------------------

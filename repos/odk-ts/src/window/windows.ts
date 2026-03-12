@@ -77,13 +77,13 @@ export class Windows {
     switch (res.window.type) {
       // Desktop window
       case overwolf.windows.WindowType.Desktop: {
-        return DesktopWindow._createForExistingWindow(id);
+        return DesktopWindow._createForExistingWindow(id, res.window);
       }
 
       // Offscreen or In-Game(dpi unaware) window
       case overwolf.windows.WindowType.Offscreen:
       case overwolf.windows.WindowType.InGame: {
-        return OSRWindow._createForExistingWindow(id);
+        return OSRWindow._createForExistingWindow(id, res.window);
       }
 
       default:
