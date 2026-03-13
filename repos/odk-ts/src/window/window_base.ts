@@ -53,18 +53,11 @@ export abstract class WindowBase extends EventEmitter {
   constructor(options: Options | null, id: string | null) {
     super();
 
-    // open existing
-    if (id != null) {
-      this.id = id;
-      this.readyToShowPromise?.resolve();
-      return;
-    }
-
     this.setDefaultOption(options);
 
-    // when options is null, create for current
+    // when options is null, open existing window (null = current, id = specific window)
     if (options == null) {
-      this.creationPromise = this.openInternal();
+      this.creationPromise = this.openInternal(id);
       return;
     }
 
@@ -852,7 +845,7 @@ export abstract class WindowBase extends EventEmitter {
 
   // ---------------------------------------------------------------------------
   // create for existing window
-  private openInternal(): Promise<void> {
+  private openInternal(windowId: string | null = null): Promise<void> {
     this.logger.debug('open existing window');
 
     if (this.id) {
@@ -862,24 +855,44 @@ export abstract class WindowBase extends EventEmitter {
     this.backgroundWindow = overwolf.windows.getMainWindow();
 
     this.creationPromise = new Promise((resolve, reject) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      overwolf.windows2.create(null, null, result => {
-        this.logger.debug(
-          `open existing window result: ${JSON.stringify(result)}`
-        );
-        if (!result.success) {
-          this.clearWindowOptions();
-          this.id = null;
-          this.readyToShowPromise?.reject('window not found');
-          reject(result.error);
-        } else {
-          this.readWindowOptions(result.window.id);
-          this.onWindowCreated(result.window);
-          this.readyToShowPromise?.resolve();
-          resolve();
-        }
-      });
+      if (windowId != null) {
+        // Open a specific existing window by ID (Windows.FromId case).
+        // Use getWindow — windows2.create with a non-null id treats it as a
+        // new-window creation and requires options/URL.
+        overwolf.windows.getWindow(windowId, result => {
+          this.logger.debug(
+            `open existing window by id result: ${JSON.stringify(result)}`
+          );
+          if (!result.success || !result.window) {
+            this.readyToShowPromise?.reject('window not found');
+            reject(result.error ?? 'window not found');
+          } else {
+            this.onWindowCreated(result.window);
+            this.readyToShowPromise?.resolve();
+            resolve();
+          }
+        });
+      } else {
+        // Open the current window (Windows.Self case).
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        overwolf.windows2.create(null, null, result => {
+          this.logger.debug(
+            `open existing window result: ${JSON.stringify(result)}`
+          );
+          if (!result.success) {
+            this.clearWindowOptions();
+            this.id = null;
+            this.readyToShowPromise?.reject('window not found');
+            reject(result.error);
+          } else {
+            this.readWindowOptions(result.window.id);
+            this.onWindowCreated(result.window);
+            this.readyToShowPromise?.resolve();
+            resolve();
+          }
+        });
+      }
     });
 
     return this.creationPromise;

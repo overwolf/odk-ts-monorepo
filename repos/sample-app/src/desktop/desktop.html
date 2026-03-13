@@ -264,6 +264,20 @@
         </div>
       </article>
 
+      <!-- Windows.FromId() test card -->
+      <article class="card" style="margin-bottom: 16px;">
+        <h2>Windows.FromId() Test</h2>
+        <p style="margin: 0 0 10px 0; color: var(--muted); font-size: 12px;">
+          Open the OSR window first, then use these buttons to control it via
+          <code>Windows.FromId('my_osr_window')</code> from this desktop window.
+        </p>
+        <div class="button-row">
+          <button id="btn-fromd-get-bounds">Get OSR bounds via FromId</button>
+          <button id="btn-fromd-center">Center OSR via FromId</button>
+        </div>
+        <div id="fromd-status" class="status" style="display:none;"></div>
+      </article>
+
       <section class="grid">
         <article class="card">
           <h2>Position & Size</h2>
