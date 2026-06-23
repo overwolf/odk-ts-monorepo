@@ -1,0 +1,43 @@
+[
+  {
+    "label": "Launch Overwolf",
+    "adapter": "JavaScript",
+    "type": "chrome",
+    "request": "launch",
+    "port": 54284,
+    "runtimeExecutable": "D:/Workspace/Repos/client-new/output/debug/overwolf.exe",
+    "runtimeArgs": [
+      "--runtime-app-dir=$ZED_WORKTREE_ROOT/repos/sample-app",
+      "--ow-enable-features=enable-dev-tools"
+    ],
+    "url": "overwolf-extension://cgghcniiehnbnlcgdpmkelcabfnfpmfcheiligek/*",
+    "webRoot": "$ZED_WORKTREE_ROOT/repos/sample-app",
+    "timeout": 100000
+  },
+  {
+    "label": "Attach to Overwolf",
+    "adapter": "JavaScript",
+    "type": "chrome",
+    "request": "attach",
+    "port": 54284,
+    "url": "overwolf-extension://cgghcniiehnbnlcgdpmkelcabfnfpmfcheiligek/*",
+    "webRoot": "$ZED_WORKTREE_ROOT/repos/sample-app"
+  },
+  {
+    "adapter": "JavaScript",
+    "label": "package.json > build:sample:dev",
+    "request": "launch",
+    "type": "pwa-node",
+    "args": [
+      "run",
+      "build:sample:dev"
+    ],
+    "cwd": "C:\\Developer\\odk-ts-monorepo",
+    "runtimeExecutable": "$ZED_CUSTOM_TYPESCRIPT_RUNNER",
+    "env": {},
+    "runtimeArgs": [
+      "--inspect-brk"
+    ],
+    "console": "integratedTerminal"
+  }
+]

@@ -18,6 +18,12 @@ import { LoggerService } from '../common/logging/logger_service';
 import { AnchorMarginOptions } from './options/anchor_margin_options';
 import { OSRWindowOptions } from './options/osr_window_options';
 import { PromiseResolver } from '../utils/promise-resolver';
+import { isOverwolfVersionBelow } from '../utils/version';
+
+// The 'inputPassThrough' creation option is honored natively starting from this
+// Overwolf client version. On older clients the option is dropped, so we fall
+// back to applying the InputPassThrough window style manually.
+const INPUT_PASS_THROUGH_NATIVE_VERSION = '0.304.0.8';
 
 declare global {
   interface Window {
@@ -42,6 +48,11 @@ export abstract class WindowBase extends EventEmitter {
 
   private creationPromise: Promise<void>;
   private readyToShowPromise = new PromiseResolver();
+
+  private inputPassThroughApplied = false;
+
+  private readonly appliedWindowStyles =
+    new Set<overwolf.windows.enums.WindowStyle>();
 
   private backgroundWindow: Window;
 
@@ -250,6 +261,73 @@ export abstract class WindowBase extends EventEmitter {
 
   // ---------------------------------------------------------------------------
   /**
+   * Adds an in-game window style to the window.
+   *
+   * @param style The style to add (see {@link overwolf.windows.enums.WindowStyle}).
+   * @throws Error if setting the style fails.
+   */
+  public async setWindowStyle(
+    style: overwolf.windows.enums.WindowStyle
+  ): Promise<void> {
+    await this.assureCreated();
+
+    const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
+      overwolf.windows.setWindowStyle(this.id, style, resolve)
+    );
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    this.appliedWindowStyles.add(style);
+  }
+
+  // ---------------------------------------------------------------------------
+  /**
+   * Removes an in-game window style from the window.
+   *
+   * @param style The style to remove (see {@link overwolf.windows.enums.WindowStyle}).
+   * @throws Error if removing the style fails.
+   */
+  public async removeWindowStyle(
+    style: overwolf.windows.enums.WindowStyle
+  ): Promise<void> {
+    await this.assureCreated();
+
+    const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
+      overwolf.windows.removeWindowStyle(this.id, style, resolve)
+    );
+
+    if (!res.success) {
+      throw new Error(res.error);
+    }
+
+    this.appliedWindowStyles.delete(style);
+  }
+
+  // ---------------------------------------------------------------------------
+  /**
+   * Returns the window styles currently applied via {@link setWindowStyle}.
+   *
+   * Note: Overwolf exposes no native getter for window styles, so this reflects
+   * only styles applied (and not later removed) through this window instance.
+   */
+  public getWindowStyles(): overwolf.windows.enums.WindowStyle[] {
+    return Array.from(this.appliedWindowStyles);
+  }
+
+  // ---------------------------------------------------------------------------
+  /**
+   * Returns `true` if the given window style is currently applied.
+   *
+   * @param style The style to check (see {@link overwolf.windows.enums.WindowStyle}).
+   */
+  public hasWindowStyle(style: overwolf.windows.enums.WindowStyle): boolean {
+    return this.appliedWindowStyles.has(style);
+  }
+
+  // ---------------------------------------------------------------------------
+  /**
    * Set current window Mute state/ mute all windows.
    *
    * @param mute `true` to mute the window; `false` to unmute.
@@ -312,6 +390,8 @@ export abstract class WindowBase extends EventEmitter {
     if (!res.success) {
       throw new Error(res.error);
     }
+
+    await this.applyInputPassThroughIfNeeded();
 
     return true;
   }
@@ -387,6 +467,8 @@ export abstract class WindowBase extends EventEmitter {
     if (!res.success) {
       throw new Error(res.error);
     }
+
+    await this.applyInputPassThroughIfNeeded();
   }
 
   // ---------------------------------------------------------------------------
@@ -946,6 +1028,8 @@ export abstract class WindowBase extends EventEmitter {
     this.id = owWindow.id;
     this.owWindowInfo = owWindow;
 
+    this.seedAppliedWindowStyles();
+
     this.windowStateController = new WindowStateController(this);
 
     this.removeWindowEventListeners();
@@ -990,6 +1074,52 @@ export abstract class WindowBase extends EventEmitter {
       width: width,
       height: height,
     });
+  }
+
+  // ---------------------------------------------------------------------------
+  private seedAppliedWindowStyles(): void {
+    const osrOptions = this.options as OSRWindowOptions;
+
+    if (osrOptions?.bottommost) {
+      this.appliedWindowStyles.add(
+        overwolf.windows.enums.WindowStyle.BottomMost
+      );
+    }
+
+    if (
+      osrOptions?.inputPassThrough &&
+      !isOverwolfVersionBelow(INPUT_PASS_THROUGH_NATIVE_VERSION)
+    ) {
+      this.appliedWindowStyles.add(
+        overwolf.windows.enums.WindowStyle.InputPassThrough
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  private async applyInputPassThroughIfNeeded(): Promise<void> {
+    if (!this.inputPassThrough || this.inputPassThroughApplied) {
+      return;
+    }
+
+    if (!isOverwolfVersionBelow(INPUT_PASS_THROUGH_NATIVE_VERSION)) {
+      return;
+    }
+
+    try {
+      await this.setWindowStyle(
+        overwolf.windows.enums.WindowStyle.InputPassThrough
+      );
+    } catch (error) {
+      this.logger.warn(
+        `failed to apply InputPassThrough style to window ${this.id}: ${error}`
+      );
+      return;
+    }
+
+    this.inputPassThroughApplied = true;
+
+    this.logger.info(`applied InputPassThrough style to window ${this.id}`);
   }
 
   // ---------------------------------------------------------------------------
@@ -1108,6 +1238,13 @@ export abstract class WindowBase extends EventEmitter {
   get dpiUnAware(): boolean {
     const osrOptions = this.options as OSRWindowOptions;
     return osrOptions?.dpiUnAware ?? false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // @internal
+  get inputPassThrough(): boolean {
+    const osrOptions = this.options as OSRWindowOptions;
+    return osrOptions?.inputPassThrough ?? false;
   }
 
   // ---------------------------------------------------------------------------

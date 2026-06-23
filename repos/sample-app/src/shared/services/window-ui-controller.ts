@@ -32,6 +32,13 @@ export abstract class WindowUIController {
   private readonly marginYInput = document.getElementById(
     'input-margin-y'
   ) as NumberInput;
+  // Window-style controls only exist in the OSR windows, not the desktop window.
+  private readonly windowStyleSelect = document.getElementById(
+    'select-window-style'
+  ) as HTMLSelectElement | null;
+  private readonly windowStylesStatus = document.getElementById(
+    'window-styles-status'
+  ) as HTMLElement | null;
 
   //----------------------------------------------------------------------------
   public constructor(protected readonly logger: Category) {}
@@ -49,6 +56,7 @@ export abstract class WindowUIController {
       this.bindActions();
       this.bindResizeActions();
       await this.refreshBounds();
+      this.refreshWindowStyles();
     } catch (err) {
       this.logger.error('Failed to initialize DesktopController', err);
       this.window?.close();
@@ -81,6 +89,21 @@ export abstract class WindowUIController {
       'btn-refresh',
       'Refresh bounds',
       this.refreshBounds
+    );
+    this.registerClickListener(
+      'btn-set-window-style',
+      'Set window style',
+      this.handleSetWindowStyle
+    );
+    this.registerClickListener(
+      'btn-remove-window-style',
+      'Remove window style',
+      this.handleRemoveWindowStyle
+    );
+    this.registerClickListener(
+      'btn-refresh-window-styles',
+      'Refresh window styles',
+      this.refreshWindowStyles
     );
     this.registerClickListener(
       'toolbar-minimize',
@@ -263,6 +286,48 @@ export abstract class WindowUIController {
   //----------------------------------------------------------------------------
   private handleClearAnchor = async (): Promise<void> => {
     await this.window.anchor(Edge.None, { marginX: 0, marginY: 0 });
+  };
+
+  //----------------------------------------------------------------------------
+  private handleSetWindowStyle = async (): Promise<void> => {
+    if (!this.windowStyleSelect) {
+      return;
+    }
+
+    const style = this.windowStyleSelect
+      .value as overwolf.windows.enums.WindowStyle;
+
+    await this.window.setWindowStyle(style);
+    this.refreshWindowStyles();
+  };
+
+  //----------------------------------------------------------------------------
+  private handleRemoveWindowStyle = async (): Promise<void> => {
+    if (!this.windowStyleSelect) {
+      return;
+    }
+
+    const style = this.windowStyleSelect
+      .value as overwolf.windows.enums.WindowStyle;
+
+    await this.window.removeWindowStyle(style);
+    this.refreshWindowStyles();
+  };
+
+  //----------------------------------------------------------------------------
+  private refreshWindowStyles = (): void => {
+    if (!this.windowStylesStatus) {
+      return;
+    }
+
+    const styles = this.window.getWindowStyles();
+
+    this.logger.info('Current window styles:', styles);
+
+    this.windowStylesStatus.textContent =
+      styles.length > 0
+        ? `Current styles: ${styles.join(', ')}`
+        : 'Current styles: (none)';
   };
 
   //----------------------------------------------------------------------------

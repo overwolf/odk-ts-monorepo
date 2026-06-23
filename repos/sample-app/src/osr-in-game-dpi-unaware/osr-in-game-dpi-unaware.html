@@ -376,6 +376,11 @@
         </article>
 
         <article class="card">
+          <h2>Notes</h2>
+          <textarea id="notes-textarea" placeholder="Write something here…" style="width:100%;min-height:80px;resize:vertical;background:#f1f5fb;border:1px solid var(--border);color:#0f172a;padding:8px 10px;border-radius:10px;font-size:13px;font-family:inherit;"></textarea>
+        </article>
+
+        <article class="card">
           <h2>Anchor & Dock</h2>
           <div class="inputs">
             <label>
@@ -408,6 +413,23 @@
             <button id="btn-anchor">Anchor to edge</button>
             <button id="btn-clear-anchor">Clear anchor/dock</button>
           </div>
+        </article>
+
+        <article class="card">
+          <h2>Window Style</h2>
+          <label>
+            Style
+            <select id="select-window-style">
+              <option value="InputPassThrough">InputPassThrough</option>
+              <option value="BottomMost">BottomMost</option>
+            </select>
+          </label>
+          <div class="button-row">
+            <button id="btn-set-window-style">Set style</button>
+            <button id="btn-remove-window-style">Remove style</button>
+            <button id="btn-refresh-window-styles">Refresh styles</button>
+          </div>
+          <div id="window-styles-status" class="status">Current styles: —</div>
         </article>
       </section>
     </div>
