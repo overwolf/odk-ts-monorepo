@@ -811,13 +811,29 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
+  // The `overwolf.windows2.*` handlers below all begin with the same "is this
+  // event for my window?" check, and all of them optional-chain the payload.
+  //
+  // That is deliberate even though the declared parameter type is not optional:
+  // the platform can dispatch these events with an undefined payload — most
+  // often for a window that has just closed, in the interval before
+  // `onStateChanged` delivers `closed` and `removeWindowEventListeners()` runs.
+  // Since these listeners are registered on process-global emitters, one such
+  // dispatch reaches every WindowBase in the process, so an unguarded read
+  // throws once per live instance (as an unhandled rejection in the async
+  // handlers, which have no caller to catch them).
+  //
+  // Please keep the `?.` — it is not redundant with the type.
+  // ---------------------------------------------------------------------------
+
+  // ---------------------------------------------------------------------------
   /**
    * Handles window resize events, firing the 'resized' event with the new size.
    */
   protected onWindowResized = async (
     window: overwolf.windows.WindowInfo
   ): Promise<void> => {
-    if (window.id !== this.id) {
+    if (window?.id !== this.id) {
       return;
     }
 
@@ -840,7 +856,7 @@ export abstract class WindowBase extends EventEmitter {
   protected onWindowMoved = async (
     window: overwolf.windows.WindowInfo
   ): Promise<void> => {
-    if (window.id !== this.id) {
+    if (window?.id !== this.id) {
       return;
     }
 
@@ -881,7 +897,7 @@ export abstract class WindowBase extends EventEmitter {
   protected onWindowDragStarted = (
     window: overwolf.windows.WindowInfo
   ): void => {
-    if (window.id !== this.id) {
+    if (window?.id !== this.id) {
       return;
     }
 
@@ -894,7 +910,7 @@ export abstract class WindowBase extends EventEmitter {
    * Handles the 'ready to show' event for the window and fires the corresponding event.
    */
   protected onWindowReadyToShow = (window): void => {
-    if (window.id !== this.id) {
+    if (window?.id !== this.id) {
       return;
     }
 
@@ -910,7 +926,7 @@ export abstract class WindowBase extends EventEmitter {
    * Handles the 'load error' event for the window and fires the corresponding event.
    */
   protected onWindowLoadError = (window): void => {
-    if (window.id !== this.id) {
+    if (window?.id !== this.id) {
       return;
     }
 
