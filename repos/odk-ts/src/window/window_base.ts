@@ -1313,7 +1313,13 @@ export abstract class WindowBase extends EventEmitter {
     monitor: Monitor,
     window: overwolf.windows.WindowInfo
   ): Promise<void> {
-    this.owWindowInfo = window;
+    // this event can arrive without window info; keep the last known info
+    // rather than replacing it with nothing, so getBounds/center/dock keep
+    // working until a later event delivers fresh info
+    if (window) {
+      this.owWindowInfo = window;
+    }
+
     this.fire('monitor-changed', monitor);
 
     await this.performAnchoring(monitor);
