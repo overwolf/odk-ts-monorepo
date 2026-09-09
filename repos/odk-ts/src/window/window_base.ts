@@ -189,7 +189,7 @@ export abstract class WindowBase extends EventEmitter {
   /**
    * Brings the window to the front and focuses it.
    *
-   * * @throws Error if the operation fails.
+   * @throws Error if the operation fails.
    */
   public async bringToFrontWithFocus(): Promise<void> {
     await this.assureCreated();
@@ -376,8 +376,8 @@ export abstract class WindowBase extends EventEmitter {
   /**
    * Shows the window.
    *
-   * * @returns `true` if the window was shown successfully.
-   * * @throws Error if showing the window fails.
+   * @returns `true` if the window was shown successfully.
+   * @throws Error if showing the window fails.
    */
   public async show(): Promise<boolean> {
     await this.assureCreated();
@@ -784,7 +784,6 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // create for existing window
   get desktopOnly(): boolean {
     return this.type() === WindowType.Desktop;
   }
@@ -1368,7 +1367,7 @@ export abstract class WindowBase extends EventEmitter {
     listener: (
       evt: Event,
       /**
-       *  window new size
+       *  window new position
        */
       position: Point
     ) => void
@@ -1376,8 +1375,6 @@ export abstract class WindowBase extends EventEmitter {
 
   /**
    * Fired when monitor properties change.
-   * @param event
-   * @param listener
    */
   on(
     event: 'monitor-changed',
@@ -1414,7 +1411,7 @@ export abstract class WindowBase extends EventEmitter {
        */
       newState: WindowState,
       /**
-       *  new window state
+       *  previous window state
        */
       prevState: WindowState
     ) => void
@@ -1432,7 +1429,7 @@ export abstract class WindowBase extends EventEmitter {
        */
       newState: WindowState,
       /**
-       *  new window state
+       *  previous window state
        */
       prevState: WindowState
     ) => void
@@ -1450,7 +1447,7 @@ export abstract class WindowBase extends EventEmitter {
        */
       newState: WindowState,
       /**
-       *  new window state
+       *  previous window state
        */
       prevState: WindowState
     ) => void
@@ -1468,7 +1465,7 @@ export abstract class WindowBase extends EventEmitter {
        */
       newState: WindowState,
       /**
-       *  new window state
+       *  previous window state
        */
       prevState: WindowState
     ) => void

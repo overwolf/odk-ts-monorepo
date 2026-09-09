@@ -7,11 +7,14 @@ import { WindowBase } from './window_base';
 /**
  * `OSRWindow` extends {@link WindowBase} and represents a window rendered
  * offscreen and composited as an in-game or transparent desktop
- * overlays, rather than drawn directly into a native desktop window.
+ * overlay, rather than drawn directly into a native desktop window.
  *
  * @example
  * ```ts
- * const window = new OSRWindow({ desktopOnly: true });
+ * const window = new OSRWindow({
+ *   id: 'my_osr_window',
+ *   url: 'osr.html',
+ * });
  * const type = window.type(); // WindowType.Offscreen
  * ```
  *
@@ -24,7 +27,7 @@ export class OSRWindow extends WindowBase {
   /**
    * Creates a new {@link OSRWindow}.
    *
-   * @param options — Configuration options for the OSR window.
+   * @param options - Configuration options for the OSR window.
    */
   constructor(options: OSRWindowOptions);
 
@@ -60,8 +63,8 @@ export class OSRWindow extends WindowBase {
   /**
    * Resizes the window by dragging the specified edge to the given rectangle.
    *
-   * @param edge — the edge of the window to resize from.
-   * @param rect — the target rectangle defining the new window bounds.
+   * @param edge - the edge of the window to resize from.
+   * @param rect - the target rectangle defining the new window bounds.
    * @returns A promise that resolves to `true` if the resize was successful.
    */
   resize(edge: Edge, rect: Rectangle): Promise<boolean> {

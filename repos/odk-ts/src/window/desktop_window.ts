@@ -10,7 +10,12 @@ import { WindowType } from './enums/window_type';
  *
  * @example
  * ```ts
- * const window = new DesktopWindow({ width: 800, height: 600 });
+ * const window = new DesktopWindow({
+ *   id: 'my_desktop_window',
+ *   url: 'desktop.html',
+ *   width: 800,
+ *   height: 600,
+ * });
  * const type = window.type(); // WindowType.Desktop
  * ```
  *
