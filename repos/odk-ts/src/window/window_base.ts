@@ -506,47 +506,31 @@ export abstract class WindowBase extends EventEmitter {
   public async setBounds(rect: Rectangle): Promise<boolean> {
     await this.assureCreated();
 
-    const hasPosition = rect.x != null && rect.y != null;
-
-    // Step 1: set position
-    if (hasPosition) {
-      const scale = this.positionScaleFactor;
-
-      const posRes = await new Promise<overwolf.Result>(resolve =>
-        overwolf.windows.setBounds(
-          {
-            window_id: this.id,
-            bounds: {
-              x: WindowBase.toScaledInt(rect.x, scale),
-              y: WindowBase.toScaledInt(rect.y, scale),
-            },
-            auto_dpi_resize: this.autoDpi,
-          },
-          resolve
-        )
-      );
-
-      if (!posRes.success) {
-        throw new Error(posRes.error);
-      }
-    }
-
-    // Step 2: set size
     const winSize = await this.getWindowSize();
-    const sizeRes = await new Promise<overwolf.Result>(resolve =>
-      overwolf.windows.changeSize(
+    const scale = this.positionScaleFactor;
+    const sizeScale = this.sizeScaleFactor;
+
+    const res = await new Promise<overwolf.Result>(resolve =>
+      overwolf.windows.setBounds(
         {
           window_id: this.id,
-          width: WindowBase.toScaledInt(rect.width ?? winSize.width),
-          height: WindowBase.toScaledInt(rect.height ?? winSize.height),
+          bounds: {
+            width: WindowBase.toScaledInt(rect.width ?? winSize.width, sizeScale),
+            height: WindowBase.toScaledInt(
+              rect.height ?? winSize.height,
+              sizeScale
+            ),
+            x: WindowBase.toScaledInt(rect.x, scale),
+            y: WindowBase.toScaledInt(rect.y, scale),
+          },
           auto_dpi_resize: this.autoDpi,
         },
         resolve
       )
     );
 
-    if (!sizeRes.success) {
-      throw new Error(sizeRes.error);
+    if (!res.success) {
+      throw new Error(res.error);
     }
 
     return true;
@@ -1280,6 +1264,23 @@ export abstract class WindowBase extends EventEmitter {
     return this.dpiUnAware || this.isDesktopWindow
       ? 1
       : this.owWindowInfo?.dpiScale ?? 1;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Size counterpart to positionScaleFactor. Sizes passed to setBounds are
+  // DPI-scaled for desktop-only windows, so pre-multiply to keep setBounds a
+  // round trip. Positions are not scaled that way.
+  // @internal
+  private get sizeScaleFactor(): number {
+    // Matches only what counts as desktop-only here - not the `desktopOnly`
+    // getter, which is broader and would double-apply the scale.
+    const osrOptions = this.options as OSRWindowOptions & {
+      DesktopOnly?: boolean;
+    };
+
+    return this.isDesktopWindow || osrOptions?.DesktopOnly === true
+      ? this.owWindowInfo?.dpiScale ?? 1
+      : 1;
   }
 
   // ---------------------------------------------------------------------------
