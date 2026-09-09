@@ -811,19 +811,10 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // The `overwolf.windows2.*` handlers below all begin with the same "is this
-  // event for my window?" check, and all of them optional-chain the payload.
-  //
-  // That is deliberate even though the declared parameter type is not optional:
-  // the platform can dispatch these events with an undefined payload — most
-  // often for a window that has just closed, in the interval before
-  // `onStateChanged` delivers `closed` and `removeWindowEventListeners()` runs.
-  // Since these listeners are registered on process-global emitters, one such
-  // dispatch reaches every WindowBase in the process, so an unguarded read
-  // throws once per live instance (as an unhandled rejection in the async
-  // handlers, which have no caller to catch them).
-  //
-  // Please keep the `?.` — it is not redundant with the type.
+  // The `overwolf.windows2.*` handlers below optional-chain the payload even
+  // though the declared parameter type is not optional: these events can be
+  // dispatched with no argument. The emitters are process-global, so one such
+  // dispatch reaches every WindowBase instance. Keep the `?.`.
   // ---------------------------------------------------------------------------
 
   // ---------------------------------------------------------------------------
