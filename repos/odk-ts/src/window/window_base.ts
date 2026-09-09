@@ -956,7 +956,12 @@ export abstract class WindowBase extends EventEmitter {
             this.readyToShowPromise?.reject('window not found');
             reject(result.error ?? 'window not found');
           } else {
-            this.onWindowCreated(result.window);
+            // Restore the options this window was created with, so autoDpi,
+            // dpiUnAware, anchoring and the window styles read the same here
+            // as they do on the instance that created it. Positioning is off:
+            // looking a window up must not re-apply someone else's dock.
+            this.readWindowOptions(result.window.id);
+            this.onWindowCreated(result.window, false, false);
             this.readyToShowPromise?.resolve();
             resolve();
           }
@@ -1027,7 +1032,11 @@ export abstract class WindowBase extends EventEmitter {
   // we apply autoDpi only when creating new window, not when opening existing
   private async onWindowCreated(
     owWindow: overwolf.windows.WindowInfo,
-    isWindowCreation: boolean = false
+    isWindowCreation: boolean = false,
+    // Windows.FromId() adopts a window another instance owns. Reading its
+    // options must not also re-apply their dock/anchor as a side effect of
+    // the lookup, so that path passes false.
+    applyInitialPositioning = true
   ): Promise<void> {
     this.logger.info(
       `window created: ${owWindow.id} logical size (${owWindow.logicalBounds.width}x${owWindow.logicalBounds.height}) size (${owWindow.width}x${owWindow.height}) dpiScale: ${owWindow.dpiScale}`
@@ -1061,7 +1070,9 @@ export abstract class WindowBase extends EventEmitter {
       }
     }
 
-    await this.positionNewWindow();
+    if (applyInitialPositioning) {
+      await this.positionNewWindow();
+    }
   }
 
   // ---------------------------------------------------------------------------
@@ -1201,7 +1212,14 @@ export abstract class WindowBase extends EventEmitter {
     // make sure background sync window is assigned
     this.backgroundWindow =
       this.backgroundWindow || overwolf.windows.getMainWindow();
-    this.options = this.backgroundWindow.___odkinternal___[id];
+
+    // A window odk-ts did not create has nothing saved here - a window
+    // declared in the manifest, or one created through overwolf.windows2
+    // directly. Fall back to an empty bag rather than leaving this undefined,
+    // so callers that assign into it (anchor) don't throw on a valid window.
+    this.options =
+      this.backgroundWindow.___odkinternal___[id] ??
+      ({} as WindowRuntimeOptions);
 
     this.logger.debug(
       `read window ${id} options: ${JSON.stringify(this.options)}`
