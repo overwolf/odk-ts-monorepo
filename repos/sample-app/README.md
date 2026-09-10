@@ -5,6 +5,10 @@
 This is a basic Overwolf sample app demonstrating how to use the background window as the main window to manage the business logic of the app.
 The sample is designed to showcase the usage of the **Overwolf Development Kit (odk-ts)** library, providing practical examples of window management and control in an Overwolf environment.
 
+New to odk-ts? Read [Your first window in 5 minutes](../odk-ts/README.md#your-first-window-in-5-minutes)
+first, then come back here for a full app structure. The
+[API reference](../odk-ts/docs/) documents every class, option and event.
+
 ---
 
 ### When updating local odk-ts library:
