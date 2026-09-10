@@ -15,7 +15,7 @@ import {
   kOsrInGameWindowName,
   kOsrWindowName,
 } from './constants';
-import { OSRType } from '@overwolf/odk-ts/window/enums/osr_window_type';
+import { OSRType } from '@overwolf/odk-ts';
 
 //------------------------------------------------------------------------------
 @singleton()

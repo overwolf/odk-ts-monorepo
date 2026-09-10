@@ -1,8 +1,5 @@
-import { WindowBase, Windows } from '@overwolf/odk-ts';
-import { Edge } from '@overwolf/odk-ts/window/enums/edge';
+import { Edge, Point, Size, WindowBase, Windows } from '@overwolf/odk-ts';
 import { Category } from 'typescript-logging-category-style';
-import { Size } from '@overwolf/odk-ts/window/interfaces/size';
-import { Point } from '@overwolf/odk-ts/window/interfaces/point';
 import { EnumConvertors } from '../utils/enum-convertors';
 
 type NumberInput = HTMLInputElement;

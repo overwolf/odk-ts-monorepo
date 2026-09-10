@@ -1,14 +1,18 @@
 import { IWindowManagerService } from '../../shared/interfaces/window-manager-service.interface';
 import { IWindowManagerServiceDelegate } from '../../shared/interfaces/window-manager-service.interface';
-import { DesktopWindow, OSRWindow, WindowBase } from '@overwolf/odk-ts';
+import {
+  DesktopWindow,
+  DesktopWindowOptions,
+  Event,
+  OSRWindow,
+  OSRWindowOptions,
+  Point,
+  Size,
+  WindowBase,
+} from '@overwolf/odk-ts';
 import { FunctionPropertyNames } from '../types';
-import { DesktopWindowOptions } from '@overwolf/odk-ts/window/options/desktop_window_options';
-import { OSRWindowOptions } from '@overwolf/odk-ts/window/options/osr_window_options';
 import { LoggerService } from '../../shared/services/logger.service';
 import { singleton } from 'tsyringe';
-import { Event } from '@overwolf/odk-ts/lib/event_emitter';
-import { Size } from '@overwolf/odk-ts/window/interfaces/size';
-import { Point } from '@overwolf/odk-ts/window/interfaces/point';
 
 export const kNameOfWindowManagerService = 'WindowManagerService';
 

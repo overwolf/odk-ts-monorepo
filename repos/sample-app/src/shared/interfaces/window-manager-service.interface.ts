@@ -1,7 +1,9 @@
-import { WindowBase } from '@overwolf/odk-ts';
+import {
+  DesktopWindowOptions,
+  OSRWindowOptions,
+  WindowBase,
+} from '@overwolf/odk-ts';
 import { DelegateProvider } from './delegate-provider.interface';
-import { DesktopWindowOptions } from '@overwolf/odk-ts/window/options/desktop_window_options';
-import { OSRWindowOptions } from '@overwolf/odk-ts/window/options/osr_window_options';
 
 //------------------------------------------------------------------------------
 export interface IWindowManagerServiceDelegate {
