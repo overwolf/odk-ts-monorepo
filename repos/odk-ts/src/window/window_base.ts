@@ -1224,41 +1224,44 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   get windowInfo(): overwolf.windows.WindowInfo {
     return this.owWindowInfo;
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   get windowOptions(): WindowRuntimeOptions {
     return this.options;
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   get autoDpi(): boolean {
     return this.options?.autoDpi ?? false;
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   get dpiUnAware(): boolean {
     const osrOptions = this.options as OSRWindowOptions;
     return osrOptions?.dpiUnAware ?? false;
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   get inputPassThrough(): boolean {
     const osrOptions = this.options as OSRWindowOptions;
     return osrOptions?.inputPassThrough ?? false;
   }
 
   // ---------------------------------------------------------------------------
-  // If dpiUnAware or isDesktopWindow, we should not apply dpi scaling for the position.
-  // Otherwise, use the window's DPI scale.
-  // @internal
+  /**
+   * If dpiUnAware or isDesktopWindow, we should not apply dpi scaling for
+   * the position. Otherwise, use the window's DPI scale.
+   *
+   * @internal
+   */
   private get positionScaleFactor(): number {
     return this.dpiUnAware || this.isDesktopWindow
       ? 1
@@ -1266,10 +1269,13 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // Size counterpart to positionScaleFactor. Sizes passed to setBounds are
-  // DPI-scaled for desktop-only windows, so pre-multiply to keep setBounds a
-  // round trip. Positions are not scaled that way.
-  // @internal
+  /**
+   * Size counterpart to positionScaleFactor. Sizes passed to setBounds are
+   * DPI-scaled for desktop-only windows, so pre-multiply to keep setBounds a
+   * round trip. Positions are not scaled that way.
+   *
+   * @internal
+   */
   private get sizeScaleFactor(): number {
     // Matches only what counts as desktop-only here - not the `desktopOnly`
     // getter, which is broader and would double-apply the scale.
@@ -1283,7 +1289,7 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   private static toScaledInt(
     val: number | undefined | null,
     scale = 1
@@ -1296,7 +1302,7 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   public onWindowClosed(): void {
     this.logger.info(`window ${this.id} closed`);
     this.closed = true;
@@ -1315,7 +1321,7 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   private removeWindowEventListeners() {
     overwolf.windows2.resized.removeListener(this.onWindowResized);
     overwolf.windows2.moved.removeListener(this.onWindowMoved);
@@ -1326,7 +1332,7 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // @internal
+  /** @internal */
   public async onWindowMonitorPropertyChanged(
     monitor: Monitor,
     window: overwolf.windows.WindowInfo

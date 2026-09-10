@@ -93,11 +93,13 @@ export interface Options {
   resizable?: boolean;
 
   /**
-   * Indicates whether provided dimensions should automatically account for DPI scaling.
+   * Indicates whether provided dimensions should automatically account for
+   * DPI scaling.
    *
    * @remarks
    * - For `DesktopWindow`: Currently unsupported.
-   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for other types.
+   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for
+   *   other types.
    *
    * @default
    * - `OSRWindow`: `false` for `DesktopOnly`, `true` otherwise
@@ -106,11 +108,13 @@ export interface Options {
   autoDpi?: boolean;
 
   /**
-   * Indicates whether the window zoom level should automatically account for DPI scaling.
+   * Indicates whether the window zoom level should automatically account for
+   * DPI scaling.
    *
    * @remarks
    * - For `DesktopWindow`: Currently unsupported.
-   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for other types.
+   * - For `OSRWindow`: Default is `false` for `DesktopOnly`, `true` for
+   *   other types.
    *
    * @default
    * - `OSRWindow`: `false` for `DesktopOnly`, `true` otherwise
@@ -141,7 +145,8 @@ export interface Options {
   showInTaskBar?: boolean;
 
   /**
-   * Disables JavaScript engine background optimizations for improved performance.
+   * Disables JavaScript engine background optimizations for improved
+   * performance.
    *
    * @default true
    */
@@ -149,7 +154,8 @@ export interface Options {
 
 
   /**
-   * Indicates whether the window will automatically grab focus when opened on desktop.
+   * Indicates whether the window will automatically grab focus when opened
+   * on desktop.
    *
    * For in-game keyboard focus behavior, use `grabKeyboardFocus`.
    *
@@ -227,7 +233,8 @@ export interface Options {
   isMuted?: boolean;
 
   /**
-   * A list of host patterns that will not be muted even when the window is muted.
+   * A list of host patterns that will not be muted even when the window is
+   * muted.
    *
    * @example
    * ```ts

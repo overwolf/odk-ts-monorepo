@@ -63,9 +63,16 @@ export class OSRWindow extends WindowBase {
   /**
    * Resizes the window by dragging the specified edge to the given rectangle.
    *
+   * @remarks
+   * **Not implemented yet.** Calling this method always throws. Use
+   * {@link WindowBase.dragResize} to start an interactive resize, or
+   * {@link WindowBase.setSize} / {@link WindowBase.setBounds} to resize
+   * programmatically.
+   *
    * @param edge - the edge of the window to resize from.
    * @param rect - the target rectangle defining the new window bounds.
    * @returns A promise that resolves to `true` if the resize was successful.
+   * @throws Error always, until this method is implemented.
    */
   resize(edge: Edge, rect: Rectangle): Promise<boolean> {
     throw new Error('Method not implemented.');

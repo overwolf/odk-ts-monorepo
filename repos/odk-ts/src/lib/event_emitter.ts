@@ -8,8 +8,6 @@
 
 /**
  * EventHandler
- *
- * @export
  */
 export type EventHandler<T = any> = ((
   evt: Event<T>,
@@ -19,7 +17,6 @@ export type EventHandler<T = any> = ((
 /**
  * Event Object
  *
- * @export
  * @interface Event
  */
 export interface Event<T = any> {
@@ -27,7 +24,6 @@ export interface Event<T = any> {
    * event type
    *
    * @type {string}
-   * @memberof Event
    */
   type: string;
 
@@ -35,7 +31,6 @@ export interface Event<T = any> {
    * event data
    *
    * @type {*}
-   * @memberof Event
    */
   data: T;
 
@@ -43,7 +38,6 @@ export interface Event<T = any> {
    * the timestamp when event fired
    *
    * @type {number}
-   * @memberof Event
    */
   timestamp: number;
 
@@ -51,7 +45,6 @@ export interface Event<T = any> {
    * it is an once event, that meaning listen off after event fired
    *
    * @type {boolean}
-   * @memberof Event
    */
   once: boolean;
 }
@@ -60,15 +53,12 @@ export interface Event<T = any> {
  * It's a class for managing events.
  * It can be extended to provide event functionality for other classes or object.
  *
- * @export
  * @class EventEmitter
  */
 export class EventEmitter {
   /**
    * the all event handlers are added.
    * it's a Map data structure(key-value), the key is event type, and the value is event handler.
-   *
-   * @memberof EventEmitter
    */
   _eventHandlers: Record<string, EventHandler[] | undefined> = {};
 
@@ -77,7 +67,6 @@ export class EventEmitter {
    *
    * @param {string} type event type
    * @returns {boolean}
-   * @memberof EventEmitter
    */
   isValidType(type: string) {
     return typeof type === 'string';
@@ -88,7 +77,6 @@ export class EventEmitter {
    *
    * @param {EventHandler} handler event handler
    * @returns {boolean}
-   * @memberof EventEmitter
    */
   isValidHandler(handler: EventHandler) {
     return typeof handler === 'function';
@@ -102,7 +90,6 @@ export class EventEmitter {
    * @param {string} type event type, it must be a unique string.
    * @param {EventHandler} handler event handler, when if the same handler is passed, listen it by only once.
    * @returns {boolean}
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  emitter.on('change:name', evt => {
@@ -134,7 +121,6 @@ export class EventEmitter {
    * @param {string} type event type, it must be a unique string.
    * @param {EventHandler} handler event handler, when if the same handler is passed, listen it by only once.
    * @returns {boolean}
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  emitter.once('change:name', evt => {
@@ -165,7 +151,6 @@ export class EventEmitter {
    * @param {string} [type] event type
    * @param {EventHandler} [handler] event handler
    * @returns
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  // listen off the specified event
@@ -207,7 +192,6 @@ export class EventEmitter {
   /**
    * listen off all events, that means every event will be emptied.
    *
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  emitter.offAll();
@@ -221,10 +205,8 @@ export class EventEmitter {
    * When fired, every handler attached to that event will be executed.
    * But, if it's an once event, listen off it immediately after called handler.
    *
-   * @param {string} type event type
-   * @param {*} [data] event data
-   * @returns
-   * @memberof EventEmitter
+   * @param type event type
+   * @param args arguments passed on to every handler after the event object
    * @example
    *  const emitter = new EventEmitter();
    *  emitter.fire('change:name', 'new name');
@@ -256,7 +238,6 @@ export class EventEmitter {
    * @param {string} type event type
    * @param {EventHandler} [handler] event handler, optional
    * @returns {boolean}
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  const result = emitter.has('change:name');
@@ -280,7 +261,6 @@ export class EventEmitter {
    *
    * @param {string} type event type
    * @returns {EventHandler[]}
-   * @memberof EventEmitter
    * @example
    *  const emitter = new EventEmitter();
    *  const handlers = emitter.getHandlers('change:name');
@@ -298,7 +278,6 @@ export class EventEmitter {
    * @param {*} [data] event data
    * @param {boolean} [once=false] is it an once event?
    * @returns {Event}
-   * @memberof EventEmitter
    */
   createEvent(type: string, data?: any, once = false) {
     const event: Event = { type, data, timestamp: Date.now(), once };
