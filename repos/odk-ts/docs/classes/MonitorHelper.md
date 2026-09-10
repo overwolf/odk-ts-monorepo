@@ -1,4 +1,12 @@
+[**@overwolf/odk-ts**](../README.md)
+
+***
+
+[@overwolf/odk-ts](../README.md) / MonitorHelper
+
 # Class: MonitorHelper
+
+Defined in: [window/utils/monitor\_helper.ts:7](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/utils/monitor_helper.ts#L7)
 
 Helper class for monitor-related operations.
 
@@ -16,7 +24,9 @@ Helper class for monitor-related operations.
 
 ### getWindowMonitor()
 
-> `static` **getWindowMonitor**(`window`): `Promise`\<`Monitor`\>
+> `static` **getWindowMonitor**(`window`): `Promise`\<[`Monitor`](../interfaces/Monitor.md)\>
+
+Defined in: [window/utils/monitor\_helper.ts:19](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/utils/monitor_helper.ts#L19)
 
 Gets the monitor where the window is displayed.
 
@@ -33,7 +43,7 @@ The window to get the monitor for.
 
 #### Returns
 
-`Promise`\<`Monitor`\>
+`Promise`\<[`Monitor`](../interfaces/Monitor.md)\>
 
 A Monitor object describing the monitor bounds.
 

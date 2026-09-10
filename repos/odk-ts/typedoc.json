@@ -1,0 +1,18 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "readme": "none",
+  "plugin": ["typedoc-plugin-markdown"],
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "githubPages": false,
+  "gitRevision": "main",
+  "hideGenerator": true,
+  "externalSymbolLinkMappings": {
+    "@overwolf/types": {
+      "*": "https://overwolf.github.io/api/"
+    }
+  }
+}

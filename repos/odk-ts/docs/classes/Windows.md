@@ -1,4 +1,12 @@
+[**@overwolf/odk-ts**](../README.md)
+
+***
+
+[@overwolf/odk-ts](../README.md) / Windows
+
 # Class: Windows
+
+Defined in: [window/windows.ts:12](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/windows.ts#L12)
 
 Utility class for managing Overwolf windows.
 
@@ -21,6 +29,8 @@ This class provides static methods to retrieve window instances based on the cur
 ### FromId()
 
 > `static` **FromId**(`id`): `Promise`\<[`WindowBase`](WindowBase.md)\>
+
+Defined in: [window/windows.ts:70](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/windows.ts#L70)
 
 Returns the `WindowBase` representing the Overwolf window with the given ID.
 
@@ -47,6 +57,8 @@ Error if the window cannot be found or if the window type is background or unkno
 ### Self()
 
 > `static` **Self**(): `Promise`\<[`WindowBase`](WindowBase.md)\>
+
+Defined in: [window/windows.ts:26](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/windows.ts#L26)
 
 Returns the `WindowBase` representing the current Overwolf window.
 
