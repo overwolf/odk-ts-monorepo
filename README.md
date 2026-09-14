@@ -11,11 +11,24 @@ This repository is the monorepo for the **odk-ts** TypeScript library and its sa
 
 > **Run these commands in the root folder of the monorepo:**
 
+### Clone
+
+The Overwolf API type declarations come from the `overwolf/types` repository,
+wired in as a git submodule. Clone with submodules:
+
+```
+git clone --recurse-submodules https://github.com/overwolf/odk-ts-monorepo.git
+```
+
+If you already cloned without them, `npm install` below will fetch them for you.
+
 ### Install dependencies
 ```
 npm install
 ```
-This will install dependencies for all packages.
+This installs dependencies for all packages, and initializes the submodules if
+they are missing&mdash;without them TypeScript cannot resolve the `overwolf`
+namespace and the build fails.
 
 ### Build odk-ts
 ```

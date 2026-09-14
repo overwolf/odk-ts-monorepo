@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "prepare": "git submodule update --init --recursive",
     "build:odk": "npm run -w @overwolf/odk-ts buildpackage",
     "build:sample:dev": "npm run -w odk-ts-sample-app dev",
     "build:sample": "npm run -w odk-ts-sample-app build"
