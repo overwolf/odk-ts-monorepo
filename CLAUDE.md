@@ -33,8 +33,12 @@ grouped by conventional-commit type, so write subjects accordingly:
 `feat(window): ...`, `fix(odk-ts): ...`, `docs(odk-ts): ...`. Preview with
 `npm run -w @overwolf/odk-ts release:notes`.
 
-Only what affects a consumer of the published package belongs in release notes.
-`@internal` members, build plumbing and repo-side cleanups do not.
+Only what affects a consumer of the published package belongs in release notes,
+and the script enforces it: `feat`, `fix`, `perf` and `docs` appear, everything
+else (`build`, `chore`, `ci`, `test`, `refactor`) is left out and listed on
+stderr instead. A commit marked breaking always appears, whatever its type.
+Commits touching only the monorepo root or `repos/sample-app` are out of scope
+for the package and never appear.
 
 ## Breaking changes
 

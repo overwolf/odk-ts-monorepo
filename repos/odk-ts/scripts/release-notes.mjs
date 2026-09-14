@@ -78,15 +78,18 @@ const SECTIONS = [
   { key: 'fix', title: 'Bug Fixes' },
   { key: 'perf', title: 'Performance' },
   { key: 'docs', title: 'Documentation' },
-  { key: 'other', title: 'Other Changes' },
 ];
 
+// Only these types reach the notes. Build plumbing, chores, CI, tests and
+// refactors change nothing for someone installing the package. A commit marked
+// breaking is always included, whatever its type.
 const TYPE_SECTIONS = { feat: 'feat', fix: 'fix', perf: 'perf', docs: 'docs' };
 
 const CONVENTIONAL = /^(\w+)(?:\(([^)]*)\))?(!)?: (.+)$/;
 const VERSION_BUMP = /^odk-ts: bump version to \d+\.\d+\.\d+$/;
 
 const groups = new Map(SECTIONS.map((section) => [section.key, []]));
+const skipped = [];
 
 for (const commit of commits) {
   if (VERSION_BUMP.test(commit.subject)) continue;
@@ -94,7 +97,15 @@ for (const commit of commits) {
   const match = CONVENTIONAL.exec(commit.subject);
   const [, type, scope, bang, subject] = match ?? [];
   const breaking = Boolean(bang) || /^BREAKING[ -]CHANGE:/m.test(commit.body);
-  const key = breaking ? 'breaking' : TYPE_SECTIONS[type] ?? 'other';
+  const key = breaking ? 'breaking' : TYPE_SECTIONS[type];
+
+  // Reported on stderr rather than dropped quietly, so a consumer-facing
+  // change written without a recognised type is visible in the release log
+  // instead of silently missing from the notes.
+  if (!key) {
+    skipped.push(`${commit.hash} ${commit.subject}`);
+    continue;
+  }
 
   // Every commit in this package is scoped odk-ts, so that scope is noise.
   const label = scope && scope !== 'odk-ts' ? `**${scope}:** ` : '';
@@ -149,3 +160,10 @@ if (previous) {
 }
 
 process.stdout.write(`${lines.join('\n')}\n`);
+
+if (skipped.length > 0) {
+  process.stderr.write(
+    `release-notes: left out ${skipped.length} commit(s) as not consumer-facing:\n` +
+      skipped.map((line) => `  ${line}\n`).join('')
+  );
+}
