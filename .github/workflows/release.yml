@@ -1,0 +1,146 @@
+name: Release odk-ts
+
+# scripts/version.mjs bumps repos/odk-ts/package.json, tags odk-ts@<version>,
+# and pushes both. That tag push is the trigger: publishing to npm and creating
+# the GitHub Release are CI's job, so a release never depends on a developer's
+# local npm credentials.
+#
+# workflow_dispatch runs everything except the publish and the Release - the
+# gates, the build and the notes, which are written to the job summary. It
+# cannot exercise the npm OIDC handshake, which only happens on a real publish.
+#
+# The filename of this workflow is registered as the trusted publisher for
+# @overwolf/odk-ts on npmjs.com. Renaming this file breaks OIDC publishing
+# until the package's trusted-publisher settings are recreated to match.
+on:
+  push:
+    tags:
+      - "odk-ts@*"
+  workflow_dispatch:
+
+concurrency:
+  group: release-odk-ts
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Publish to npm and create a GitHub Release
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write # create the GitHub Release and upload its asset
+      id-token: write # npm OIDC trusted publishing
+
+    steps:
+      - name: Checkout the tagged commit
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # types/overwolf supplies the overwolf globals
+          fetch-depth: 0 # release notes walk history back to the previous tag
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: "https://registry.npmjs.org/"
+
+      # Trusted publishing needs npm >= 11.5.1; the runner ships an older npm.
+      - name: Upgrade npm
+        run: npm install -g npm@^11.5.1
+
+      - name: Install dependencies
+        run: npm ci
+
+      # On a dispatch run there is no tag, so the version that would ship is
+      # read from package.json instead of being checked against the ref.
+      - name: Resolve and verify the release version
+        id: package
+        run: |
+          NAME=$(node -p "require('./repos/odk-ts/package.json').name")
+          VERSION=$(node -p "require('./repos/odk-ts/package.json').version")
+          if [ "$GITHUB_EVENT_NAME" = "push" ] && [ "odk-ts@$VERSION" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match the packaged version (expected odk-ts@$VERSION)."
+            exit 1
+          fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=odk-ts@$VERSION" >> "$GITHUB_OUTPUT"
+
+      # Keeps a re-run, or a version already pushed by hand, from failing the job.
+      - name: Check whether this version is already on npm
+        id: published
+        env:
+          NAME: ${{ steps.package.outputs.name }}
+          VERSION: ${{ steps.package.outputs.version }}
+        run: |
+          if npm view "$NAME@$VERSION" version > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "::notice::$NAME@$VERSION is already on npm - skipping publish."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify every public module is re-exported from the barrel
+        run: npm run -w @overwolf/odk-ts check-exports
+
+      - name: Verify the committed API reference is current
+        run: npm run -w @overwolf/odk-ts docs:check
+
+      - name: Build the package
+        run: npm run build:odk
+
+      - name: Generate the release notes
+        env:
+          TAG: ${{ steps.package.outputs.tag }}
+        run: node repos/odk-ts/scripts/release-notes.mjs "$TAG" > "$RUNNER_TEMP/notes.md"
+
+      # buildpackage names every tarball package.tgz; a release asset needs the
+      # version in its filename.
+      - name: Stage the package tarball
+        env:
+          VERSION: ${{ steps.package.outputs.version }}
+        run: cp repos/odk-ts/dist/package.tgz "$RUNNER_TEMP/overwolf-odk-ts-$VERSION.tgz"
+
+      - name: Report the dry run
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          NAME: ${{ steps.package.outputs.name }}
+          VERSION: ${{ steps.package.outputs.version }}
+          TAG: ${{ steps.package.outputs.tag }}
+        run: |
+          ASSET="$RUNNER_TEMP/overwolf-odk-ts-$VERSION.tgz"
+          {
+            echo "## Dry run - nothing was published"
+            echo
+            echo "Would publish \`$NAME@$VERSION\` and create release \`$TAG\`."
+            echo "Tarball: $(du -h "$ASSET" | cut -f1)."
+            echo
+            echo "These are the notes the release would carry:"
+            echo
+            echo "---"
+            echo
+            cat "$RUNNER_TEMP/notes.md"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Publish to npm
+        if: github.event_name == 'push' && steps.published.outputs.exists == 'false'
+        run: npm run -w @overwolf/odk-ts release
+
+      - name: Create the GitHub Release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.package.outputs.version }}
+          TAG: ${{ steps.package.outputs.tag }}
+        run: |
+          ASSET="$RUNNER_TEMP/overwolf-odk-ts-$VERSION.tgz"
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "::notice::Release $TAG already exists - updating its notes and asset."
+            gh release edit "$TAG" --notes-file "$RUNNER_TEMP/notes.md"
+            gh release upload "$TAG" "$ASSET" --clobber
+          else
+            gh release create "$TAG" \
+              --title "@overwolf/odk-ts $VERSION" \
+              --notes-file "$RUNNER_TEMP/notes.md" \
+              "$ASSET"
+          fi

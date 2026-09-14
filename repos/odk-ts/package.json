@@ -26,8 +26,8 @@
     "version:patch": "node scripts/version.mjs patch",
     "version:minor": "node scripts/version.mjs minor",
     "version:major": "node scripts/version.mjs major",
-    "release": "cd dist && npm publish package.tgz --access public",
-    "bump-build-publish": "npm run version:patch && npm run buildpackage && npm run release"
+    "release:notes": "node scripts/release-notes.mjs",
+    "release": "cd dist && npm publish --access public"
   },
   "keywords": [
     "types",
