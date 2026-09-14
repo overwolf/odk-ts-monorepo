@@ -2,6 +2,6 @@ export enum WindowState {
   Hidden = 'hidden',
   Normal = 'normal',
   Minimized = 'minimized',
-  Maximize = 'maximize',
+  Maximized = 'maximized',
   Closed = 'closed',
 }

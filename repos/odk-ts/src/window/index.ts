@@ -18,6 +18,7 @@ export * from './options/anchor_margin_options';
 export * from './enums/edge';
 export * from './enums/osr_window_type';
 export * from './enums/window_state';
+export * from './enums/window_style';
 export * from './enums/window_type';
 
 // geometry and monitor shapes

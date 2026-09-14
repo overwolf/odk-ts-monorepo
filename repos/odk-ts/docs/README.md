@@ -13,6 +13,7 @@
 - [Edge](enumerations/Edge.md)
 - [OSRType](enumerations/OSRType.md)
 - [WindowState](enumerations/WindowState.md)
+- [WindowStyle](enumerations/WindowStyle.md)
 - [WindowType](enumerations/WindowType.md)
 
 ## Classes

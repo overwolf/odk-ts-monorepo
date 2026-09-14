@@ -26,9 +26,9 @@ Defined in: [window/enums/window\_state.ts:2](https://github.com/overwolf/odk-ts
 
 ***
 
-### Maximize
+### Maximized
 
-> **Maximize**: `"maximize"`
+> **Maximized**: `"maximized"`
 
 Defined in: [window/enums/window\_state.ts:5](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/enums/window_state.ts#L5)
 

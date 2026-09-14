@@ -1,16 +1,15 @@
+import { Edge } from '@overwolf/odk-ts';
+
 export class EnumConvertors {
   //----------------------------------------------------------------------------
-  public static readonly WindowResizeEdgeMapping: Record<
-    string,
-    overwolf.windows.enums.WindowDragEdge
-  > = {
-    Top: overwolf.windows.enums.WindowDragEdge.Top,
-    Bottom: overwolf.windows.enums.WindowDragEdge.Bottom,
-    Left: overwolf.windows.enums.WindowDragEdge.Left,
-    Right: overwolf.windows.enums.WindowDragEdge.Right,
-    TopLeft: overwolf.windows.enums.WindowDragEdge.TopLeft,
-    TopRight: overwolf.windows.enums.WindowDragEdge.TopRight,
-    BottomLeft: overwolf.windows.enums.WindowDragEdge.BottomLeft,
-    BottomRight: overwolf.windows.enums.WindowDragEdge.BottomRight,
+  public static readonly WindowResizeEdgeMapping: Record<string, Edge> = {
+    Top: Edge.Top,
+    Bottom: Edge.Bottom,
+    Left: Edge.Left,
+    Right: Edge.Right,
+    TopLeft: Edge.TopLeft,
+    TopRight: Edge.TopRight,
+    BottomLeft: Edge.BottomLeft,
+    BottomRight: Edge.BottomRight,
   };
 }

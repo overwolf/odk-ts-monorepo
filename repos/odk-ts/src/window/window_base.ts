@@ -5,6 +5,8 @@ import { Point } from './interfaces/point';
 import { Rectangle } from './interfaces/rectangle';
 import { Size } from './interfaces/size';
 import { WindowState } from './enums/window_state';
+import { WindowStyle } from './enums/window_style';
+import { EnumConvertors } from './utils/enums_convertors';
 import { WindowType } from './enums/window_type';
 import { WindowStateController } from './internal/window_state_controller';
 import { Options } from './options/window_options';
@@ -46,6 +48,7 @@ export abstract class WindowBase extends EventEmitter {
   protected closed: boolean;
 
   protected isDragging: boolean;
+  /** @internal */
   protected owWindowInfo: overwolf.windows.WindowInfo;
 
   private windowStateController: WindowStateController;
@@ -56,8 +59,7 @@ export abstract class WindowBase extends EventEmitter {
 
   private inputPassThroughApplied = false;
 
-  private readonly appliedWindowStyles =
-    new Set<overwolf.windows.enums.WindowStyle>();
+  private readonly appliedWindowStyles = new Set<WindowStyle>();
 
   private backgroundWindow: Window;
 
@@ -268,16 +270,18 @@ export abstract class WindowBase extends EventEmitter {
   /**
    * Adds an in-game window style to the window.
    *
-   * @param style The style to add (see {@link overwolf.windows.enums.WindowStyle}).
+   * @param style The style to add.
    * @throws Error if setting the style fails.
    */
-  public async setWindowStyle(
-    style: overwolf.windows.enums.WindowStyle
-  ): Promise<void> {
+  public async setWindowStyle(style: WindowStyle): Promise<void> {
     await this.assureCreated();
 
     const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
-      overwolf.windows.setWindowStyle(this.id, style, resolve)
+      overwolf.windows.setWindowStyle(
+        this.id,
+        EnumConvertors.ToOwWindowStyle(style),
+        resolve
+      )
     );
 
     if (!res.success) {
@@ -291,16 +295,18 @@ export abstract class WindowBase extends EventEmitter {
   /**
    * Removes an in-game window style from the window.
    *
-   * @param style The style to remove (see {@link overwolf.windows.enums.WindowStyle}).
+   * @param style The style to remove.
    * @throws Error if removing the style fails.
    */
-  public async removeWindowStyle(
-    style: overwolf.windows.enums.WindowStyle
-  ): Promise<void> {
+  public async removeWindowStyle(style: WindowStyle): Promise<void> {
     await this.assureCreated();
 
     const res = await new Promise<overwolf.windows.WindowIdResult>(resolve =>
-      overwolf.windows.removeWindowStyle(this.id, style, resolve)
+      overwolf.windows.removeWindowStyle(
+        this.id,
+        EnumConvertors.ToOwWindowStyle(style),
+        resolve
+      )
     );
 
     if (!res.success) {
@@ -317,7 +323,7 @@ export abstract class WindowBase extends EventEmitter {
    * Note: Overwolf exposes no native getter for window styles, so this reflects
    * only styles applied (and not later removed) through this window instance.
    */
-  public getWindowStyles(): overwolf.windows.enums.WindowStyle[] {
+  public getWindowStyles(): WindowStyle[] {
     return Array.from(this.appliedWindowStyles);
   }
 
@@ -325,9 +331,9 @@ export abstract class WindowBase extends EventEmitter {
   /**
    * Returns `true` if the given window style is currently applied.
    *
-   * @param style The style to check (see {@link overwolf.windows.enums.WindowStyle}).
+   * @param style The style to check.
    */
-  public hasWindowStyle(style: overwolf.windows.enums.WindowStyle): boolean {
+  public hasWindowStyle(style: WindowStyle): boolean {
     return this.appliedWindowStyles.has(style);
   }
 
@@ -684,13 +690,16 @@ export abstract class WindowBase extends EventEmitter {
    * @returns `true` if resizing was completed successfully.
    * @throws Error if starting resizing fails.
    */
-  public async dragResize(
-    edge: overwolf.windows.enums.WindowDragEdge
-  ): Promise<boolean> {
+  public async dragResize(edge: Edge): Promise<boolean> {
     await this.assureCreated();
 
     const res = await new Promise<overwolf.windows.DragResizeResult>(resolve =>
-      overwolf.windows.dragResize(this.id, edge, null, resolve)
+      overwolf.windows.dragResize(
+        this.id,
+        EnumConvertors.ToOwWindowDragEdge(edge),
+        null,
+        resolve
+      )
     );
 
     if (!res.success) {
@@ -732,9 +741,9 @@ export abstract class WindowBase extends EventEmitter {
    * @returns The current state of the window.
    * @throws Error if getting the window state fails.
    */
-  public async getWindowState(): Promise<overwolf.windows.enums.WindowStateEx> {
+  public async getWindowState(): Promise<WindowState> {
     if (this.closed) {
-      return overwolf.windows.enums.WindowStateEx.closed;
+      return WindowState.Closed;
     }
 
     await this.assureCreated();
@@ -747,7 +756,7 @@ export abstract class WindowBase extends EventEmitter {
       throw new Error(res.error);
     }
 
-    return res.window_state_ex;
+    return EnumConvertors.ToWindowState(res.window_state_ex);
   }
 
   // ---------------------------------------------------------------------------
@@ -808,6 +817,8 @@ export abstract class WindowBase extends EventEmitter {
   // ---------------------------------------------------------------------------
   /**
    * Handles window resize events, firing the 'resized' event with the new size.
+   *
+   * @internal
    */
   protected onWindowResized = async (
     window: overwolf.windows.WindowInfo
@@ -831,6 +842,8 @@ export abstract class WindowBase extends EventEmitter {
   // ---------------------------------------------------------------------------
   /**
    * Handles window move events, firing the 'moved' event with the new position.
+   *
+   * @internal
    */
   protected onWindowMoved = async (
     window: overwolf.windows.WindowInfo
@@ -855,6 +868,8 @@ export abstract class WindowBase extends EventEmitter {
   // ---------------------------------------------------------------------------
   /**
    * Handles DPI changes for the window.
+   *
+   * @internal
    */
   protected onWindowDPIChanged = async (
     args: overwolf.windows2.DPIChangedArgs
@@ -872,6 +887,8 @@ export abstract class WindowBase extends EventEmitter {
   // ---------------------------------------------------------------------------
   /**
    * Handles the start of window dragging.
+   *
+   * @internal
    */
   protected onWindowDragStarted = (
     window: overwolf.windows.WindowInfo
@@ -1087,18 +1104,14 @@ export abstract class WindowBase extends EventEmitter {
     const osrOptions = this.options as OSRWindowOptions;
 
     if (osrOptions?.bottommost) {
-      this.appliedWindowStyles.add(
-        overwolf.windows.enums.WindowStyle.BottomMost
-      );
+      this.appliedWindowStyles.add(WindowStyle.BottomMost);
     }
 
     if (
       osrOptions?.inputPassThrough &&
       !isOverwolfVersionBelow(INPUT_PASS_THROUGH_NATIVE_VERSION)
     ) {
-      this.appliedWindowStyles.add(
-        overwolf.windows.enums.WindowStyle.InputPassThrough
-      );
+      this.appliedWindowStyles.add(WindowStyle.InputPassThrough);
     }
   }
 
@@ -1113,9 +1126,7 @@ export abstract class WindowBase extends EventEmitter {
     }
 
     try {
-      await this.setWindowStyle(
-        overwolf.windows.enums.WindowStyle.InputPassThrough
-      );
+      await this.setWindowStyle(WindowStyle.InputPassThrough);
     } catch (error) {
       this.logger.warn(
         `failed to apply InputPassThrough style to window ${this.id}: ${error}`

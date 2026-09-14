@@ -6,7 +6,7 @@
 
 # Abstract Class: WindowBase
 
-Defined in: [window/window\_base.ts:39](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L39)
+Defined in: [window/window\_base.ts:41](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L41)
 
 ## Extends
 
@@ -23,7 +23,7 @@ Defined in: [window/window\_base.ts:39](https://github.com/overwolf/odk-ts-monor
 
 > **new WindowBase**(`options`, `id`): `WindowBase`
 
-Defined in: [window/window\_base.ts:69](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L69)
+Defined in: [window/window\_base.ts:71](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L71)
 
 WindowBase C'tor
 
@@ -72,7 +72,7 @@ it's a Map data structure(key-value), the key is event type, and the value is ev
 
 > **get** **desktopOnly**(): `boolean`
 
-Defined in: [window/window\_base.ts:792](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L792)
+Defined in: [window/window\_base.ts:801](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L801)
 
 ##### Returns
 
@@ -86,7 +86,7 @@ Defined in: [window/window\_base.ts:792](https://github.com/overwolf/odk-ts-mono
 
 > **get** **isDesktopWindow**(): `boolean`
 
-Defined in: [window/window\_base.ts:797](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L797)
+Defined in: [window/window\_base.ts:806](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L806)
 
 ##### Returns
 
@@ -98,7 +98,7 @@ Defined in: [window/window\_base.ts:797](https://github.com/overwolf/odk-ts-mono
 
 > **anchor**(`dock`, `marginOptions`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:594](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L594)
+Defined in: [window/window\_base.ts:600](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L600)
 
 Anchors the window to the specified edge of the monitor with margin options.
 
@@ -134,7 +134,7 @@ Error if anchoring fails.
 
 > **assureCreated**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:112](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L112)
+Defined in: [window/window\_base.ts:114](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L114)
 
 Ensures that the window has been created.
 
@@ -152,7 +152,7 @@ Error if the window is closed or not created.
 
 > **bringToFront**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:181](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L181)
+Defined in: [window/window\_base.ts:183](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L183)
 
 Brings the window to the front without focusing it.
 
@@ -170,7 +170,7 @@ Error if the operation fails.
 
 > **bringToFrontWithFocus**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:199](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L199)
+Defined in: [window/window\_base.ts:201](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L201)
 
 Brings the window to the front and focuses it.
 
@@ -188,7 +188,7 @@ Error if the operation fails.
 
 > **center**(): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:218](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L218)
+Defined in: [window/window\_base.ts:220](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L220)
 
 Centers the window on its current monitor.
 
@@ -208,7 +208,7 @@ Error if centering fails.
 
 > **centerOnMonitor**(`monitor`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:240](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L240)
+Defined in: [window/window\_base.ts:242](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L242)
 
 Centers the window on the specified monitor.
 
@@ -236,7 +236,7 @@ Error if centering fails.
 
 > **close**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:368](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L368)
+Defined in: [window/window\_base.ts:374](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L374)
 
 Closes the window.
 
@@ -292,7 +292,7 @@ is it an once event?
 
 > **dock**(`dock`, `margin?`, `monitor?`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:558](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L558)
+Defined in: [window/window\_base.ts:564](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L564)
 
 Docks the window to the specified edge of the monitor.
 
@@ -336,7 +336,7 @@ Error if docking fails.
 
 > **dragResize**(`edge`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:687](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L687)
+Defined in: [window/window\_base.ts:693](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L693)
 
 Starts resizing the window by dragging.
 
@@ -344,7 +344,7 @@ Starts resizing the window by dragging.
 
 ##### edge
 
-[`WindowDragEdge`](https://overwolf.github.io/api/)
+[`Edge`](../enumerations/Edge.md)
 
 #### Returns
 
@@ -403,7 +403,7 @@ const emitter = new EventEmitter();
 
 > **getBounds**(): `Promise`\<[`Rectangle`](../interfaces/Rectangle.md)\>
 
-Defined in: [window/window\_base.ts:628](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L628)
+Defined in: [window/window\_base.ts:634](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L634)
 
 Gets the bounds of the window.
 
@@ -457,7 +457,7 @@ const emitter = new EventEmitter();
 
 > **getWindowSize**(): `Promise`\<[`Size`](../interfaces/Size.md)\>
 
-Defined in: [window/window\_base.ts:759](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L759)
+Defined in: [window/window\_base.ts:768](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L768)
 
 Gets the effective size of the window, taking into account DPI scaling and AutoDPI settings.
 
@@ -473,7 +473,7 @@ The effective `Size` (`width` and `height`) of the window.
 
 > **getWindowSizeOnMonitor**(`monitor`): `Promise`\<[`Size`](../interfaces/Size.md)\>
 
-Defined in: [window/window\_base.ts:776](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L776)
+Defined in: [window/window\_base.ts:785](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L785)
 
 Gets the effective size of the window on the specified monitor, taking into account DPI scaling and AutoDPI settings.
 
@@ -499,15 +499,15 @@ If the monitor is not provided or does not have a `dpiScale`, this method falls 
 
 ### getWindowState()
 
-> **getWindowState**(): `Promise`\<[`WindowStateEx`](https://overwolf.github.io/api/)\>
+> **getWindowState**(): `Promise`\<[`WindowState`](../enumerations/WindowState.md)\>
 
-Defined in: [window/window\_base.ts:735](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L735)
+Defined in: [window/window\_base.ts:744](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L744)
 
 Gets the current state of the window.
 
 #### Returns
 
-`Promise`\<[`WindowStateEx`](https://overwolf.github.io/api/)\>
+`Promise`\<[`WindowState`](../enumerations/WindowState.md)\>
 
 The current state of the window.
 
@@ -519,9 +519,9 @@ Error if getting the window state fails.
 
 ### getWindowStyles()
 
-> **getWindowStyles**(): [`WindowStyle`](https://overwolf.github.io/api/)[]
+> **getWindowStyles**(): [`WindowStyle`](../enumerations/WindowStyle.md)[]
 
-Defined in: [window/window\_base.ts:320](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L320)
+Defined in: [window/window\_base.ts:326](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L326)
 
 Returns the window styles currently applied via [setWindowStyle](#setwindowstyle).
 
@@ -530,7 +530,7 @@ only styles applied (and not later removed) through this window instance.
 
 #### Returns
 
-[`WindowStyle`](https://overwolf.github.io/api/)[]
+[`WindowStyle`](../enumerations/WindowStyle.md)[]
 
 ***
 
@@ -578,7 +578,7 @@ const emitter = new EventEmitter();
 
 > **hasWindowStyle**(`style`): `boolean`
 
-Defined in: [window/window\_base.ts:330](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L330)
+Defined in: [window/window\_base.ts:336](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L336)
 
 Returns `true` if the given window style is currently applied.
 
@@ -586,9 +586,9 @@ Returns `true` if the given window style is currently applied.
 
 ##### style
 
-[`WindowStyle`](https://overwolf.github.io/api/)
+[`WindowStyle`](../enumerations/WindowStyle.md)
 
-The style to check (see [overwolf.windows.enums.WindowStyle](https://overwolf.github.io/api/)).
+The style to check.
 
 #### Returns
 
@@ -600,7 +600,7 @@ The style to check (see [overwolf.windows.enums.WindowStyle](https://overwolf.gi
 
 > **hide**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:410](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L410)
+Defined in: [window/window\_base.ts:416](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L416)
 
 Hides the window.
 
@@ -618,7 +618,7 @@ Error if hiding the window fails.
 
 > **Id**(): `string`
 
-Defined in: [window/window\_base.ts:102](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L102)
+Defined in: [window/window\_base.ts:104](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L104)
 
 Gets the window ID.
 
@@ -634,7 +634,7 @@ The window ID(string).
 
 > **isOpen**(): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:710](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L710)
+Defined in: [window/window\_base.ts:719](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L719)
 
 Checks if the window is open.
 
@@ -706,7 +706,7 @@ event type
 
 > **loadUrl**(`url`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:134](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L134)
+Defined in: [window/window\_base.ts:136](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L136)
 
 Loads the specified URL into the window.
 
@@ -734,7 +734,7 @@ Error if the URL loading fails.
 
 > **maximize**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:446](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L446)
+Defined in: [window/window\_base.ts:452](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L452)
 
 Maximizes the window.
 
@@ -752,7 +752,7 @@ Error if maximizing the window fails.
 
 > **minimize**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:428](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L428)
+Defined in: [window/window\_base.ts:434](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L434)
 
 Minimizes the window.
 
@@ -770,7 +770,7 @@ Error if minimizing the window fails.
 
 > **move**(): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:666](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L666)
+Defined in: [window/window\_base.ts:672](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L672)
 
 Starts dragging the window.
 
@@ -790,7 +790,7 @@ Error if starting dragging fails.
 
 > **mute**(`mute`, `all?`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:342](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L342)
+Defined in: [window/window\_base.ts:348](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L348)
 
 Set current window Mute state/ mute all windows.
 
@@ -897,7 +897,7 @@ const emitter = new EventEmitter();
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1362](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1362)
+Defined in: [window/window\_base.ts:1373](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1373)
 
 resized
 
@@ -923,7 +923,7 @@ resized
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1376](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1376)
+Defined in: [window/window\_base.ts:1387](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1387)
 
 Moved
 
@@ -949,7 +949,7 @@ Moved
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1390](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1390)
+Defined in: [window/window\_base.ts:1401](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1401)
 
 Fired when monitor properties change.
 
@@ -975,7 +975,7 @@ Fired when monitor properties change.
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1398](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1398)
+Defined in: [window/window\_base.ts:1409](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1409)
 
 minimized
 
@@ -1001,7 +1001,7 @@ minimized
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1416](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1416)
+Defined in: [window/window\_base.ts:1427](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1427)
 
 hide
 
@@ -1027,7 +1027,7 @@ hide
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1434](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1434)
+Defined in: [window/window\_base.ts:1445](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1445)
 
 maximized
 
@@ -1053,7 +1053,7 @@ maximized
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1452](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1452)
+Defined in: [window/window\_base.ts:1463](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1463)
 
 restore
 
@@ -1079,7 +1079,7 @@ restore
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1470](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1470)
+Defined in: [window/window\_base.ts:1481](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1481)
 
 show
 
@@ -1105,7 +1105,7 @@ show
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1488](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1488)
+Defined in: [window/window\_base.ts:1499](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1499)
 
 closed
 
@@ -1131,7 +1131,7 @@ closed
 
 > **on**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1493](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1493)
+Defined in: [window/window\_base.ts:1504](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1504)
 
 Fail to load window url
 
@@ -1159,7 +1159,7 @@ Fail to load window url
 
 > **once**(`event`, `listener`): `any`
 
-Defined in: [window/window\_base.ts:1502](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1502)
+Defined in: [window/window\_base.ts:1513](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L1513)
 
 Window is ready to shown
 
@@ -1187,7 +1187,7 @@ Window is ready to shown
 
 > **removeWindowStyle**(`style`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:297](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L297)
+Defined in: [window/window\_base.ts:301](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L301)
 
 Removes an in-game window style from the window.
 
@@ -1195,9 +1195,9 @@ Removes an in-game window style from the window.
 
 ##### style
 
-[`WindowStyle`](https://overwolf.github.io/api/)
+[`WindowStyle`](../enumerations/WindowStyle.md)
 
-The style to remove (see [overwolf.windows.enums.WindowStyle](https://overwolf.github.io/api/)).
+The style to remove.
 
 #### Returns
 
@@ -1213,7 +1213,7 @@ Error if removing the style fails.
 
 > **restore**(): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:464](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L464)
+Defined in: [window/window\_base.ts:470](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L470)
 
 Restores the window.
 
@@ -1231,7 +1231,7 @@ Error if restoring the window fails.
 
 > **setBounds**(`rect`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:511](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L511)
+Defined in: [window/window\_base.ts:517](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L517)
 
 Sets the bounds of the window(position and size).
 
@@ -1259,7 +1259,7 @@ Error if setting the bounds fails.
 
 > **setPosition**(`point`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:487](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L487)
+Defined in: [window/window\_base.ts:493](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L493)
 
 Sets the position of the window.
 
@@ -1287,7 +1287,7 @@ Error if setting the position fails.
 
 > **setSize**(`size`): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:499](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L499)
+Defined in: [window/window\_base.ts:505](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L505)
 
 Sets the size of the window.
 
@@ -1315,7 +1315,7 @@ Error if setting the size fails.
 
 > **setTopmost**(`isTopmost`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:163](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L163)
+Defined in: [window/window\_base.ts:165](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L165)
 
 Sets or unsets the window as topmost.
 
@@ -1341,7 +1341,7 @@ Error if the operation fails.
 
 > **setWindowStyle**(`style`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:274](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L274)
+Defined in: [window/window\_base.ts:276](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L276)
 
 Adds an in-game window style to the window.
 
@@ -1349,9 +1349,9 @@ Adds an in-game window style to the window.
 
 ##### style
 
-[`WindowStyle`](https://overwolf.github.io/api/)
+[`WindowStyle`](../enumerations/WindowStyle.md)
 
-The style to add (see [overwolf.windows.enums.WindowStyle](https://overwolf.github.io/api/)).
+The style to add.
 
 #### Returns
 
@@ -1367,7 +1367,7 @@ Error if setting the style fails.
 
 > **show**(): `Promise`\<`boolean`\>
 
-Defined in: [window/window\_base.ts:387](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L387)
+Defined in: [window/window\_base.ts:393](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L393)
 
 Shows the window.
 
@@ -1387,7 +1387,7 @@ Error if showing the window fails.
 
 > `abstract` **type**(): [`WindowType`](../enumerations/WindowType.md)
 
-Defined in: [window/window\_base.ts:89](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L89)
+Defined in: [window/window\_base.ts:91](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L91)
 
 #### Returns
 
@@ -1399,7 +1399,7 @@ Defined in: [window/window\_base.ts:89](https://github.com/overwolf/odk-ts-monor
 
 > **zoom**(`factor`): `Promise`\<`void`\>
 
-Defined in: [window/window\_base.ts:261](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L261)
+Defined in: [window/window\_base.ts:263](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/window_base.ts#L263)
 
 Sets the zoom factor for the window.
 

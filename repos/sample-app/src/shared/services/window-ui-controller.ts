@@ -1,4 +1,12 @@
-import { Edge, Point, Size, WindowBase, Windows } from '@overwolf/odk-ts';
+import {
+  Edge,
+  Point,
+  Size,
+  WindowBase,
+  Windows,
+  WindowState,
+  WindowStyle,
+} from '@overwolf/odk-ts';
 import { Category } from 'typescript-logging-category-style';
 import { EnumConvertors } from '../utils/enum-convertors';
 
@@ -291,8 +299,7 @@ export abstract class WindowUIController {
       return;
     }
 
-    const style = this.windowStyleSelect
-      .value as overwolf.windows.enums.WindowStyle;
+    const style = this.windowStyleSelect.value as WindowStyle;
 
     await this.window.setWindowStyle(style);
     this.refreshWindowStyles();
@@ -304,8 +311,7 @@ export abstract class WindowUIController {
       return;
     }
 
-    const style = this.windowStyleSelect
-      .value as overwolf.windows.enums.WindowStyle;
+    const style = this.windowStyleSelect.value as WindowStyle;
 
     await this.window.removeWindowStyle(style);
     this.refreshWindowStyles();
@@ -335,7 +341,7 @@ export abstract class WindowUIController {
   //----------------------------------------------------------------------------
   private handleMaximize = async (): Promise<void> => {
     const state = await this.window.getWindowState();
-    if (state === 'maximized') {
+    if (state === WindowState.Maximized) {
       await this.window.restore();
     } else {
       await this.window.maximize();
@@ -391,9 +397,7 @@ export abstract class WindowUIController {
 
   //----------------------------------------------------------------------------
   // Determines the resize edge from the mouse event target
-  private getResizeEdgeFromEvent(
-    ev: MouseEvent
-  ): overwolf.windows.enums.WindowDragEdge | null {
+  private getResizeEdgeFromEvent(ev: MouseEvent): Edge | null {
     const target = ev.target as HTMLElement | null;
     const handle = target?.closest?.('.ow-resize') as HTMLElement | null;
     if (!handle) {
@@ -406,7 +410,7 @@ export abstract class WindowUIController {
     }
 
     const edgeEnum = EnumConvertors.WindowResizeEdgeMapping[edgeStr];
-    if (!edgeEnum || edgeEnum === overwolf.windows.enums.WindowDragEdge.None) {
+    if (!edgeEnum || edgeEnum === Edge.None) {
       return null;
     }
 

@@ -59,6 +59,11 @@ Deep paths such as `@overwolf/odk-ts/window/enums/edge` still resolve, but they
 are not part of the supported API and will stop working in a future major
 version. Import from the root.
 
+The ODK's public API is expressed entirely in its own types&mdash;no
+`overwolf.*` globals appear in its type definitions. Installing the package is
+all a consumer needs; there is no companion types package to add and no
+`tsconfig.json` change to make.
+
 ## How to build the package
 
 ### Production build
@@ -362,6 +367,7 @@ The full generated API reference lives in [docs/](docs/):
 - [`Edge`](docs/enumerations/Edge.md),
   [`OSRType`](docs/enumerations/OSRType.md),
   [`WindowState`](docs/enumerations/WindowState.md),
+  [`WindowStyle`](docs/enumerations/WindowStyle.md),
   [`WindowType`](docs/enumerations/WindowType.md)&mdash;enums.
 
 The reference is generated from the source with TypeDoc. Regenerate it after
