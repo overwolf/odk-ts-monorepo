@@ -27,7 +27,11 @@ const INPUT_PASS_THROUGH_NATIVE_VERSION = '0.304.0.8';
 
 declare global {
   interface Window {
-    // used for sync WindowBase 'WindowRuntimeOptions'
+    /**
+     * used for sync WindowBase 'WindowRuntimeOptions'
+     *
+     * @internal
+     */
     ___odkinternal___: { [id: string]: WindowRuntimeOptions };
   }
 }
@@ -37,6 +41,7 @@ export abstract class WindowBase extends EventEmitter {
     LoggerService.getLogger().getChildCategory('WindowBase');
 
   protected id: string;
+  /** @internal */
   protected options: WindowRuntimeOptions;
   protected closed: boolean;
 
