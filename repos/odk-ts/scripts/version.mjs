@@ -50,8 +50,10 @@ if (existsSync(nextNotes)) {
   console.log(`✔ release notes: next.md -> ${version}.md`);
 }
 
-// commit the bump, and the renamed notes when there are any
-sh(`git add "${path.relative(process.cwd(), pkgPath)}"`);
+// commit the bump, and the renamed notes when there are any. npm version also
+// rewrites this workspace's entry in the root lockfile, which the release
+// installs from - ":/" resolves it from the repo root, since we run in repos/odk-ts
+sh(`git add "${path.relative(process.cwd(), pkgPath)}" ":/package-lock.json"`);
 sh(`git commit -m "odk-ts: bump version to ${version}"`);
 
 // create a namespaced annotated tag
