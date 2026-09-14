@@ -48,8 +48,10 @@ jobs:
       - name: Upgrade npm
         run: npm install -g npm@^11.5.1
 
+      # .gitignore excludes **/package-lock.json, so there is no committed
+      # lockfile and npm ci cannot be used.
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-audit --no-fund
 
       # On a dispatch run there is no tag, so the version that would ship is
       # read from package.json instead of being checked against the ref.
