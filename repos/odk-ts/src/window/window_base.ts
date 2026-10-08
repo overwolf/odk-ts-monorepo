@@ -56,6 +56,8 @@ export abstract class WindowBase extends EventEmitter {
 
   private creationPromise: Promise<void>;
   private readyToShowPromise = new PromiseResolver();
+  // id of the window windows2.create is building, until its callback lands
+  private creatingId: string | null = null;
 
   private inputPassThroughApplied = false;
 
@@ -906,11 +908,11 @@ export abstract class WindowBase extends EventEmitter {
    * Handles the 'ready to show' event for the window and fires the corresponding event.
    */
   protected onWindowReadyToShow = (window): void => {
-    if (window?.id !== this.id) {
+    if (!this.isOwnLoadEvent(window)) {
       return;
     }
 
-    this.logger.info(`window ${this.id} is ready to show`);
+    this.logger.info(`window ${window.id} is ready to show`);
 
     this.readyToShowPromise?.resolve();
 
@@ -922,16 +924,28 @@ export abstract class WindowBase extends EventEmitter {
    * Handles the 'load error' event for the window and fires the corresponding event.
    */
   protected onWindowLoadError = (window): void => {
-    if (window?.id !== this.id) {
+    if (!this.isOwnLoadEvent(window)) {
       return;
     }
 
     this.logger.error(
-      `window ${this.id} failed to load url: ${this.options?.url}`
+      `window ${window.id} failed to load url: ${this.options?.url}`
     );
+
+    // A navigation that fails before commit gets no readyToShow, so settle the
+    // wait here or show()/restore() never return. Resolve rather than reject:
+    // the window can still be shown, and 'load-error' tells the app why.
+    this.readyToShowPromise?.resolve();
 
     this.fire('load-error');
   };
+
+  // ---------------------------------------------------------------------------
+  // readyToShow and loadError can arrive before windows2.create's callback,
+  // while this.id is still unset.
+  private isOwnLoadEvent(window): boolean {
+    return window?.id != null && window.id === (this.id ?? this.creatingId);
+  }
 
   // ---------------------------------------------------------------------------
   // Private Functions
@@ -1015,10 +1029,20 @@ export abstract class WindowBase extends EventEmitter {
     // Windows.Self() || Windows.FromId(...) will be up to date
     this.saveWindowOptions(options, id);
 
+    // readyToShow fires only once, when the page finishes loading, which can be
+    // before create's callback - so these two can't wait for onWindowCreated
+    // like the other window events, which keep firing. (It re-adds them along
+    // with the rest; that's harmless.)
+    this.creatingId = id;
+    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
+    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
+
     this.creationPromise = new Promise((resolve, reject) => {
       overwolf.windows2.create(id, options, result => {
         this.logger.debug(`create window result: ${JSON.stringify(result)}`);
+        this.creatingId = null;
         if (!result.success) {
+          this.removeWindowEventListeners();
           this.clearWindowOptions();
           this.id = null;
           reject(result.error);
@@ -1054,13 +1078,7 @@ export abstract class WindowBase extends EventEmitter {
     this.windowStateController = new WindowStateController(this);
 
     this.removeWindowEventListeners();
-
-    overwolf.windows2.resized.addListener(this.onWindowResized);
-    overwolf.windows2.moved.addListener(this.onWindowMoved);
-    overwolf.windows2.dragStarted.addListener(this.onWindowDragStarted);
-    overwolf.windows2.dpiChanged.addListener(this.onWindowDPIChanged);
-    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
-    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
+    this.addWindowEventListeners();
 
     if (isWindowCreation) {
       await this.applyAutoDpiSizeIfNeeded();
@@ -1334,6 +1352,17 @@ export abstract class WindowBase extends EventEmitter {
 
     this.fire('closed', this);
     this.id = null;
+  }
+
+  // ---------------------------------------------------------------------------
+  /** @internal */
+  private addWindowEventListeners() {
+    overwolf.windows2.resized.addListener(this.onWindowResized);
+    overwolf.windows2.moved.addListener(this.onWindowMoved);
+    overwolf.windows2.dragStarted.addListener(this.onWindowDragStarted);
+    overwolf.windows2.dpiChanged.addListener(this.onWindowDPIChanged);
+    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
+    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
   }
 
   // ---------------------------------------------------------------------------
