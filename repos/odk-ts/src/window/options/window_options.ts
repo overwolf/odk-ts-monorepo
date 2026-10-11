@@ -27,6 +27,27 @@ export interface Options {
   visible?: boolean;
 
   /**
+   * The longest time, in milliseconds, that {@link WindowBase.show},
+   * {@link WindowBase.restore}, {@link WindowBase.center},
+   * {@link WindowBase.centerOnMonitor}, {@link WindowBase.dock} and
+   * {@link WindowBase.anchor} wait for the window to be ready to show.
+   *
+   * The window is ready to show when its page fires its `load` event, which
+   * waits for every image, script, stylesheet and iframe the page starts
+   * before it. A page that pulls remote content can take a while to get there.
+   * Once this time passes, those calls go ahead anyway, and the window may
+   * appear before its page has finished loading. `ready-to-show` still fires
+   * when the load completes. `0` means don't wait.
+   *
+   * @remarks
+   * Only a window being created waits. One opened with `Windows.Self()` or
+   * `Windows.FromId()` never does, so this has no effect there.
+   *
+   * @default undefined (wait for the page to load, however long it takes)
+   */
+  readyToShowTimeout?: number;
+
+  /**
    * The horizontal position of the window.
    *
    * Mandatory if {@link y} is provided.

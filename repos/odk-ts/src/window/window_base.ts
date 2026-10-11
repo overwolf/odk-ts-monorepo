@@ -58,6 +58,7 @@ export abstract class WindowBase extends EventEmitter {
   private readyToShowPromise = new PromiseResolver();
   // id of the window windows2.create is building, until its callback lands
   private creatingId: string | null = null;
+  private readyToShowTimer: ReturnType<typeof setTimeout> | null = null;
 
   private inputPassThroughApplied = false;
 
@@ -914,6 +915,7 @@ export abstract class WindowBase extends EventEmitter {
 
     this.logger.info(`window ${window.id} is ready to show`);
 
+    this.clearReadyToShowTimeout();
     this.readyToShowPromise?.resolve();
 
     this.fire('ready-to-show');
@@ -935,10 +937,15 @@ export abstract class WindowBase extends EventEmitter {
     // A navigation that fails before commit gets no readyToShow, so settle the
     // wait here or show()/restore() never return. Resolve rather than reject:
     // the window can still be shown, and 'load-error' tells the app why.
+    this.clearReadyToShowTimeout();
     this.readyToShowPromise?.resolve();
 
     this.fire('load-error');
   };
+
+  // ---------------------------------------------------------------------------
+  // Private Functions
+  // ---------------------------------------------------------------------------
 
   // ---------------------------------------------------------------------------
   // readyToShow and loadError can arrive before windows2.create's callback,
@@ -948,8 +955,35 @@ export abstract class WindowBase extends EventEmitter {
   }
 
   // ---------------------------------------------------------------------------
-  // Private Functions
+  // Options.readyToShowTimeout: stop waiting for the page's load event after
+  // this long. readyToShow still fires later, and resolving again is a no-op.
+  private startReadyToShowTimeout(timeout: number | undefined): void {
+    if (typeof timeout !== 'number' || !Number.isFinite(timeout) ||
+        timeout < 0) {
+      return;
+    }
+
+    if (timeout === 0) {
+      this.readyToShowPromise?.resolve();
+      return;
+    }
+
+    this.readyToShowTimer = setTimeout(() => {
+      this.readyToShowTimer = null;
+      this.logger.warn(
+        `window ${this.id ?? this.creatingId} not ready to show after ${timeout}ms, showing it anyway`
+      );
+      this.readyToShowPromise?.resolve();
+    }, timeout);
+  }
+
   // ---------------------------------------------------------------------------
+  private clearReadyToShowTimeout(): void {
+    if (this.readyToShowTimer !== null) {
+      clearTimeout(this.readyToShowTimer);
+      this.readyToShowTimer = null;
+    }
+  }
 
   // ---------------------------------------------------------------------------
   // create for existing window
@@ -1036,12 +1070,14 @@ export abstract class WindowBase extends EventEmitter {
     this.creatingId = id;
     overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
     overwolf.windows2.loadError.addListener(this.onWindowLoadError);
+    this.startReadyToShowTimeout(options.readyToShowTimeout);
 
     this.creationPromise = new Promise((resolve, reject) => {
       overwolf.windows2.create(id, options, result => {
         this.logger.debug(`create window result: ${JSON.stringify(result)}`);
         this.creatingId = null;
         if (!result.success) {
+          this.clearReadyToShowTimeout();
           this.removeWindowEventListeners();
           this.clearWindowOptions();
           this.id = null;
@@ -1346,6 +1382,7 @@ export abstract class WindowBase extends EventEmitter {
     this.monitorStateController?.dispose();
     this.monitorStateController = null;
 
+    this.clearReadyToShowTimeout();
     this.removeWindowEventListeners();
 
     this.clearWindowOptions();

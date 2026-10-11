@@ -28,7 +28,7 @@ future desktop-only extensions.
 
 > `optional` **allowLocalFileAccess**: `boolean`
 
-Defined in: [window/options/window\_options.ts:188](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L188)
+Defined in: [window/options/window\_options.ts:209](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L209)
 
 Enables access to the `file://` scheme from JavaScript.
 
@@ -48,7 +48,7 @@ false
 
 > `optional` **autoDpi**: `boolean`
 
-Defined in: [window/options/window\_options.ts:108](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L108)
+Defined in: [window/options/window\_options.ts:129](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L129)
 
 Indicates whether provided dimensions should automatically account for
 DPI scaling.
@@ -74,7 +74,7 @@ DPI scaling.
 
 > `optional` **autoZoom**: `boolean`
 
-Defined in: [window/options/window\_options.ts:123](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L123)
+Defined in: [window/options/window\_options.ts:144](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L144)
 
 Indicates whether the window zoom level should automatically account for
 DPI scaling.
@@ -100,7 +100,7 @@ DPI scaling.
 
 > `optional` **blockTopWindowNavigation**: `boolean`
 
-Defined in: [window/options/window\_options.ts:205](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L205)
+Defined in: [window/options/window\_options.ts:226](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L226)
 
 Prevents scripts or iframes from navigating the top-level window
 to a different URL.
@@ -123,7 +123,7 @@ true
 
 > `optional` **disableAnimations**: `boolean`
 
-Defined in: [window/options/window\_options.ts:212](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L212)
+Defined in: [window/options/window\_options.ts:233](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L233)
 
 Disables minimize and restore animations while in game.
 
@@ -143,7 +143,7 @@ false
 
 > `optional` **disableBackgroundOptimization**: `boolean`
 
-Defined in: [window/options/window\_options.ts:153](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L153)
+Defined in: [window/options/window\_options.ts:174](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L174)
 
 Disables JavaScript engine background optimizations for improved
 performance.
@@ -164,7 +164,7 @@ true
 
 > `optional` **disableBlur**: `boolean`
 
-Defined in: [window/options/window\_options.ts:219](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L219)
+Defined in: [window/options/window\_options.ts:240](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L240)
 
 Prevents the JavaScript context from losing focus.
 
@@ -184,7 +184,7 @@ false
 
 > `optional` **disableRightClick**: `boolean`
 
-Defined in: [window/options/window\_options.ts:226](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L226)
+Defined in: [window/options/window\_options.ts:247](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L247)
 
 Disables right-click interactions entirely for this window.
 
@@ -204,7 +204,7 @@ false
 
 > `optional` **dockPosition**: [`Edge`](../enumerations/Edge.md)
 
-Defined in: [window/options/window\_options.ts:56](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L56)
+Defined in: [window/options/window\_options.ts:77](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L77)
 
 Dock the window to a specific edge of the screen.
 
@@ -218,7 +218,7 @@ Dock the window to a specific edge of the screen.
 
 > `optional` **grabFocusOnDesktop**: `boolean`
 
-Defined in: [window/options/window\_options.ts:164](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L164)
+Defined in: [window/options/window\_options.ts:185](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L185)
 
 Indicates whether the window will automatically grab focus when opened
 on desktop.
@@ -241,7 +241,7 @@ false
 
 > `optional` **height**: `number`
 
-Defined in: [window/options/window\_options.ts:51](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L51)
+Defined in: [window/options/window\_options.ts:72](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L72)
 
 The height of the window in pixels.
 
@@ -269,7 +269,7 @@ Unique ID of the window. (Mandatory)
 
 > `optional` **isAltF4Blocked**: `boolean`
 
-Defined in: [window/options/window\_options.ts:137](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L137)
+Defined in: [window/options/window\_options.ts:158](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L158)
 
 Blocks the user from closing the window using Alt+F4.
 
@@ -289,7 +289,7 @@ false
 
 > `optional` **isMuted**: `boolean`
 
-Defined in: [window/options/window\_options.ts:233](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L233)
+Defined in: [window/options/window\_options.ts:254](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L254)
 
 Mutes all audio output from the window.
 
@@ -309,7 +309,7 @@ true
 
 > `optional` **keepWindowLocation**: `boolean`
 
-Defined in: [window/options/window\_options.ts:130](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L130)
+Defined in: [window/options/window\_options.ts:151](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L151)
 
 Prevents the window location from changing when game focus changes.
 
@@ -329,7 +329,7 @@ false
 
 > `optional` **maxHeight**: `number`
 
-Defined in: [window/options/window\_options.ts:77](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L77)
+Defined in: [window/options/window\_options.ts:98](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L98)
 
 The maximum height of the window in pixels.
 
@@ -343,7 +343,7 @@ The maximum height of the window in pixels.
 
 > `optional` **maxWidth**: `number`
 
-Defined in: [window/options/window\_options.ts:72](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L72)
+Defined in: [window/options/window\_options.ts:93](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L93)
 
 The maximum width of the window in pixels.
 
@@ -357,7 +357,7 @@ The maximum width of the window in pixels.
 
 > `optional` **minHeight**: `number`
 
-Defined in: [window/options/window\_options.ts:67](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L67)
+Defined in: [window/options/window\_options.ts:88](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L88)
 
 The minimum height of the window in pixels.
 
@@ -371,7 +371,7 @@ The minimum height of the window in pixels.
 
 > `optional` **minWidth**: `number`
 
-Defined in: [window/options/window\_options.ts:62](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L62)
+Defined in: [window/options/window\_options.ts:83](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L83)
 
 The minimum width of the window in pixels.
 
@@ -385,7 +385,7 @@ The minimum width of the window in pixels.
 
 > `optional` **muteExcludedHosts**: `string`[]
 
-Defined in: [window/options/window\_options.ts:247](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L247)
+Defined in: [window/options/window\_options.ts:268](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L268)
 
 A list of host patterns that will not be muted even when the window is
 muted.
@@ -409,7 +409,7 @@ muteExcludedHosts: [
 
 > `optional` **popupBlocker**: `boolean`
 
-Defined in: [window/options/window\_options.ts:195](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L195)
+Defined in: [window/options/window\_options.ts:216](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L216)
 
 Block all none user Gesture popups.
 
@@ -425,11 +425,46 @@ true
 
 ***
 
+### readyToShowTimeout?
+
+> `optional` **readyToShowTimeout**: `number`
+
+Defined in: [window/options/window\_options.ts:48](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L48)
+
+The longest time, in milliseconds, that [WindowBase.show](../classes/WindowBase.md#show),
+[WindowBase.restore](../classes/WindowBase.md#restore), [WindowBase.center](../classes/WindowBase.md#center),
+[WindowBase.centerOnMonitor](../classes/WindowBase.md#centeronmonitor), [WindowBase.dock](../classes/WindowBase.md#dock) and
+[WindowBase.anchor](../classes/WindowBase.md#anchor) wait for the window to be ready to show.
+
+The window is ready to show when its page fires its `load` event, which
+waits for every image, script, stylesheet and iframe the page starts
+before it. A page that pulls remote content can take a while to get there.
+Once this time passes, those calls go ahead anyway, and the window may
+appear before its page has finished loading. `ready-to-show` still fires
+when the load completes. `0` means don't wait.
+
+#### Remarks
+
+Only a window being created waits. One opened with `Windows.Self()` or
+`Windows.FromId()` never does, so this has no effect there.
+
+#### Default
+
+```ts
+undefined (wait for the page to load, however long it takes)
+```
+
+#### Inherited from
+
+[`Options`](Options.md).[`readyToShowTimeout`](Options.md#readytoshowtimeout)
+
+***
+
 ### resizable?
 
 > `optional` **resizable**: `boolean`
 
-Defined in: [window/options/window\_options.ts:93](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L93)
+Defined in: [window/options/window\_options.ts:114](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L114)
 
 Indicates whether the window can be resized by the user.
 
@@ -449,7 +484,7 @@ false
 
 > `optional` **showInTaskBar**: `boolean`
 
-Defined in: [window/options/window\_options.ts:145](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L145)
+Defined in: [window/options/window\_options.ts:166](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L166)
 
 Indicates whether the window is displayed in the Windows taskbar
 and Alt+Tab window selection menu.
@@ -470,7 +505,7 @@ true (native windows), false (OSR windows)
 
 > `optional` **showMaximize**: `boolean`
 
-Defined in: [window/options/window\_options.ts:172](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L172)
+Defined in: [window/options/window\_options.ts:193](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L193)
 
 Indicates whether to show the window maximize button.
 Only relevant for Native or OSR non-transparent windows.
@@ -491,7 +526,7 @@ false
 
 > `optional` **showMinimize**: `boolean`
 
-Defined in: [window/options/window\_options.ts:181](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L181)
+Defined in: [window/options/window\_options.ts:202](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L202)
 
 Indicates whether the window minimize button should be shown.
 
@@ -513,7 +548,7 @@ true
 
 > `optional` **topMost**: `boolean`
 
-Defined in: [window/options/window\_options.ts:86](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L86)
+Defined in: [window/options/window\_options.ts:107](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L107)
 
 Indicates whether the window will stay on top of other Overwolf windows.
 
@@ -563,7 +598,7 @@ Indicates whether the window should be visible.
 
 > `optional` **width**: `number`
 
-Defined in: [window/options/window\_options.ts:46](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L46)
+Defined in: [window/options/window\_options.ts:67](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L67)
 
 The width of the window in pixels.
 
@@ -577,7 +612,7 @@ The width of the window in pixels.
 
 > `optional` **x**: `number`
 
-Defined in: [window/options/window\_options.ts:34](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L34)
+Defined in: [window/options/window\_options.ts:55](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L55)
 
 The horizontal position of the window.
 
@@ -593,7 +628,7 @@ Mandatory if [y](Options.md#y) is provided.
 
 > `optional` **y**: `number`
 
-Defined in: [window/options/window\_options.ts:42](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L42)
+Defined in: [window/options/window\_options.ts:63](https://github.com/overwolf/odk-ts-monorepo/blob/main/repos/odk-ts/src/window/options/window_options.ts#L63)
 
 /**
  * The vertical position of the window.
