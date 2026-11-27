@@ -27,6 +27,58 @@ import { isOverwolfVersionBelow } from '../utils/version';
 // back to applying the InputPassThrough window style manually.
 const INPUT_PASS_THROUGH_NATIVE_VERSION = '0.304.0.8';
 
+type Windows2EventName =
+  | 'resized'
+  | 'moved'
+  | 'dragStarted'
+  | 'dpiChanged'
+  | 'readyToShow'
+  | 'loadError';
+
+interface Windows2Event {
+  addListener(listener: (...args: never[]) => void): void;
+  removeListener(listener: (...args: never[]) => void): void;
+}
+
+// Not every client has every windows2 event: 0.251 to 0.260 have no
+// readyToShow (or loadError). Subscribing through a missing event threw before
+// the window was created, so no window could be created on those clients.
+function windows2Event(name: Windows2EventName): Windows2Event | null {
+  const windows2: Record<string, unknown> | undefined = Reflect.get(
+    overwolf,
+    'windows2'
+  );
+  const event = windows2?.[name] as Partial<Windows2Event> | undefined;
+  return typeof event?.addListener === 'function'
+    ? (event as Windows2Event)
+    : null;
+}
+
+function addWindows2Listener(
+  name: Windows2EventName,
+  listener: (...args: never[]) => void
+): boolean {
+  const event = windows2Event(name);
+  event?.addListener(listener);
+  return event !== null;
+}
+
+function removeWindows2Listener(
+  name: Windows2EventName,
+  listener: (...args: never[]) => void
+): void {
+  windows2Event(name)?.removeListener(listener);
+}
+
+// The window that holds the options of every window the app created.
+// getMainWindow() can come back empty, seen from the background page itself,
+// and reading the store off it threw before the window was created. The
+// page's own window is the main window when this runs in the background, and
+// elsewhere it still holds the options this page creates.
+function optionsHostWindow(): Window {
+  return overwolf.windows.getMainWindow() || window;
+}
+
 declare global {
   interface Window {
     /**
@@ -994,7 +1046,7 @@ export abstract class WindowBase extends EventEmitter {
       throw new Error('Window already created');
     }
 
-    this.backgroundWindow = overwolf.windows.getMainWindow();
+    this.backgroundWindow = optionsHostWindow();
 
     this.creationPromise = new Promise((resolve, reject) => {
       if (windowId != null) {
@@ -1068,9 +1120,16 @@ export abstract class WindowBase extends EventEmitter {
     // like the other window events, which keep firing. (It re-adds them along
     // with the rest; that's harmless.)
     this.creatingId = id;
-    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
-    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
-    this.startReadyToShowTimeout(options.readyToShowTimeout);
+    // A client without readyToShow never sends it: the window is ready to show
+    // once it is created, as it was before the signal existed.
+    const hasReadyToShow = addWindows2Listener(
+      'readyToShow',
+      this.onWindowReadyToShow
+    );
+    addWindows2Listener('loadError', this.onWindowLoadError);
+    if (hasReadyToShow) {
+      this.startReadyToShowTimeout(options.readyToShowTimeout);
+    }
 
     this.creationPromise = new Promise((resolve, reject) => {
       overwolf.windows2.create(id, options, result => {
@@ -1083,6 +1142,10 @@ export abstract class WindowBase extends EventEmitter {
           this.id = null;
           reject(result.error);
         } else {
+          if (!hasReadyToShow) {
+            this.readyToShowPromise?.resolve();
+          }
+
           this.onWindowCreated(result.window, true);
           resolve();
         }
@@ -1245,8 +1308,7 @@ export abstract class WindowBase extends EventEmitter {
 
   // ---------------------------------------------------------------------------
   private saveWindowOptions(options: WindowRuntimeOptions, id: string): void {
-    this.backgroundWindow =
-      this.backgroundWindow || overwolf.windows.getMainWindow();
+    this.backgroundWindow = this.backgroundWindow || optionsHostWindow();
 
     // saving odk window using background window (cross window)
     if (this.backgroundWindow.___odkinternal___ === undefined) {
@@ -1263,15 +1325,16 @@ export abstract class WindowBase extends EventEmitter {
   // read existing open window options from background window
   private readWindowOptions(id: string): void {
     // make sure background sync window is assigned
-    this.backgroundWindow =
-      this.backgroundWindow || overwolf.windows.getMainWindow();
+    this.backgroundWindow = this.backgroundWindow || optionsHostWindow();
 
     // A window odk-ts did not create has nothing saved here - a window
     // declared in the manifest, or one created through overwolf.windows2
     // directly. Fall back to an empty bag rather than leaving this undefined,
     // so callers that assign into it (anchor) don't throw on a valid window.
+    // The store itself is missing when this page created nothing yet and the
+    // main window lookup came back empty.
     this.options =
-      this.backgroundWindow.___odkinternal___[id] ??
+      this.backgroundWindow.___odkinternal___?.[id] ??
       ({} as WindowRuntimeOptions);
 
     this.logger.debug(
@@ -1394,23 +1457,23 @@ export abstract class WindowBase extends EventEmitter {
   // ---------------------------------------------------------------------------
   /** @internal */
   private addWindowEventListeners() {
-    overwolf.windows2.resized.addListener(this.onWindowResized);
-    overwolf.windows2.moved.addListener(this.onWindowMoved);
-    overwolf.windows2.dragStarted.addListener(this.onWindowDragStarted);
-    overwolf.windows2.dpiChanged.addListener(this.onWindowDPIChanged);
-    overwolf.windows2.readyToShow.addListener(this.onWindowReadyToShow);
-    overwolf.windows2.loadError.addListener(this.onWindowLoadError);
+    addWindows2Listener('resized', this.onWindowResized);
+    addWindows2Listener('moved', this.onWindowMoved);
+    addWindows2Listener('dragStarted', this.onWindowDragStarted);
+    addWindows2Listener('dpiChanged', this.onWindowDPIChanged);
+    addWindows2Listener('readyToShow', this.onWindowReadyToShow);
+    addWindows2Listener('loadError', this.onWindowLoadError);
   }
 
   // ---------------------------------------------------------------------------
   /** @internal */
   private removeWindowEventListeners() {
-    overwolf.windows2.resized.removeListener(this.onWindowResized);
-    overwolf.windows2.moved.removeListener(this.onWindowMoved);
-    overwolf.windows2.dpiChanged.removeListener(this.onWindowDPIChanged);
-    overwolf.windows2.readyToShow.removeListener(this.onWindowReadyToShow);
-    overwolf.windows2.loadError.removeListener(this.onWindowLoadError);
-    overwolf.windows2.dragStarted.removeListener(this.onWindowDragStarted);
+    removeWindows2Listener('resized', this.onWindowResized);
+    removeWindows2Listener('moved', this.onWindowMoved);
+    removeWindows2Listener('dpiChanged', this.onWindowDPIChanged);
+    removeWindows2Listener('readyToShow', this.onWindowReadyToShow);
+    removeWindows2Listener('loadError', this.onWindowLoadError);
+    removeWindows2Listener('dragStarted', this.onWindowDragStarted);
   }
 
   // ---------------------------------------------------------------------------
